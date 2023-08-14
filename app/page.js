@@ -7,15 +7,14 @@ export default function Home() {
       <div className={styles.description}>
         <p>
           Get started by &nbsp;
-          <code className={styles.code}>
-            <a href="https://github.com/InftyAI">InftyAI</a>
-          </code>
+          <code className={styles.code} href="https://github.com/InftyAI">InftyAI</code>
         </p>
-        <div>
-          <h1>
-            Exploring the infinite possibilities of AI.
-          </h1>
-        </div>
+      </div>
+
+      <div className={styles.center}>
+        <h1>
+          Exploring the infinite possibilities of AI.
+        </h1>
       </div>
     </main>
   )
