@@ -11,14 +11,12 @@ export default function Home() {
             <a href="https://github.com/InftyAI">InftyAI</a>
           </code>
         </p>
+        <div>
+          <h1>
+            Exploring the infinite possibilities of AI.
+          </h1>
+        </div>
       </div>
-
-      <div className={styles.center}>
-        <h1>
-          Exploring the infinite possibilities of AI.
-        </h1>
-      </div>
-
     </main>
   )
 }
