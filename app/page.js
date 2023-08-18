@@ -6,9 +6,25 @@ export default function Home() {
     <main className={styles.main}>
       <div className={styles.description}>
         <p>
-          Get started by &nbsp;
-          <code className={styles.code} href="https://github.com/InftyAI">InftyAI</code>
+          🛸&nbsp;
+          <code className={styles.code}>InftyAI</code>
         </p>
+      </div>
+      <div>
+        <a
+          href="https://github.com/InftyAI"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            src="/logo.png"
+            alt="InftyAI Logo"
+          //  className={styles.vercelLogo}
+            width={520}
+            height={397}
+            priority
+          />
+        </a>
       </div>
 
       <div className={styles.center}>
