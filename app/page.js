@@ -19,7 +19,6 @@ export default function Home() {
           <Image
             src="/logo.png"
             alt="InftyAI Logo"
-          //  className={styles.vercelLogo}
             width={520}
             height={397}
             priority
@@ -29,7 +28,7 @@ export default function Home() {
 
       <div className={styles.center}>
         <h1>
-          Exploring the infinite possibilities of AI.
+          Exploring the &nbsp;<code className={styles.code}>∞</code>&nbsp; possibilities of AI.
         </h1>
       </div>
     </main>
