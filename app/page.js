@@ -1,6 +1,10 @@
 import Image from 'next/image'
 import styles from './page.module.css'
 
+const imageStyle = {
+  "margin-top": "100px",
+}
+
 export default function Home() {
   return (
     <main className={styles.main}>
@@ -13,8 +17,9 @@ export default function Home() {
           <Image
             src="/logo.png"
             alt="InftyAI Logo"
-            width={520}
-            height={520}
+            width={360}
+            height={360}
+            style={imageStyle}
             priority
           />
         </a>
