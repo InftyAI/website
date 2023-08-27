@@ -4,12 +4,6 @@ import styles from './page.module.css'
 export default function Home() {
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          🛸&nbsp;
-          <code className={styles.code}>InftyAI</code>
-        </p>
-      </div>
       <div>
         <a
           href="https://github.com/InftyAI"
