@@ -14,7 +14,7 @@ export default function Home() {
             src="/logo.png"
             alt="InftyAI Logo"
             width={520}
-            height={397}
+            height={520}
             priority
           />
         </a>
