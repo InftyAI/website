@@ -1,4 +1,4 @@
-title = "Home"
+title = "InftyAI"
 baseurl = "https://www.inftyai.com/"
 canonifyURLs = false
 disableAliases = true
@@ -17,7 +17,7 @@ defaultContentLanguage = "en"
 disableLanguages = ["de", "nl"]
 defaultContentLanguageInSubdir = false
 
-copyRight = "Copyright (c) 2020-2024 InftyAI"
+copyRight = "Copyright (c) 2024 InftyAI"
 
 [build.buildStats]
   enable = true

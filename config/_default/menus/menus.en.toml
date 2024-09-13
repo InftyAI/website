@@ -74,7 +74,7 @@
 #   weight = 30
 
 [[footer]]
-  name = "Powered by Netlify, Hugo, and Doks. Copyright © 2016-2024 InftyAI."
+  name = "Powered by Netlify, Hugo, and Doks. Copyright © 2024 InftyAI."
 # url = "/privacy/"
   weight = 10
 
