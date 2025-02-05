@@ -7,7 +7,7 @@ lastmod: 2025-01-26T15:00:00+08:00
 draft: false
 weight: 50
 categories: ["llmaz"]
-tags: ["inference", "release-note"]
+tags: ["inference", "release-note", "llm"]
 contributors: ["kerthcet"]
 pinned: false
 homepage: false
