@@ -259,7 +259,6 @@
       "TableOfContents",
       "architecture",
       "buttonColorMode",
-      "conclusion",
       "deploy-a-model",
       "design-philosophy",
       "doks-docs-nav",
@@ -267,12 +266,10 @@
       "further-reading",
       "h-rh-i-0",
       "installation",
-      "last-words",
       "offcanvasNavMain",
       "offcanvasNavMainLabel",
       "offcanvasNavSection",
       "offcanvasNavSectionLabel",
-      "principles",
       "query",
       "quick-start",
       "roammap-for-v020",
@@ -282,7 +279,6 @@
       "searchResults",
       "searchToggleDesktop",
       "searchToggleMobile",
-      "simplicity",
       "socialMenu",
       "toc"
     ]
