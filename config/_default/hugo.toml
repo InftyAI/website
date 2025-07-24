@@ -1,5 +1,5 @@
 title = "InftyAI"
-baseurl = "http://localhost/"
+baseurl = "https://www.inftyai.com/"
 canonifyURLs = false
 disableAliases = true
 disableHugoGeneratorInject = true
