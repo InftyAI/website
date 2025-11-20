@@ -7,5 +7,5 @@ The homepage for InftyAI, please visit our website https://InftyAI.com.
 To run the website locally, you can use the following command:
 
 ```bash
-npm run dev
+make launch
 ```
