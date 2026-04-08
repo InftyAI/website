@@ -17,8 +17,6 @@ defaultContentLanguage = "en"
 disableLanguages = ["de", "nl"]
 defaultContentLanguageInSubdir = false
 
-copyRight = "Copyright (c) 2026 InftyAI"
-
 [build.buildStats]
   enable = true
 
