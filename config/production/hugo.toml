@@ -1,2 +1,11 @@
 # Overrides for production environment
-baseurl = "/"
+
+# No `baseurl` override here on purpose. The Doks starter shipped `baseurl = "/"`,
+# which silently beat the real URL in config/_default and left every absolute URL
+# broken in production: `og:url` and `og:image` came out relative (Open Graph
+# requires absolute), and robots.txt advertised a relative `Sitemap:`. The
+# canonical value lives in config/_default/hugo.toml and should stay the only
+# place it is written down.
+#
+# config/next keeps `baseurl = "/"` deliberately — branch and preview deploys
+# have their own hostnames and must not claim the production URL.

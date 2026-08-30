@@ -7,7 +7,9 @@ images = ["cover.png"]
 mainSections = ["docs"]
 
 [social]
-  twitter = "getdoks"
+  # Drives <meta name="twitter:site">, i.e. who X credits when the site is shared.
+  # Was "getdoks", the theme author's handle, left over from the starter.
+  twitter = "InftyAI"
 
 # Doks (@thulite/doks-core)
 [doks]

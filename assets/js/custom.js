@@ -8,7 +8,8 @@
 // visitor may be offline.
 //
 // Cards are deliberately not re-sorted. This runs after first paint, so
-// reordering would visibly shuffle them; the daily rebuild fixes the order.
+// reordering would visibly shuffle them. The order therefore reflects the last
+// deploy, and only looks wrong if two projects swap rank between deploys.
 (function () {
   function format(count) {
     return count >= 1000 ? (count / 1000).toFixed(1) + "k" : String(count);

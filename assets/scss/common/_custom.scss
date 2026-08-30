@@ -33,16 +33,24 @@ body > * {
   }
 }
 
-// Keep the homepage headline on a single line at every viewport width by
-// scaling it with the viewport instead of wrapping.
+// Scale the homepage headline with the viewport rather than wrapping it.
 .home h1.home-title {
   // `clamp()` passes through to CSS; Sass would try to evaluate `min()`
   // itself and fail on the mixed rem/vw units.
-  font-size: clamp(1.25rem, 3.4vw, 3rem);
-  white-space: nowrap;
+  font-size: clamp(1.5rem, 3.4vw, 3rem);
   // Doks pulls the home headline up by 1rem, which eats into the hero padding.
   margin-top: 0;
   margin-bottom: 1.75rem;
+}
+
+// One line, but only where one line fits. Below `sm` the headline would have to
+// drop to ~15px to fit 320px on a single line, so it wraps to two legible lines
+// instead — `nowrap` there ran off the right edge and scrolled the page
+// sideways.
+@include media-breakpoint-up(sm) {
+  .home h1.home-title {
+    white-space: nowrap;
+  }
 }
 
 // The headline carries the top of the page alone, so give it room to sit in.

@@ -21,7 +21,10 @@ defaultContentLanguageInSubdir = false
   enable = true
 
 [outputs]
-  home = ["HTML", "RSS", "searchIndex"]
+  # SITEMAP on `home` is what produces /sitemap.xml. The Doks starter left it off,
+  # so the root sitemap was never generated even though robots.txt advertises it —
+  # only the per-section /blog/sitemap.xml existed.
+  home = ["HTML", "RSS", "searchIndex", "SITEMAP"]
   section = ["HTML", "RSS", "SITEMAP"]
 
 [outputFormats.searchIndex]
@@ -48,10 +51,12 @@ defaultContentLanguageInSubdir = false
   [caches.getjson]
     dir = ":cacheDir/:project"
     maxAge = -1 # "30m"
-  # GitHub star counts (resources.GetRemote). Kept below the 24h interval of
-  # the refresh-stars workflow so the daily build always refetches, while
-  # ad-hoc deploys still reuse the cache instead of spending the 60
-  # requests/hour unauthenticated API budget.
+  # GitHub star counts (resources.GetRemote). These are only the seed values for
+  # first paint and the card ordering — assets/js/custom.js replaces the numbers
+  # from /.netlify/functions/stars on every visit, so what a reader sees is at
+  # most an hour old regardless of when the site last built. A TTL here just
+  # stops repeated deploys from spending the 60 requests/hour unauthenticated
+  # API budget; Netlify persists this cache between builds.
   [caches.getresource]
     dir = ":cacheDir/:project"
     maxAge = "12h"

@@ -1,0 +1,30 @@
+{{/* Overrides @thulite/seo/layouts/sitemap.xml, which ranges over `.Pages`. On the
+     home page that is the *child* pages only, so the homepage itself — the most
+     important URL on this site — was left out of /sitemap.xml. Ranging over
+     `site.Pages` and filtering by kind includes it while still keeping the empty
+     taxonomy list pages (categories, tags, contributors) out. */}}
+{{ printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  {{ $pages := where site.Pages "Kind" "in" (slice "home" "section" "page") }}
+  {{ range where $pages "Sitemap.Disable" "ne" true }}
+    {{- if .Permalink -}}
+  <url>
+    <loc>{{ .Permalink }}</loc>{{ if not .Lastmod.IsZero }}
+    <lastmod>{{ safeHTML ( .Lastmod.Format "2006-01-02T15:04:05-07:00" ) }}</lastmod>{{ end }}{{ with .Sitemap.ChangeFreq }}
+    <changefreq>{{ . }}</changefreq>{{ end }}{{ if ge .Sitemap.Priority 0.0 }}
+    <priority>{{ .Sitemap.Priority }}</priority>{{ end }}{{ if .IsTranslated }}{{ range .Translations }}
+    <xhtml:link
+                rel="alternate"
+                hreflang="{{ .Language.LanguageCode }}"
+                href="{{ .Permalink }}"
+                />{{ end }}
+    <xhtml:link
+                rel="alternate"
+                hreflang="{{ .Language.LanguageCode }}"
+                href="{{ .Permalink }}"
+                />{{ end }}
+  </url>
+    {{- end -}}
+  {{ end }}
+</urlset>
