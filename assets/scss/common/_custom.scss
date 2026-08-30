@@ -53,6 +53,14 @@ body > * {
   }
 }
 
+// The one piece of prose on the page. Constrained because a full-width measure
+// under a centred headline reads as a caption rather than a statement.
+.home .lead {
+  max-width: 40rem;
+  margin-inline: auto;
+  opacity: 0.75;
+}
+
 // The headline carries the top of the page alone, so give it room to sit in.
 // The slack comes out of the dead band above the footer, which the short
 // homepage leaves over anyway.
@@ -94,11 +102,32 @@ body > * {
 // `flex-grow` would not — the last row would stretch wider than the rows above.
 $feature-gap: 1.25rem;
 
+// Names the grid without shouting: smaller than the headline, uppercase and
+// tracked out so it reads as a label for the section rather than a second title
+// competing with the hero.
+.section-title {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  // Not lower: at 13px this is normal-size text for WCAG, so it needs 4.5:1.
+  // 0.5 measured 3.01:1 and failed; 0.7 measures 5.4:1.
+  opacity: 0.7;
+}
+
 .feature-grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: $feature-gap;
+  // It is a `ul` now, for the item count screen readers announce. Strip the
+  // list affordances the browser adds; the cards are the visual affordance.
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
 }
 
 .feature-card {
@@ -128,7 +157,9 @@ $feature-gap: 1.25rem;
   border-radius: 0.75rem;
   transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 
-  h2 {
+  // `h3` rather than `h2`: the grid now sits under its own section heading, so
+  // the card titles are one level deeper in the outline.
+  h3 {
     // Doks puts a 2rem top margin on every heading, which leaves a gap
     // between the card's top edge and its title.
     margin-top: 0;
@@ -144,6 +175,14 @@ $feature-gap: 1.25rem;
     }
   }
 
+  // Decorative, and `aria-hidden` in the markup. `flex: 0 0 auto` stops a
+  // wide emoji from being squeezed by a long project name.
+  .feature-icon {
+    flex: 0 0 auto;
+    font-size: 1rem;
+    line-height: 1;
+  }
+
   p {
     margin-bottom: 0;
     font-size: 1rem;
@@ -155,7 +194,7 @@ $feature-gap: 1.25rem;
     box-shadow: 0 6px 20px rgba($primary, 0.12);
     transform: translateY(-2px);
 
-    h2 a {
+    h3 a {
       color: $primary;
     }
   }
@@ -165,7 +204,10 @@ $feature-gap: 1.25rem;
 // the project cards for attention and left a large empty band across the page.
 // A plain centred line separates it from the grid on whitespace alone.
 .feature-cta {
-  margin-top: 2.25rem;
+  // Separated by whitespace alone — no rule and no box. The gap is a little
+  // wider than the grid's own row gap so the invitation still reads as the end
+  // of the page rather than an eighth card that fell out of the row.
+  margin-top: 3rem;
   text-align: center;
 
   .feature-cta-title {
