@@ -7,6 +7,37 @@
   height: 20px;
 }
 
+// Skip link: the first focusable thing on the page, hidden until it has focus.
+//
+// Not Bootstrap's `.visually-hidden-focusable`, so this does not depend on that
+// utility surviving purgecss. Clipped rather than `display: none`, because a
+// display-none element cannot receive focus at all.
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1080; // above the sticky navbar ($zindex-sticky is 1020)
+  padding: 0.625rem 1rem;
+  background: $primary;
+  color: #fff;
+  border-bottom-right-radius: 0.375rem;
+  text-decoration: none;
+
+  &:not(:focus) {
+    // The standard visually-hidden recipe: out of sight, still in the a11y tree.
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  &:focus {
+    color: #fff;
+  }
+}
+
 // Keep the footer at the bottom of the viewport on short pages
 // (the homepage does not fill the screen otherwise).
 body {
@@ -105,7 +136,11 @@ $feature-gap: 1.25rem;
 // Names the grid without shouting: smaller than the headline, uppercase and
 // tracked out so it reads as a label for the section rather than a second title
 // competing with the hero.
-.section-title {
+//
+// Deliberately not called `.section-title` — the theme already uses that for the
+// "Related posts" heading on blog and legal pages (doks-core _posts.scss:55), and
+// this would have restyled those into tiny uppercase labels.
+.feature-grid-title {
   margin-top: 0;
   margin-bottom: 1.5rem;
   text-align: center;

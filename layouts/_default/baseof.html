@@ -1,0 +1,40 @@
+{{/* Overrides @thulite/doks-core/layouts/_default/baseof.html. Three changes, all
+     in the body; everything else is kept byte-for-byte so theme updates stay easy
+     to diff against:
+
+     1. A `<main>` landmark. The theme shipped none, so assistive technology had no
+        way to skip the navbar and jump to the content.
+     2. A skip link as the first focusable element, which needs (1) to point at.
+     3. `role="document"` dropped from `.wrap`. It is meant for reading-mode content
+        inside web *applications*; on an ordinary page it adds nothing and competes
+        with the real landmarks.
+
+     `<main>` has to wrap the `sidebar-prefooter` and `sidebar-footer` blocks too,
+     not just `main`: the homepage renders its project grid into sidebar-prefooter,
+     and blog/legal pages render "Related posts" into sidebar-footer. Both are page
+     content, and neither can be wrapped from inside its own block. */}}
+<!doctype html>
+<html lang="{{ .Site.LanguageCode | default "en" }}" data-bs-theme="{{ site.Params.doks.colorMode | default "auto" }}">
+  {{ partial "head/head" . }}
+  {{ partial "head/body-class" . }}
+  <body class="{{ delimit (.Scratch.Get "class") " " }}"{{ if eq site.Params.doks.scrollSpy true }} data-bs-spy="scroll" data-bs-target="#toc" data-bs-root-margin="0px 0px -60%" data-bs-smooth-scroll="true" tabindex="0"{{ end }}>
+    <a class="skip-link" href="#content">{{ i18n "skip_to_content" | default "Skip to main content" }}</a>
+    {{ partial "header/header" . }}
+    <main id="content">
+      <div class="wrap container-{{ site.Params.doks.containerBreakpoint | default "lg" }}">
+        <div class="content">
+        {{ if and (eq site.Params.doks.containerBreakpoint "fluid") (or (not (in .Site.Params.mainSections .Type)) (.IsNode)) }}<div class="container p-0">{{ end }}
+          {{ block "main" . }}{{ end }}
+        {{ if and (eq site.Params.doks.containerBreakpoint "fluid") (or (not (in .Site.Params.mainSections .Type)) (.IsNode)) }}</div>{{ end }}
+        </div>
+      </div>
+      {{ block "sidebar-prefooter" . }}{{ end }}
+      {{ block "sidebar-footer" . }}{{ end }}
+    </main>
+    {{ partial "footer/footer" . }}
+    {{ partial "footer/script-footer" . }}
+    {{ if eq site.Params.doks.toTopButton true -}}
+      {{ partial "footer/to-top" . }}
+    {{ end }}
+  </body>
+</html>

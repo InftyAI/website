@@ -1,0 +1,121 @@
+<!doctype html>
+<!--
+  Source for static/cover.png, the og:image / twitter:image social card.
+
+  Regenerate with `make cover` after editing this file, or after changing the
+  headline in content/_index.md, $primary, or the logo — the card duplicates all
+  three, because a social card is a flat image and cannot read them at runtime.
+
+  It is served out of `public/` rather than opened as a file:// URL so the Jost
+  webfont is same-origin: `file://` fetching http://127.0.0.1 is cross-origin,
+  woff2 is CORS-gated, and the capture silently lands on the fallback face.
+-->
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face {
+    font-family: Jost; font-style: normal; font-weight: 400;
+    src: url("/fonts/vendor/jost/jost-v4-latin-regular.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: Jost; font-style: normal; font-weight: 500;
+    src: url("/fonts/vendor/jost/jost-v4-latin-500.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: Jost; font-style: normal; font-weight: 700;
+    src: url("/fonts/vendor/jost/jost-v4-latin-700.woff2") format("woff2");
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body { width: 1200px; height: 630px; }
+
+  body {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    /* Warm off-white, the same tint the project cards sit on, so the card and
+       the page it links to read as the same surface. */
+    background: #fefbfa;
+    font-family: Jost, system-ui, sans-serif;
+    color: #1d1d1f;
+    text-align: center;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* A soft brand glow behind the mark. Keeps the top half from being flat white
+     without putting anything in front of the text. */
+  body::before {
+    content: "";
+    position: absolute;
+    top: -320px; left: 50%;
+    width: 900px; height: 900px;
+    transform: translateX(-50%);
+    background: radial-gradient(circle, rgba(217, 60, 13, 0.10) 0%, rgba(217, 60, 13, 0) 62%);
+  }
+
+  /* The brand bar along the bottom edge. */
+  body::after {
+    content: "";
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 10px;
+    background: linear-gradient(90deg, #d93c0d 0%, #e3a008 100%);
+  }
+
+  .inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 90px;
+  }
+
+  img.logo {
+    width: 124px;
+    height: 124px;
+    margin-bottom: 34px;
+  }
+
+  h1 {
+    font-size: 68px;
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+    /* The break is explicit, not left to the measure: at any width that fits
+       "possibilities" on line one, "of AI" is orphaned on line two. */
+    max-width: none;
+  }
+
+  p.lead {
+    margin-top: 26px;
+    font-size: 31px;
+    font-weight: 400;
+    line-height: 1.35;
+    color: rgba(29, 29, 31, 0.66);
+  }
+
+  .domain {
+    margin-top: 46px;
+    font-size: 21px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #d93c0d;
+  }
+</style>
+</head>
+<body>
+  <div class="inner">
+    <img class="logo" src="/images/logo.png" alt="">
+    <h1>Exploring the &#8734;<br>possibilities of AI</h1>
+    <p class="lead">We build open source infrastructure for AI.</p>
+    <div class="domain">inftyai.com</div>
+  </div>
+</body>
+</html>

@@ -24,6 +24,7 @@
       "li",
       "line",
       "link",
+      "main",
       "meta",
       "noscript",
       "p",
@@ -73,6 +74,7 @@
       "feature-cta",
       "feature-cta-title",
       "feature-grid",
+      "feature-grid-title",
       "feature-icon",
       "feature-stars",
       "flex-column",
@@ -154,8 +156,8 @@
       "section",
       "section-features",
       "section-md",
-      "section-title",
       "single",
+      "skip-link",
       "social-link",
       "status",
       "sticky-top",
@@ -173,6 +175,7 @@
       "wrap"
     ],
     "ids": [
+      "content",
       "offcanvasNavMain",
       "offcanvasNavMainLabel",
       "query",

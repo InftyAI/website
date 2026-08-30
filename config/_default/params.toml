@@ -50,7 +50,12 @@ mainSections = ["docs"]
   toTopButton = false # false (default) or true
   breadcrumbTrail = false # false (default) or true
   headlineHash = true # true (default) or false
-  scrollSpy = true # true (default) or false
+  # Off, because there is nothing to spy on: scrollspy highlights the current
+  # heading inside `#toc`, and no page on this site renders a table of contents.
+  # Leaving it on had one real effect — `tabindex="0"` on `<body>`, which made the
+  # body itself the first Tab stop and pushed the skip link to second. Turn this
+  # back on if a docs section with a TOC is ever added.
+  scrollSpy = false # true (default) or false
 
   # Multilingual
   multilingualMode = false # false (default) or true
