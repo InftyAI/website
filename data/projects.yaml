@@ -23,11 +23,11 @@ projects:
     url: https://github.com/InftyAI/alphatrion
     description: "The open-source framework for LLM experiments and agent orchestration."
 
-  # - name: AMRS
-  #   icon: "🧬"
-  #   repo: InftyAI/amrs
-  #   url: https://github.com/InftyAI/amrs
-  #   description: "The adaptive model routing system for exploration and exploitation."
+  - name: AMRS
+    icon: "🧬"
+    repo: InftyAI/amrs
+    url: https://github.com/InftyAI/amrs
+    description: "The adaptive model routing system for exploration and exploitation."
 
   - name: SandD
     icon: "🤖"
