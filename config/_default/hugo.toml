@@ -48,6 +48,18 @@ defaultContentLanguageInSubdir = false
   [caches.getjson]
     dir = ":cacheDir/:project"
     maxAge = -1 # "30m"
+  # GitHub star counts (resources.GetRemote). Kept below the 24h interval of
+  # the refresh-stars workflow so the daily build always refetches, while
+  # ad-hoc deploys still reuse the cache instead of spending the 60
+  # requests/hour unauthenticated API budget.
+  [caches.getresource]
+    dir = ":cacheDir/:project"
+    maxAge = "12h"
+
+# Allow reading GITHUB_TOKEN so CI can raise the GitHub API rate limit when
+# fetching star counts. Repeats Hugo's defaults, which this setting replaces.
+[security.funcs]
+  getenv = ['^HUGO_', '^CI$', '^GITHUB_TOKEN$']
 
 [taxonomies]
   contributor = "contributors"

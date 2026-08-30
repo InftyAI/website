@@ -1,1 +1,203 @@
 // Put your custom SCSS code here
+
+// Shrink the top-right navbar icons (social links + color mode toggler)
+#socialMenu .social-link svg,
+#buttonColorMode svg {
+  width: 20px;
+  height: 20px;
+}
+
+// Keep the footer at the bottom of the viewport on short pages
+// (the homepage does not fill the screen otherwise).
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+// Flex items default to `min-width: auto`, so wide content (code blocks,
+// tables) could stretch the page instead of scrolling inside its own box
+// now that `body` is a flex container.
+body > * {
+  min-width: 0;
+}
+
+.footer {
+  margin-top: auto;
+
+  // Doks sizes footer items at $font-size-base (16px) from `md` up, which is
+  // heavy for a copyright line under an 18px body. No media query needed to
+  // override it: same specificity, and this file is imported last.
+  li {
+    font-size: 0.8125rem;
+  }
+}
+
+// Keep the homepage headline on a single line at every viewport width by
+// scaling it with the viewport instead of wrapping.
+.home h1.home-title {
+  // `clamp()` passes through to CSS; Sass would try to evaluate `min()`
+  // itself and fail on the mixed rem/vw units.
+  font-size: clamp(1.25rem, 3.4vw, 3rem);
+  white-space: nowrap;
+  // Doks pulls the home headline up by 1rem, which eats into the hero padding.
+  margin-top: 0;
+  margin-bottom: 1.75rem;
+}
+
+.home .lead {
+  max-width: 42rem;
+  margin-inline: auto;
+}
+
+// The headline carries the top of the page alone, so give it room to sit in.
+// The slack comes out of the dead band above the footer, which the short
+// homepage leaves over anyway.
+.home {
+  .section.container-fluid {
+    // Scaled, not fixed: the headline itself scales with the viewport, and a
+    // flat 5.5rem left 88px of air above a 20px headline on a phone.
+    padding-top: clamp(2.5rem, 7vw, 5.5rem);
+    padding-bottom: clamp(2rem, 5.5vw, 4.5rem);
+  }
+
+  .section-features {
+    padding-top: 0;
+  }
+}
+
+// Brand mark in the navbar (top left), next to the site title
+.navbar-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &::before {
+    content: "";
+    display: inline-block;
+    flex: 0 0 auto;
+    width: 32px;
+    height: 32px;
+    background: url("images/logo.png") no-repeat center / contain;
+    border-radius: 50%;
+  }
+}
+
+// Project cards on the homepage.
+//
+// Flex rather than grid or Bootstrap's row/col: seven cards never fill a row
+// evenly, and flex-wrap centres the short final row instead of leaving a hole
+// on one side. The explicit basis keeps every card the same width, which
+// `flex-grow` would not — the last row would stretch wider than the rows above.
+$feature-gap: 1.25rem;
+
+.feature-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: $feature-gap;
+}
+
+.feature-card {
+  flex: 0 0 100%;
+}
+
+@include media-breakpoint-up(sm) {
+  .feature-card {
+    // Two per row: subtract the one gap between them.
+    flex-basis: calc(50% - #{$feature-gap * 0.5});
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .feature-card {
+    // Four per row: three gaps spread across four cards.
+    flex-basis: calc(25% - #{$feature-gap * 0.75});
+  }
+}
+
+.feature-card {
+  padding: 1.5rem;
+  // A warm tint rather than neutral grey: at these low alphas it barely reads
+  // as colour, but it stops the cards from looking like grey wireframes.
+  background: rgba($primary, 0.02);
+  border: 1px solid rgba($primary, 0.14);
+  border-radius: 0.75rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+
+  h2 {
+    // Doks puts a 2rem top margin on every heading, which leaves a gap
+    // between the card's top edge and its title.
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-size: 1.125rem;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+
+  p {
+    margin-bottom: 0;
+    font-size: 1rem;
+    opacity: 0.78;
+  }
+
+  &:hover {
+    border-color: rgba($primary, 0.6);
+    box-shadow: 0 6px 20px rgba($primary, 0.12);
+    transform: translateY(-2px);
+
+    h2 a {
+      color: $primary;
+    }
+  }
+}
+
+// The donation call to action. Deliberately unboxed: a panel here competed with
+// the project cards for attention and left a large empty band across the page.
+// A plain centred line separates it from the grid on whitespace alone.
+.feature-cta {
+  margin-top: 2.25rem;
+  text-align: center;
+
+  .feature-cta-title {
+    display: block;
+    font-weight: 600;
+    color: $primary;
+  }
+
+  p {
+    margin: 0.125rem 0 0;
+    font-size: 0.9375rem;
+    opacity: 0.7;
+  }
+}
+
+// GitHub star count, right-aligned on the card's title line
+.feature-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: auto;
+  flex: 0 0 auto;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  opacity: 0.65;
+
+  svg {
+    // Nudge the star onto the text baseline
+    margin-bottom: -0.125rem;
+  }
+}
+
+// No count yet: the build-time lookup failed and assets/js/custom.js has not
+// filled this in (or cannot reach the endpoint). Hide it rather than show a
+// bare star with no number.
+.feature-stars-pending {
+  display: none;
+}

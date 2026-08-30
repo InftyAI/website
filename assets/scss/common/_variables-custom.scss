@@ -1,2 +1,7 @@
 // Put your custom SCSS variables here
-$primary: #F2A884;
+
+// The brand orange, sampled from the logo. The previous value (#F2A884) was a
+// pale tint of it that only managed 1.96:1 contrast against white — well below
+// the 4.5:1 WCAG AA needs for text — so links and accents barely registered and
+// the site read as monochrome. This hits 4.56:1.
+$primary: #d93c0d;

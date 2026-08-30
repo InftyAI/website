@@ -1,0 +1,16 @@
+{{/* Overrides the Doks footer, which splits into a left-aligned column for the
+     footer menu and a right-aligned one for `site.Params.footer`. Only the menu
+     is populated here, so the two columns are collapsed into one centered list.
+     Both sources are still rendered, so setting `params.footer` later works. */}}
+<footer class="footer text-muted">
+  <div class="container-{{ site.Params.doks.containerBreakpoint | default "lg" }} text-center">
+    <ul class="list-inline">
+      {{ range .Site.Menus.footer -}}
+        <li class="list-inline-item"><a class="text-muted" href="{{ .URL | relURL }}">{{ .Name }}</a></li>
+      {{- end }}
+      {{- with site.Params.footer }}
+        <li class="list-inline-item">{{ . | safeHTML }}</li>
+      {{- end }}
+    </ul>
+  </div>
+</footer>

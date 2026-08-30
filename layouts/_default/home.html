@@ -1,26 +1,12 @@
 {{ define "main" }}
-<section class="section-sm">
-    <div class="d-flex justify-content-center">
-        <img class="img-simple img-fluid blur-up border-0 rounded-circle ls-is-cached lazyloaded"
-            src="https://github.com/InftyAI/website/blob/main/assets/images/logo.png?raw=true"
-            data-src="https://github.com/InftyAI/website/blob/main/assets/images/logo.png?raw=true" width="250"
-            height="250" alt="Alt_text">
-    </div>
-</section>
-
-<section class="section container-fluid mt-n3 pb-3">
-    <div class="row justify-content-center">
-        <div class="col-lg-12 text-center">
-            <h1>{{ .Title }}</h1>
-        </div>
-        <div class="col-lg-9 col-xl-8 text-center">
-            <p class="lead">{{ .Params.lead | safeHTML }}</p>
-            <a class="btn btn-primary btn-cta px-4 mb-2 btn-lg my-3" href="https://github.com/InftyAI"
-                role="button">Source
-                On GitHub</a>
-            {{ .Content }}
-        </div>
-    </div>
+{{/* No `py-*` utility: Bootstrap marks those `!important`, so the hero spacing
+     could not then be set from _custom.scss. */}}
+<section class="section container-fluid text-center">
+    <h1 class="home-title">{{ .Title }}</h1>
+    {{ with .Params.lead -}}
+    <p class="lead">{{ . | safeHTML }}</p>
+    {{ end -}}
+    {{ .Content }}
 </section>
 {{ end }}
 
@@ -31,81 +17,78 @@
 </div>
 {{ end -}}
 {{ if eq $.Site.Language.LanguageName "English" }}
+
+{{/* Look up the star count for each project, then rank by it. A failed
+     lookup (offline, rate limited) leaves that card without a star badge
+     rather than failing the build. */}}
+{{ $headers := dict "Accept" "application/vnd.github+json" }}
+{{ with getenv "GITHUB_TOKEN" -}}
+  {{ $headers = merge $headers (dict "Authorization" (printf "Bearer %s" .)) }}
+{{ end -}}
+{{ $ranked := slice }}
+{{ range site.Data.projects.projects -}}
+  {{ $stars := -1 }}
+  {{ $url := printf "https://api.github.com/repos/%s" .repo }}
+  {{ with try (resources.GetRemote $url (dict "headers" $headers)) -}}
+    {{ with .Err -}}
+      {{ warnf "projects: no star count for %s (%s)" $url . }}
+    {{ else with .Value -}}
+      {{ $stars = (unmarshal .Content).stargazers_count | default 0 }}
+    {{ else -}}
+      {{ warnf "projects: no response for %s" $url }}
+    {{ end -}}
+  {{ end -}}
+  {{ $ranked = $ranked | append (merge . (dict "stars" $stars)) }}
+{{ end -}}
+{{ $cards := sort $ranked "stars" "desc" }}
+
 <section class="section section-md section-features">
     <div class="container">
-        <div class="row justify-content-center text-center">
-
-            <div class="col-lg-5">
-                <h2 class="h4"><a href="https://awesome-llmops.inftyai.com">Awesome-LLMOps</a></h2>
-                <p>🎉 An awesome & curated list of best LLMOps tools.
-                </p>
+        {{/* A CSS grid rather than Bootstrap's row/col: it needs no breakpoint
+             classes, no `h-100`, and no gutter overrides (Doks ships neither the
+             `.g-*` utilities nor a non-zero `--bs-gutter-y`). */}}
+        <div class="feature-grid">
+            {{ range $cards -}}
+            <div class="feature-card">
+                <h2>
+                    <a href="{{ .url }}">{{ .name }}</a>
+                    {{/* Rendered for every project, even when the build-time
+                         lookup failed, so assets/js/custom.js can fill it in
+                         from /.netlify/functions/stars. A card with no count
+                         yet is hidden by `.feature-stars-pending` until then. */}}
+                    {{ if .repo -}}
+                    {{ $stars := .stars -}}
+                    {{ $known := and $stars (ge $stars 0) -}}
+                    <span class="feature-stars{{ if not $known }} feature-stars-pending{{ end }}"
+                        data-repo="{{ .repo }}"{{ if $known }} title="{{ $stars }} stars on GitHub"{{ end }}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                            stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                            stroke-linejoin="round" aria-hidden="true">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path
+                                d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z">
+                            </path>
+                        </svg><span data-stars-count>{{ if $known }}{{ if ge $stars 1000 }}{{ printf "%.1fk" (div (float $stars) 1000) }}{{ else }}{{ $stars }}{{ end }}{{ end }}</span>
+                    </span>
+                    {{ end -}}
+                </h2>
+                <p>{{ .description }}</p>
             </div>
-
-            <div class="col-lg-5">
-                <a href="https://llmaz.inftyai.com/">
-                    <img src="https://github.com/InftyAI/llmaz/blob/main/site/static/images/logo.png?raw=true"
-                        alt="logo" style="width:185px;height:auto;">
-                </a>
-                <p>☸️ Easy, advanced inference platform for large language models on
-                    Kubernetes.</p>
-            </div>
-
-            <div class="col-lg-5">
-                <a href="https://github.com/InftyAI/alphatrion">
-                    <img src="https://github.com/InftyAI/alphatrion/blob/main/site/images/alphatrion.png?raw=true"
-                        alt="logo" style="width:185px;height:auto;">
-                </a>
-                <p>⚒️ The open-source framework for LLM experiments and agent orchestration.</p>
-            </div>
-
-            <div class="col-lg-5">
-                <h2 class="h4"><a href="https://github.com/InftyAI/amrs">AMRS</a></h2>
-                <p>🧬 The adaptive model routing system for exploration and exploitation.
-                </p>
-            </div>
-
-            <div class="col-lg-5">
-                <h2 class="h4"><a href="https://github.com/InftyAI/sandd">SandD</a></h2>
-                <p>🤖 A lightweight sandbox daemon for secure agent execution in isolated environments.
-                </p>
-            </div>
-
-            <div class="col-lg-5">
-                <h2 class="h4"><a href="https://github.com/InftyAI/Nebula">Nebula</a></h2>
-                <p>🎮 The control plane for GPUaaS.
-                </p>
-            </div>
-
-            <div class="col-lg-5">
-                <h2 class="h4"><a href="https://github.com/InftyAI/mlx">MLX</a></h2>
-                <p>🦀 Rust bindings for Apple's MLX framework.
-                </p>
-            </div>
-
-            <div class="col-lg-5">
-                <h2 class="h4"><a href="https://github.com/InftyAI/community" style="color: #FFD700;">✨ Donation
-                        Plan</a></h2>
-                <p>🚀 Got a brilliant idea? Let's build something extraordinary together.
-                </p>
-            </div>
-
+            {{ end -}}
         </div>
+
+        {{/* An invitation, not a project — kept out of the grid so it does not
+             read as one more repository. */}}
+        {{ with site.Data.projects.cta -}}
+        <div class="feature-cta">
+            <span class="feature-cta-title">{{ .name }}</span>
+            <p>{{ .description }}</p>
+        </div>
+        {{ end -}}
     </div>
 </section>
 {{ end }}
 {{ end }}
 
 {{ define "sidebar-footer" }}
-{{ if site.Params.doks.sectionFooter -}}
-<section class="section section-md container-fluid bg-light">
-    <div class="row justify-content-center text-center">
-        <div class="col-lg-7">
-            <h2 class="mt-2">Start building with Doks today</h2>
-            <a class="btn btn-primary rounded-pill px-4 my-2"
-                href="/docs/{{ if site.Params.doks.docsVersioning }}{{ site.Params.doks.docsVersion }}/{{ end }}prologue/introduction/"
-                role="button">{{ i18n "get-started" }}</a>
-        </div>
-    </div>
-</section>
-{{ end -}}
 {{ end }}
