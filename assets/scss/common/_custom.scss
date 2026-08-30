@@ -90,21 +90,42 @@ body > * {
   max-width: 40rem;
   margin-inline: auto;
   opacity: 0.75;
+  // Doks gives `.lead` a bottom margin. It is the last thing in the hero, so that
+  // margin only stacked on top of the hero's own bottom padding — which is what
+  // made the hero-to-map gap 88px where every other gap on the page was 72.
+  margin-bottom: 0;
 }
 
-// The headline carries the top of the page alone, so give it room to sit in.
-// The slack comes out of the dead band above the footer, which the short
-// homepage leaves over anyway.
+// The homepage is four stacked blocks — hero, map, projects, call to action — and
+// this is the one gap between any two of them. They measured 88, 72, 80 and 32px:
+// close enough to look intended, different enough to read as drift, and the 32
+// above the footer left the call to action crammed against it.
+//
+// Scaled rather than fixed, like the headline above. 4.5rem separates blocks
+// comfortably at 1400px, but on a 390px screen — where the same content runs over
+// 2000px tall — that much between every pair is height a thumb has to travel past.
+//
+// Each block owns the space below itself, so every gap is set in exactly one
+// place. That is why `.section-cta` zeroes its top padding rather than splitting
+// the difference with the section above it.
+$home-gap: clamp(2.5rem, 5.5vw, 4.5rem);
+
+// The headline carries the top of the page alone, so give it more room than the
+// block gap. The slack comes out of the dead band above the footer, which the
+// short homepage leaves over anyway.
 .home {
   .section.container-fluid {
     // Scaled, not fixed: the headline itself scales with the viewport, and a
     // flat 5.5rem left 88px of air above a 20px headline on a phone.
     padding-top: clamp(2.5rem, 7vw, 5.5rem);
-    padding-bottom: clamp(2rem, 5.5vw, 4.5rem);
+    padding-bottom: $home-gap;
   }
 
+  // `.section-md` gives this 3rem top and bottom. The top goes because the map
+  // above already owns the gap; the bottom becomes the block gap.
   .section-features {
     padding-top: 0;
+    padding-bottom: $home-gap;
   }
 }
 
@@ -190,7 +211,10 @@ $feature-gap: 1.25rem;
   background: rgba($primary, 0.02);
   border: 1px solid rgba($primary, 0.14);
   border-radius: 0.75rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
 
   // `h3` rather than `h2`: the grid now sits under its own section heading, so
   // the card titles are one level deeper in the outline.
@@ -235,14 +259,264 @@ $feature-gap: 1.25rem;
   }
 }
 
+// The contributor map and the call to action are their own sections now, so both
+// override `.section`'s 5rem, which between three stacked sections would have
+// left two empty bands taller than the cards themselves.
+//
+// Both override `.section`'s 5rem, which between four stacked blocks would have
+// left three empty bands taller than the cards themselves. See $home-gap above for
+// why they are all the same value, and why the top paddings are zero: the block
+// before each of these already owns the space.
+.section-contributors {
+  padding-top: 0;
+  padding-bottom: $home-gap;
+}
+
+.section-cta {
+  padding-top: 0;
+  // The last block on the page, so this is the gap to the footer. It was 2rem,
+  // against 5rem of air above the call to action — which read as the footer
+  // pushing up into it rather than as a page ending.
+  padding-bottom: $home-gap;
+}
+
+// Where contributors are, drawn from data/worldmap.json (the land) and
+// data/contributors.json (the dots). See tools/worldmap.mjs.
+//
+// The map's palette, in one place, so it can be recoloured without reading the
+// rest of the block. Two decisions in it, both arrived at by rendering the
+// alternatives rather than reasoning about hex codes:
+//
+// The land is a cool neutral, not a tint of $primary. Tinting it warm put the
+// section on a single hue at four alphas — cards, land, halo, dots — which sounds
+// coherent and rendered as a wash: nothing separated the marks from the terrain
+// they sat on. A neutral backdrop is what lets the one accent read as an accent.
+//
+// $primary is lifted rather than used at full strength: solid #D93C0D read as ten
+// heavy punctuation marks on a page whose loudest element is otherwise a headline.
+// 72% toward white (#E47351) is as light as the mark can go and still clear 3:1
+// against the white keyline that rings it — which is the boundary WCAG 2.1
+// non-text contrast measures, since against the land itself a mark this pale is
+// only 2.3:1.
+$map-land: #e9edf2;
+$map-mark: mix($primary, #fff, 72%);
+// City labels and the legend's figures. Lighter than the body ink, which made both
+// heavier than the map they annotate. Safe at this lightness only because each is
+// read against white and not against the land: the labels paint the page
+// background behind their own glyphs (see `paint-order` below), and the legend sits
+// off the map entirely. 4.7:1 on white, so AA at their size.
+$map-text: $gray-600;
+// The halo is invisible at rest and appears on hover, so its alpha lives in
+// `fill-opacity` rather than in the colour: `fill-opacity` clamps at 1 and can only
+// ever scale a fill's own alpha down, so a translucent `fill` would leave the hover
+// state with no way to strengthen the ring.
+$map-halo-alpha-hover: 0.22;
+
+// Map and legend side by side from `lg` up, stacked below it. The breakpoint is
+// where the legend still has room for "Melbourne, Australia" and a count on one
+// line; narrower than that it wraps every row and reads worse than stacking.
+.worldmap-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  // Under the block gap either way, so the map and its legend still read as one
+  // thing — but not so tight that the legend looks welded to the map's edge.
+  gap: 2rem;
+}
+
+@include media-breakpoint-up(lg) {
+  .worldmap-layout {
+    flex-direction: row;
+    // Centred vertically: the legend is well under half the map's height, so
+    // top-aligning it sat the whole column up level with the empty Arctic and
+    // left it looking detached from the dots it describes.
+    align-items: center;
+    // Horizontally, though, centre the pair. The map stops growing at 56rem, and
+    // without this the leftover width collected between the two of them instead
+    // of outside, leaving the legend stranded against the right margin.
+    justify-content: center;
+    // Wider than the stacked gap: side by side, the legend was close enough to the
+    // eastern edge of the map to read as a column of the same graphic. This is the
+    // cost — the map gives up 24px of its 56rem below about 1240px, where the row
+    // no longer fits both at full size.
+    gap: 4rem;
+  }
+}
+
+.worldmap {
+  margin: 0;
+  // Narrower than the container: at full width on a large screen the map turns
+  // into wallpaper, and the dots — which are the actual content — get lost in it.
+  max-width: 56rem;
+  width: 100%;
+  margin-inline: auto;
+}
+
+// Two fixes to the row case, both about where the leftover width goes.
+//
+// `margin-inline: auto` is what centres the map in the stacked case, but in a
+// flex row auto margins take the free space *before* `justify-content` is
+// consulted: the map absorbed all 320px of it, half to its left and half into
+// the gap, which is where the 200px hole between map and legend came from.
+//
+// `width: 100%` then makes the flex base size the whole container, so the pair's
+// hypothetical widths overflow the line and the map is shrunk to fit rather than
+// laid out and centred — `max-width` clipping it afterwards. Sizing the basis at
+// the maximum instead means nothing overflows, and the leftover is real free
+// space for `justify-content: center` above to put on the outside.
+//
+// After the rule above, not inside the block with `justify-content`: a media
+// query adds no specificity, so declared first this would be overridden.
+// Scoped to this breakpoint at all because `flex-basis` follows
+// `flex-direction` — in the stacked case it would set a height, not a width.
+@include media-breakpoint-up(lg) {
+  .worldmap {
+    flex: 0 1 56rem;
+    width: auto;
+    margin-inline: 0;
+  }
+}
+
+// City names on the map. Sized in viewBox units, so they scale with it — which
+// is why they are hidden at the widths where the map is small enough for them to
+// scale down into illegibility. The legend carries the same names there.
+.worldmap-label {
+  display: none;
+  fill: $map-text;
+  // 15 units against a 1000-unit width is about 13px once the map is at its
+  // 56rem maximum, and 10px at the `lg` breakpoint where the labels appear.
+  font-size: 15px;
+  // Body weight. At 500 the names read as ten small headings competing with the
+  // dots they belong to; they are captions.
+  font-weight: 400;
+  // The names sit over the landmass, whose coastlines cut through the glyphs even
+  // at $map-land's lightness. This paints the body background behind each one
+  // first, so the label reads as being on the page rather than in the terrain.
+  stroke: var(--bs-body-bg, #fff);
+  stroke-width: 3px;
+  paint-order: stroke;
+  // Purely a caption for the dot, which is already the hit target.
+  pointer-events: none;
+}
+
+@include media-breakpoint-up(lg) {
+  .worldmap-label {
+    display: block;
+  }
+}
+
+.worldmap-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  // Halos on the outermost dots reach a little past the viewBox.
+  overflow: visible;
+}
+
+// Flat fills rather than `currentColor`: nothing on the map follows the text
+// colour, because config/_default/params.toml pins `colorMode = "light"` and the
+// theme renders no mode toggler, so there is no second colour scheme to follow.
+.worldmap-land {
+  fill: $map-land;
+}
+
+.worldmap-dot {
+  fill: $map-mark;
+  // A hairline of page background around each mark. Guangzhou and Shenzhen are
+  // 2.6 viewBox units apart, and the five east-Asian dots ran together into one
+  // lozenge without it — this is what makes them countable.
+  stroke: var(--bs-body-bg, #fff);
+  stroke-width: 2.5;
+  transition: fill-opacity 0.2s ease;
+}
+
+// A soft ring around each dot, on hover only.
+//
+// Painted at rest it was the thing that merged the east-Asian cluster back
+// together, so at rest it does no more than widen the hit target to 2.1x the dot's
+// radius — worth having when the smallest dot is 6 units in a 1000-unit box.
+// `pointer-events: all` because the default `visiblePainted` will not hit-test a
+// fill this transparent.
+.worldmap-halo {
+  fill: $map-mark;
+  fill-opacity: 0;
+  pointer-events: all;
+  transition: fill-opacity 0.2s ease;
+}
+
+// Hovering lifts a dot clear of its neighbours while the browser shows the
+// `<title>` as a tooltip — the only way to tell two overlapping cities apart.
+.worldmap-place:hover {
+  .worldmap-halo {
+    fill-opacity: $map-halo-alpha-hover;
+  }
+}
+
+// The legend beside the map: each region and its share of all contributors.
+.worldmap-summary {
+  // Full width while stacked, so the rules under each row start and end where the
+  // map above and the project cards below do. At its `lg` width of 13rem it sat
+  // inset from both, which read as a third column indented for no reason.
+  width: 100%;
+}
+
+@include media-breakpoint-up(lg) {
+  .worldmap-summary {
+    // Beside the map instead: wide enough for "North America" and its share on one
+    // line, and no wider — the map should keep the width it needs to stay readable.
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 13rem;
+  }
+}
+
+.worldmap-regions {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  font-size: 0.9375rem;
+
+  li {
+    display: flex;
+    align-items: baseline;
+    // Holds the share against the right edge, so the figures line up into a
+    // column that can be read down without the eye tracking across each row.
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.3125rem 0;
+    // The map's own land colour, so the legend's rules and the continents beside
+    // them are the same grey rather than two different near-whites.
+    border-bottom: 1px solid $map-land;
+  }
+
+  // The list is the whole block now; a rule under the last row would read as a
+  // divider from whatever follows the section.
+  li:last-child {
+    border-bottom: 0;
+  }
+}
+
+.worldmap-region-share {
+  flex: 0 0 auto;
+  // Digits of equal width, so 46% and 3% start at the same offset from the edge
+  // and the column reads as a column.
+  font-variant-numeric: tabular-nums;
+  // Neither bold nor coloured. These were 600-weight $primary, which made them the
+  // loudest thing in the section — third orange element after the dots and the
+  // CTA — and pulled the eye off the map they annotate. Position and the tabular
+  // column are enough to mark them as the figures; the rule under each row is what
+  // pairs each one with its name.
+  font-weight: 400;
+  color: $map-text;
+}
+
 // The donation call to action. Deliberately unboxed: a panel here competed with
 // the project cards for attention and left a large empty band across the page.
 // A plain centred line separates it from the grid on whitespace alone.
 .feature-cta {
-  // Separated by whitespace alone — no rule and no box. The gap is a little
-  // wider than the grid's own row gap so the invitation still reads as the end
-  // of the page rather than an eighth card that fell out of the row.
-  margin-top: 3rem;
+  // No top margin of its own: it sits in `.section-cta` now, whose padding is
+  // what separates it from the map above, so a margin here would be added twice.
+  margin-top: 0;
   text-align: center;
 
   .feature-cta-title {
@@ -277,15 +551,10 @@ $feature-gap: 1.25rem;
   }
 
   // The count stays in the body colour: yellow text this small would be hard to
-  // read on white, and the star alone carries the colour.
-  [data-stars-count] {
+  // read on white, and the star alone carries the colour. It needs an element of
+  // its own for that — the opacity cannot go on `.feature-stars`, which would
+  // wash the star out along with the number.
+  .feature-stars-count {
     opacity: 0.65;
   }
-}
-
-// No count yet: the build-time lookup failed and assets/js/custom.js has not
-// filled this in (or cannot reach the endpoint). Hide it rather than show a
-// bare star with no number.
-.feature-stars-pending {
-  display: none;
 }

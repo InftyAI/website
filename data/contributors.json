@@ -1,0 +1,166 @@
+{
+  "generated": "2026-08-30",
+  "total": 35,
+  "located": 19,
+  "places": [
+    {
+      "label": "Shanghai, China",
+      "country": "China",
+      "lat": 31.23,
+      "lng": 121.47,
+      "short": "Shanghai",
+      "offset": {
+        "dx": 18,
+        "dy": 5,
+        "anchor": "start"
+      },
+      "count": 6
+    },
+    {
+      "label": "India",
+      "country": "India",
+      "lat": 22,
+      "lng": 79,
+      "short": "India",
+      "offset": {
+        "dx": 0,
+        "dy": 26,
+        "anchor": "middle"
+      },
+      "count": 2
+    },
+    {
+      "label": "Guangzhou, China",
+      "country": "China",
+      "lat": 23.13,
+      "lng": 113.26,
+      "short": "Guangzhou",
+      "offset": {
+        "dx": -12,
+        "dy": 0,
+        "anchor": "end"
+      },
+      "count": 2
+    },
+    {
+      "label": "Beijing, China",
+      "country": "China",
+      "lat": 39.9,
+      "lng": 116.41,
+      "short": "Beijing",
+      "offset": {
+        "dx": 11,
+        "dy": 4,
+        "anchor": "start"
+      },
+      "count": 2
+    },
+    {
+      "label": "Shenzhen, China",
+      "country": "China",
+      "lat": 22.54,
+      "lng": 114.06,
+      "short": "Shenzhen",
+      "offset": {
+        "dx": 12,
+        "dy": 11,
+        "anchor": "start"
+      },
+      "count": 2
+    },
+    {
+      "label": "Chengdu, China",
+      "country": "China",
+      "lat": 30.57,
+      "lng": 104.07,
+      "short": "Chengdu",
+      "offset": {
+        "dx": -11,
+        "dy": 4,
+        "anchor": "end"
+      },
+      "count": 1
+    },
+    {
+      "label": "Cambridge, UK",
+      "country": "United Kingdom",
+      "lat": 52.2,
+      "lng": 0.12,
+      "short": "Cambridge",
+      "offset": {
+        "dx": -10,
+        "dy": 1,
+        "anchor": "end"
+      },
+      "count": 1
+    },
+    {
+      "label": "Berlin, Germany",
+      "country": "Germany",
+      "lat": 52.52,
+      "lng": 13.4,
+      "short": "Berlin",
+      "offset": {
+        "dx": 10,
+        "dy": -3,
+        "anchor": "start"
+      },
+      "count": 1
+    },
+    {
+      "label": "Melbourne, Australia",
+      "country": "Australia",
+      "lat": -37.81,
+      "lng": 144.96,
+      "short": "Melbourne",
+      "offset": {
+        "dx": 11,
+        "dy": 6,
+        "anchor": "start"
+      },
+      "count": 1
+    },
+    {
+      "label": "Los Angeles, USA",
+      "country": "United States",
+      "lat": 34.05,
+      "lng": -118.24,
+      "short": "Los Angeles",
+      "offset": {
+        "dx": -11,
+        "dy": 4,
+        "anchor": "end"
+      },
+      "count": 1
+    }
+  ],
+  "countryCount": 6,
+  "regions": [
+    {
+      "name": "Asia",
+      "count": 15,
+      "percent": 43
+    },
+    {
+      "name": "Europe",
+      "count": 2,
+      "percent": 5
+    },
+    {
+      "name": "North America",
+      "count": 1,
+      "percent": 3
+    },
+    {
+      "name": "Oceania",
+      "count": 1,
+      "percent": 3
+    },
+    {
+      "name": "Others",
+      "count": 16,
+      "note": "Contributors whose GitHub profile does not say where they are.",
+      "percent": 46
+    }
+  ]
+}

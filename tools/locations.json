@@ -1,0 +1,127 @@
+{
+  "//": "Turns the free text of a GitHub profile's Location field into a point on the homepage map. Read by tools/contributors.mjs, which prints every location it cannot find here so this file can be extended.",
+
+  "//places": "Keys are normalised: lowercased, trimmed, one space after each comma. Several keys may share a label — that is how aliases work. A null value means the value is known not to be a place, and is skipped without a warning.",
+  "places": {
+    "shanghai": {
+      "label": "Shanghai, China",
+      "country": "China",
+      "lat": 31.23,
+      "lng": 121.47
+    },
+    "shanghai, china": {
+      "label": "Shanghai, China",
+      "country": "China",
+      "lat": 31.23,
+      "lng": 121.47
+    },
+    "shanghai yangpu": {
+      "label": "Shanghai, China",
+      "country": "China",
+      "lat": 31.23,
+      "lng": 121.47
+    },
+    "beijing": {
+      "label": "Beijing, China",
+      "country": "China",
+      "lat": 39.9,
+      "lng": 116.41
+    },
+    "beijing, china": {
+      "label": "Beijing, China",
+      "country": "China",
+      "lat": 39.9,
+      "lng": 116.41
+    },
+    "chengdu": {
+      "label": "Chengdu, China",
+      "country": "China",
+      "lat": 30.57,
+      "lng": 104.07
+    },
+    "guangzhou": {
+      "label": "Guangzhou, China",
+      "country": "China",
+      "lat": 23.13,
+      "lng": 113.26
+    },
+    "shenzhen": {
+      "label": "Shenzhen, China",
+      "country": "China",
+      "lat": 22.54,
+      "lng": 114.06
+    },
+    "shenzhen, china": {
+      "label": "Shenzhen, China",
+      "country": "China",
+      "lat": 22.54,
+      "lng": 114.06
+    },
+    "sz": {
+      "label": "Shenzhen, China",
+      "country": "China",
+      "lat": 22.54,
+      "lng": 114.06
+    },
+
+    "cambridge, uk": {
+      "label": "Cambridge, UK",
+      "country": "United Kingdom",
+      "lat": 52.2,
+      "lng": 0.12
+    },
+    "berlin": {
+      "label": "Berlin, Germany",
+      "country": "Germany",
+      "lat": 52.52,
+      "lng": 13.4
+    },
+    "melbourne": {
+      "label": "Melbourne, Australia",
+      "country": "Australia",
+      "lat": -37.81,
+      "lng": 144.96
+    },
+    "los angeles, ca": {
+      "label": "Los Angeles, USA",
+      "country": "United States",
+      "lat": 34.05,
+      "lng": -118.24
+    },
+
+    "//country-level": "Some profiles name only a country. The dot sits near its centre, and the label says no more than the profile did.",
+    "india": { "label": "India", "country": "India", "lat": 22.0, "lng": 79.0 },
+
+    "//not-places": "Real values from real profiles that no map can place.",
+    "remote": null,
+    "earth": null,
+    "internet": null,
+    "everywhere": null,
+    "localhost": null,
+    "127.0.0.1": null
+  },
+
+  "//regions": "What the summary beside the map counts by. Continent-coarse on purpose: the UN subregions would have split these six countries into six rows, which is the country list again under another name. tools/contributors.mjs warns about any country missing here.",
+  "regions": {
+    "China": "Asia",
+    "India": "Asia",
+    "United Kingdom": "Europe",
+    "Germany": "Europe",
+    "United States": "North America",
+    "Australia": "Oceania"
+  },
+
+  "//labels": "Where each city's name is drawn relative to its dot, in viewBox units, keyed by label so aliases share one entry. Hand-placed because no automatic rule survives east Asia: Guangzhou and Shenzhen are 100km apart, which is 2.6 units at this scale, so their labels have to be pushed to opposite sides by someone looking at the result. Anything not listed defaults to `start` a little to the right. `anchor` is an SVG text-anchor: start places the text to the right of the dot, end to its left, middle centres it.",
+  "labels": {
+    "Beijing, China": { "dx": 11, "dy": 4, "anchor": "start" },
+    "Shanghai, China": { "dx": 18, "dy": 5, "anchor": "start" },
+    "Chengdu, China": { "dx": -11, "dy": 4, "anchor": "end" },
+    "Guangzhou, China": { "dx": -12, "dy": 0, "anchor": "end" },
+    "Shenzhen, China": { "dx": 12, "dy": 11, "anchor": "start" },
+    "India": { "dx": 0, "dy": 26, "anchor": "middle" },
+    "Cambridge, UK": { "dx": -10, "dy": 1, "anchor": "end" },
+    "Berlin, Germany": { "dx": 10, "dy": -3, "anchor": "start" },
+    "Los Angeles, USA": { "dx": -11, "dy": 4, "anchor": "end" },
+    "Melbourne, Australia": { "dx": 11, "dy": 6, "anchor": "start" }
+  }
+}

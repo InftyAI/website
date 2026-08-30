@@ -18,6 +18,99 @@
 {{ end -}}
 {{ if eq $.Site.Language.LanguageName "English" }}
 
+{{/* Where the community is, straight under the lead: it is the only graphic on
+     an otherwise text-only page, so it opens the page rather than letting seven
+     cards be the first thing on it.
+
+     Its own section with its own heading — the map is not an eighth project, and
+     nesting it under "Projects" would have filed it as one.
+
+     Both data files are generated and committed (`make worldmap`, `make
+     contributors`), so this needs no lookup at build time and cannot be emptied
+     by a rate limit the way the star counts below can. */}}
+{{ with site.Data.contributors -}}
+{{ $map := site.Data.worldmap -}}
+<section class="section section-contributors">
+    <div class="container">
+        <h2 class="feature-grid-title">Contributors</h2>
+        {{ $summary := printf "%d of %d contributors, in %d cities across %d countries" (int .located) (int .total) (len .places) (int .countryCount) -}}
+        <div class="worldmap-layout">
+        <figure class="worldmap">
+            {{/* `role="img"` with a label: the map is one graphic, and without it
+                 a screen reader would read out a path, ten empty groups and the
+                 city names a second time. The list beside it carries the detail,
+                 as text that can be navigated rather than only announced. */}}
+            <svg class="worldmap-svg" viewBox="0 0 {{ $map.width }} {{ $map.height }}" role="img"
+                aria-label="{{ $summary }}." xmlns="http://www.w3.org/2000/svg">
+                <path class="worldmap-land" d="{{ $map.land }}" />
+                {{ range .places -}}
+                {{/* The projection tools/worldmap.mjs drew the land with,
+                     equirectangular so that it is these two lines rather than a
+                     JavaScript map library. */}}
+                {{ $x := mul $map.k (add .lng 180.0) -}}
+                {{ $y := mul $map.k (sub $map.latTop .lat) -}}
+                {{/* Area, not radius, carries the count: doubling the radius
+                     would draw a city of two as four times the city of one.
+
+                     The base is set from the narrowest case rather than the
+                     widest. These are viewBox units, so they shrink with the
+                     map: at 390px the svg renders at roughly a third of its
+                     1000-unit width, which turned a radius of 4 into 1.4 real
+                     pixels and lost the single-contributor cities altogether. */}}
+                {{ $r := mul 6.0 (math.Sqrt .count) -}}
+                <g class="worldmap-place">
+                    {{/* Native tooltip — no JS, and it works on the keyboard in
+                         the browsers that surface it. */}}
+                    <title>{{ .label }} — {{ .count }} contributor{{ if ne (int .count) 1 }}s{{ end }}</title>
+                    <circle class="worldmap-halo" cx="{{ printf "%.1f" $x }}" cy="{{ printf "%.1f" $y }}"
+                        r="{{ printf "%.1f" (mul $r 2.1) }}" />
+                    <circle class="worldmap-dot" cx="{{ printf "%.1f" $x }}" cy="{{ printf "%.1f" $y }}"
+                        r="{{ printf "%.1f" $r }}" />
+                    {{/* Offsets come from tools/locations.json, hand-placed per
+                         city — see the note there on why no automatic rule works
+                         once two of them are 2.6 units apart. Hidden on narrow
+                         screens by the stylesheet, where the map is too small to
+                         carry text and the list below says the same thing. */}}
+                    {{ $short := .short -}}
+                    {{ with .offset -}}
+                    <text class="worldmap-label" x="{{ printf "%.1f" (add $x (float .dx)) }}"
+                        y="{{ printf "%.1f" (add $y (float .dy)) }}" text-anchor="{{ .anchor }}">{{ $short }}</text>
+                    {{ end -}}
+                </g>
+                {{ end -}}
+            </svg>
+        </figure>
+
+        {{/* The legend the dots need: a dot's size is comparable but not readable,
+             so the shares live here. By region — the cities are already on the map,
+             and a row per city (or per country) turned the column into a ranking of
+             Chinese cities rather than the spread the map is for.
+
+             The last row is "Others", the contributors with no location on their
+             profile, so the column is shares of everyone rather than of the half
+             the map can draw.
+
+             It is also what a screen reader or a keyboard gets, since the svg is a
+             single `role="img"` graphic. */}}
+        <div class="worldmap-summary">
+            <ul class="worldmap-regions">
+                {{ range .regions -}}
+                {{/* Only "Others" carries a note — the one row whose name does not
+                     say what it counts. */}}
+                <li{{ with .note }} title="{{ . }}"{{ end }}>
+                    <span class="worldmap-region-name">{{ .name }}</span>
+                    {{/* Percentages, not counts, and they add to 100 — see the
+                         apportionment in tools/contributors.mjs. */}}
+                    <span class="worldmap-region-share">{{ .percent }}%</span>
+                </li>
+                {{ end -}}
+            </ul>
+        </div>
+        </div>
+    </div>
+</section>
+{{ end -}}
+
 {{/* Look up the star count for each project, then rank by it. A failed
      lookup (offline, rate limited) leaves that card without a star badge
      rather than failing the build. */}}
@@ -58,15 +151,13 @@
                 <h3>
                     {{ with .icon }}<span class="feature-icon" aria-hidden="true">{{ . }}</span>{{ end }}
                     <a href="{{ .url }}">{{ .name }}</a>
-                    {{/* Rendered for every project, even when the build-time
-                         lookup failed, so assets/js/custom.js can fill it in
-                         from /.netlify/functions/stars. A card with no count
-                         yet is hidden by `.feature-stars-pending` until then. */}}
-                    {{ if .repo -}}
+                    {{/* Omitted rather than emptied when the build-time lookup
+                         failed — `stars` is -1 then. Nothing fills it in later,
+                         so a bare star with no number beside it would be all a
+                         reader ever saw. */}}
                     {{ $stars := .stars -}}
-                    {{ $known := and $stars (ge $stars 0) -}}
-                    <span class="feature-stars{{ if not $known }} feature-stars-pending{{ end }}"
-                        data-repo="{{ .repo }}"{{ if $known }} title="{{ $stars }} stars on GitHub"{{ end }}>
+                    {{ if and .repo (ge $stars 0) -}}
+                    <span class="feature-stars" title="{{ $stars }} stars on GitHub">
                         {{/* Filled rather than outlined: at 14px a solid star
                              carries the colour, an outline barely shows it. */}}
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -74,7 +165,7 @@
                             <path
                                 d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z">
                             </path>
-                        </svg><span data-stars-count>{{ if $known }}{{ if ge $stars 1000 }}{{ printf "%.1fk" (div (float $stars) 1000) }}{{ else }}{{ $stars }}{{ end }}{{ end }}</span>
+                        </svg><span class="feature-stars-count">{{ if ge $stars 1000 }}{{ printf "%.1fk" (div (float $stars) 1000) }}{{ else }}{{ $stars }}{{ end }}</span>
                     </span>
                     {{ end -}}
                 </h3>
@@ -82,9 +173,14 @@
             </li>
             {{ end -}}
         </ul>
+    </div>
+</section>
 
-        {{/* An invitation, not a project — kept out of the grid so it does not
-             read as one more repository. */}}
+{{/* An invitation, not a project — kept out of the grid so it does not read as
+     one more repository, and last on the page so it closes it: the projects,
+     then the people, then the offer to join them. */}}
+<section class="section section-cta">
+    <div class="container">
         {{ with site.Data.projects.cta -}}
         <div class="feature-cta">
             <span class="feature-cta-title">

@@ -51,12 +51,12 @@ defaultContentLanguageInSubdir = false
   [caches.getjson]
     dir = ":cacheDir/:project"
     maxAge = -1 # "30m"
-  # GitHub star counts (resources.GetRemote). These are only the seed values for
-  # first paint and the card ordering — assets/js/custom.js replaces the numbers
-  # from /.netlify/functions/stars on every visit, so what a reader sees is at
-  # most an hour old regardless of when the site last built. A TTL here just
-  # stops repeated deploys from spending the 60 requests/hour unauthenticated
-  # API budget; Netlify persists this cache between builds.
+  # GitHub star counts (resources.GetRemote), which are read at build time and
+  # nowhere else: a deploy is what refreshes them, and the numbers a reader sees
+  # are as old as the last one. The TTL keeps repeated deploys from spending the
+  # 60 requests/hour unauthenticated API budget on counts that have not moved;
+  # Netlify persists this cache between builds. Half a day is short against how
+  # often this site deploys and long against how fast a star count matters.
   [caches.getresource]
     dir = ":cacheDir/:project"
     maxAge = "12h"
