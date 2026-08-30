@@ -45,11 +45,6 @@ body > * {
   margin-bottom: 1.75rem;
 }
 
-.home .lead {
-  max-width: 42rem;
-  margin-inline: auto;
-}
-
 // The headline carries the top of the page alone, so give it room to sit in.
 // The slack comes out of the dead band above the footer, which the short
 // homepage leaves over anyway.
@@ -187,11 +182,19 @@ $feature-gap: 1.25rem;
   flex: 0 0 auto;
   font-size: 0.8125rem;
   font-weight: 500;
-  opacity: 0.65;
 
   svg {
+    // A gold star, as GitHub draws it. The muting sits on the number instead of
+    // the whole badge, so the colour is not washed out by an opacity of its own.
+    color: #e3a008;
     // Nudge the star onto the text baseline
     margin-bottom: -0.125rem;
+  }
+
+  // The count stays in the body colour: yellow text this small would be hard to
+  // read on white, and the star alone carries the colour.
+  [data-stars-count] {
+    opacity: 0.65;
   }
 }
 
