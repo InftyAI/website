@@ -111,6 +111,25 @@ body > * {
 $home-gap: clamp(2.5rem, 5.5vw, 4.5rem);
 
 .home {
+  // The whole homepage, one notch down. Every part of it was sized on its own —
+  // the headline in vw, the cards and gaps in rem, the map in viewBox units — so
+  // taking 10% off by hand would have meant editing eight numbers and hoping they
+  // still agreed with each other afterwards. Scaling the finished layout keeps the
+  // proportions that were already tuned and changes only the size.
+  //
+  // `zoom` and not `transform: scale`: zoom is part of layout, so the boxes reflow
+  // at their new size and the page is genuinely shorter for it — 1454px to 1322px
+  // at 1400 wide. A transform paints a shrunken copy of the old layout and leaves
+  // a band of dead space around it.
+  //
+  // On the sections rather than on `.home` itself, so the navbar and the footer
+  // keep their size: those two are the same on every page of the site, and
+  // shrinking them here would leave the homepage's chrome disagreeing with the rest
+  // of it by a tenth.
+  .section {
+    zoom: 0.9;
+  }
+
   .section.container-fluid {
     // Under the block gap, not over it. This was 88px at 1400 against 72 between
     // every other pair of blocks, which put the largest gap on the page in the one
@@ -151,9 +170,9 @@ $home-gap: clamp(2.5rem, 5.5vw, 4.5rem);
 // Project cards on the homepage.
 //
 // Flex rather than grid or Bootstrap's row/col: seven cards never fill a row
-// evenly, and flex-wrap centres the short final row instead of leaving a hole
-// on one side. The explicit basis keeps every card the same width, which
-// `flex-grow` would not — the last row would stretch wider than the rows above.
+// evenly, and flex-wrap handles the short final row without a wrapper per row.
+// The explicit basis keeps every card the same width, which `flex-grow` would not
+// — the last row would stretch wider than the rows above.
 $feature-gap: 1.25rem;
 
 // Names the grid without shouting: smaller than the headline, uppercase and
@@ -179,7 +198,12 @@ $feature-gap: 1.25rem;
 .feature-grid {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  // Left, not centred. Seven cards in rows of four leave a last row of three, and
+  // centring it stood all three of its edges 118px inside the row above — six
+  // vertical edges in the grid where there should be five. Rendered side by side,
+  // the offset row is the thing the eye goes to; a gap at the end of the last row
+  // is what a grid is expected to do.
+  justify-content: flex-start;
   gap: $feature-gap;
   // It is a `ul` now, for the item count screen readers announce. Strip the
   // list affordances the browser adds; the cards are the visual affordance.
@@ -211,8 +235,18 @@ $feature-gap: 1.25rem;
   // A warm tint rather than neutral grey: at these low alphas it barely reads
   // as colour, but it stops the cards from looking like grey wireframes.
   background: rgba($primary, 0.02);
-  border: 1px solid rgba($primary, 0.14);
+  border: 1px solid rgba($primary, 0.18);
   border-radius: 0.75rem;
+  // A resting shadow, so a card sits on the page rather than being an outline drawn
+  // on it. Two layers because one cannot do both jobs: the 1px pins the bottom edge
+  // down, and the 28px one is the soft lift. Neutral ink rather than $primary —
+  // tinted, seven of these warmed the whole band pink.
+  //
+  // The hover shadow is 4x this. That ratio is the point: a resting shadow strong
+  // enough to be seen on its own would leave hover with nowhere to go.
+  box-shadow:
+    0 1px 2px rgba($black, 0.04),
+    0 10px 28px rgba($black, 0.05);
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease,
@@ -341,14 +375,16 @@ $map-halo-alpha-hover: 0.22;
     // top-aligning it sat the whole column up level with the empty Arctic and
     // left it looking detached from the dots it describes.
     align-items: center;
-    // Horizontally, though, centre the pair. The map stops growing at 56rem, and
-    // without this the leftover width collected between the two of them instead
-    // of outside, leaving the legend stranded against the right margin.
-    justify-content: center;
+    // Horizontally, out to the container's own edges. Centring the pair as a unit
+    // was what this did before, and it gave the section four vertical edges where
+    // the card grid below it has two: at 1400 the cards spanned the full container
+    // while the map began 52px inside it and the legend stopped 52px short of the
+    // other side. Nothing lined up with anything, which is most of what made the
+    // map read as pasted on top of the page rather than part of it.
+    justify-content: space-between;
     // Wider than the stacked gap: side by side, the legend was close enough to the
-    // eastern edge of the map to read as a column of the same graphic. This is the
-    // cost — the map gives up 24px of its 56rem below about 1240px, where the row
-    // no longer fits both at full size.
+    // eastern edge of the map to read as a column of the same graphic. A floor, not
+    // a fixed value — `space-between` puts the leftover width here.
     gap: 4rem;
   }
 }
@@ -362,26 +398,32 @@ $map-halo-alpha-hover: 0.22;
   margin-inline: auto;
 }
 
-// Two fixes to the row case, both about where the leftover width goes.
+// In the row, the map takes exactly what the legend and the gap leave. Everything
+// here is undoing a stacked-case default that is wrong for a flex item being sized
+// by the row it is in rather than by the block it centres itself in:
 //
-// `margin-inline: auto` is what centres the map in the stacked case, but in a
-// flex row auto margins take the free space *before* `justify-content` is
-// consulted: the map absorbed all 320px of it, half to its left and half into
-// the gap, which is where the 200px hole between map and legend came from.
+// `margin-inline: auto` centres the map when stacked, but in a flex row auto
+// margins take the free space *before* `justify-content` is consulted — the map
+// absorbed all of it, half to its left and half into the gap, and that was the
+// 200px hole that used to sit between map and legend.
 //
-// `width: 100%` then makes the flex base size the whole container, so the pair's
+// `width: 100%` makes the flex base size the whole container, so the pair's
 // hypothetical widths overflow the line and the map is shrunk to fit rather than
-// laid out and centred — `max-width` clipping it afterwards. Sizing the basis at
-// the maximum instead means nothing overflows, and the leftover is real free
-// space for `justify-content: center` above to put on the outside.
+// laid out — `max-width` then clipping it. `auto` bases it on the content.
 //
-// After the rule above, not inside the block with `justify-content`: a media
-// query adds no specificity, so declared first this would be overridden.
-// Scoped to this breakpoint at all because `flex-basis` follows
-// `flex-direction` — in the stacked case it would set a height, not a width.
+// `max-width: none` lifts the 56rem cap, which is there to stop the map becoming
+// wallpaper on a wide screen and cannot happen here: the container itself stops at
+// 1320px however wide the window is, so filling the row tops the map out around
+// 900px on screen either way.
+//
+// After the rule above, not inside the block with `justify-content`: a media query
+// adds no specificity, so declared first this would be overridden. Scoped to this
+// breakpoint at all because `flex-basis` follows `flex-direction` — in the stacked
+// case it would set a height, not a width.
 @include media-breakpoint-up(lg) {
   .worldmap {
-    flex: 0 1 56rem;
+    flex: 1 1 auto;
+    max-width: none;
     width: auto;
     margin-inline: 0;
   }
@@ -393,8 +435,8 @@ $map-halo-alpha-hover: 0.22;
 .worldmap-label {
   display: none;
   fill: $map-text;
-  // 15 units against a 1000-unit width is about 13px once the map is at its
-  // 56rem maximum, and 10px at the `lg` breakpoint where the labels appear.
+  // 15 units against a 1000-unit width is about 12px at the `xl` breakpoint where
+  // the labels appear, and 13px on the widest screens.
   font-size: 15px;
   // Body weight. At 500 the names read as ten small headings competing with the
   // dots they belong to; they are captions.
@@ -409,7 +451,12 @@ $map-halo-alpha-hover: 0.22;
   pointer-events: none;
 }
 
-@include media-breakpoint-up(lg) {
+// `xl` and not `lg`, which is where the row itself starts. Between the two the map
+// has to share the container with the legend and comes out around 580px wide, at
+// which the labels render at 8.6px and the five names around the Pearl River Delta
+// overlap each other. The dots and the legend still say everything; the names are
+// what has to wait for the room to be legible in.
+@include media-breakpoint-up(xl) {
   .worldmap-label {
     display: block;
   }
