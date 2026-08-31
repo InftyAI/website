@@ -149,7 +149,6 @@
             {{ range $cards -}}
             <li class="feature-card">
                 <h3>
-                    {{ with .icon }}<span class="feature-icon" aria-hidden="true">{{ . }}</span>{{ end }}
                     <a href="{{ .url }}">{{ .name }}</a>
                     {{/* Omitted rather than emptied when the build-time lookup
                          failed — `stars` is -1 then. Nothing fills it in later,
@@ -183,9 +182,7 @@
     <div class="container">
         {{ with site.Data.projects.cta -}}
         <div class="feature-cta">
-            <span class="feature-cta-title">
-                {{ with .icon }}<span aria-hidden="true">{{ . }}</span> {{ end }}{{ .name }}
-            </span>
+            <span class="feature-cta-title">{{ .name }}</span>
             <p>{{ .description }}</p>
         </div>
         {{ end -}}

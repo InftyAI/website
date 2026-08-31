@@ -270,18 +270,16 @@ $feature-gap: 1.25rem;
     }
   }
 
-  // Decorative, and `aria-hidden` in the markup. `flex: 0 0 auto` stops a
-  // wide emoji from being squeezed by a long project name.
-  .feature-icon {
-    flex: 0 0 auto;
-    font-size: 1rem;
-    line-height: 1;
-  }
-
   p {
     margin-bottom: 0;
     font-size: 1rem;
-    opacity: 0.78;
+    // Muted with colour rather than `opacity`, which applies to the element as a
+    // group: an emoji typed into a `description` would be faded along with the
+    // prose, and nothing inside could undo it — `opacity: 1` on a child is still
+    // composited within the parent's 0.78. Renders identically for text. The rgb
+    // channels come from Bootstrap's own variable so this follows dark mode, where
+    // the body ink is near-white rather than near-black.
+    color: rgba(var(--bs-body-color-rgb), 0.78);
   }
 
   &:hover {
