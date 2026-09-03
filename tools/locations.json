@@ -315,6 +315,12 @@
       "lat": 55.76,
       "lng": 37.62
     },
+    "minsk": {
+      "label": "Minsk, Belarus",
+      "country": "Belarus",
+      "lat": 53.9,
+      "lng": 27.57
+    },
     "san francisco": {
       "label": "San Francisco, USA",
       "country": "United States",
@@ -688,6 +694,13 @@
       "lng": 31.5,
       "countryOnly": true
     },
+    "belarus": {
+      "label": "Belarus",
+      "country": "Belarus",
+      "lat": 53.7,
+      "lng": 28,
+      "countryOnly": true
+    },
     "russia": {
       "label": "Russia",
       "country": "Russia",
@@ -814,6 +827,7 @@
     "stockholm, sweden": "stockholm",
     "warsaw, poland": "warsaw",
     "moscow, russia": "moscow",
+    "minsk, belarus": "minsk",
     "kiev": "kyiv",
     "kyiv, ukraine": "kyiv",
     "usa": "united states",
@@ -822,6 +836,8 @@
     "u.s.a.": "united states",
     "united states of america": "united states",
     "america": "united states",
+    "texas": "united states",
+    "alaska": "united states",
     "san francisco, ca": "san francisco",
     "san francisco, california": "san francisco",
     "san francisco, usa": "san francisco",
@@ -830,6 +846,7 @@
     "san francisco bay area": "san francisco",
     "silicon valley": "mountain view",
     "palo alto, ca": "palo alto",
+    "palo alto california usa": "palo alto",
     "mountain view, ca": "mountain view",
     "san jose, ca": "san jose",
     "los angeles, ca": "los angeles",
@@ -856,6 +873,7 @@
     "mexico city, mexico": "mexico city",
     "são paulo": "sao paulo",
     "sao paulo, brazil": "sao paulo",
+    "são paulo, brazil": "sao paulo",
     "rio de janeiro, brazil": "rio de janeiro",
     "brasil": "brazil",
     "buenos aires, argentina": "buenos aires",
@@ -895,6 +913,7 @@
     "Australia": "Oceania",
     "Austria": "Europe",
     "Bangladesh": "Asia",
+    "Belarus": "Europe",
     "Belgium": "Europe",
     "Brazil": "South America",
     "Canada": "North America",
@@ -946,16 +965,65 @@
   },
   "//labels": "Where each city's name is drawn relative to its dot, in viewBox units, keyed by label so aliases share one entry. Hand-placed because no automatic rule survives east Asia: Guangzhou and Shenzhen are 100km apart, which is 2.6 units at this scale, so their labels have to be pushed to opposite sides by someone looking at the result. Anything not listed defaults to `start` a little to the right. `anchor` is an SVG text-anchor: start places the text to the right of the dot, end to its left, middle centres it.",
   "labels": {
-    "Beijing, China": { "dx": 11, "dy": 4, "anchor": "start" },
-    "Shanghai, China": { "dx": 15, "dy": 5, "anchor": "start" },
-    "Chengdu, China": { "dx": -11, "dy": 4, "anchor": "end" },
-    "Guangzhou, China": { "dx": -12, "dy": 0, "anchor": "end" },
-    "Shenzhen, China": { "dx": 12, "dy": 11, "anchor": "start" },
-    "China": { "dx": -14, "dy": 4, "anchor": "end" },
-    "India": { "dx": 0, "dy": 26, "anchor": "middle" },
-    "Cambridge, UK": { "dx": -10, "dy": 1, "anchor": "end" },
-    "Berlin, Germany": { "dx": 10, "dy": -3, "anchor": "start" },
-    "Los Angeles, USA": { "dx": -11, "dy": 4, "anchor": "end" },
-    "Melbourne, Australia": { "dx": 11, "dy": 6, "anchor": "start" }
+    "Shanghai, China": {
+      "dx": 15,
+      "dy": 5,
+      "anchor": "start"
+    },
+    "Chengdu, China": {
+      "dx": -11,
+      "dy": 4,
+      "anchor": "end"
+    },
+    "Guangzhou, China": {
+      "dx": -12,
+      "dy": 0,
+      "anchor": "end"
+    },
+    "Shenzhen, China": {
+      "dx": 12,
+      "dy": 11,
+      "anchor": "start"
+    },
+    "China": {
+      "dx": -14,
+      "dy": 4,
+      "anchor": "end"
+    },
+    "India": {
+      "dx": 0,
+      "dy": 26,
+      "anchor": "middle"
+    },
+    "Cambridge, UK": {
+      "dx": -10,
+      "dy": 17,
+      "anchor": "end"
+    },
+    "Berlin, Germany": {
+      "dx": 0,
+      "dy": -13,
+      "anchor": "middle"
+    },
+    "Melbourne, Australia": {
+      "dx": 11,
+      "dy": 6,
+      "anchor": "start"
+    },
+    "Dublin, Ireland": {
+      "dx": 0,
+      "dy": -13,
+      "anchor": "middle"
+    },
+    "Palo Alto, USA": {
+      "dx": 0,
+      "dy": -13,
+      "anchor": "middle"
+    },
+    "Amsterdam, Netherlands": {
+      "dx": 10,
+      "dy": 17,
+      "anchor": "start"
+    }
   }
 }

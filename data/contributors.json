@@ -1,7 +1,7 @@
 {
   "generated": "2026-09-03",
   "total": 45,
-  "located": 24,
+  "located": 29,
   "places": [
     {
       "label": "Shanghai, China",
@@ -70,6 +70,19 @@
       "count": 2
     },
     {
+      "label": "Sao Paulo, Brazil",
+      "country": "Brazil",
+      "lat": -23.55,
+      "lng": -46.63,
+      "short": "Sao Paulo",
+      "offset": {
+        "dx": 11,
+        "dy": 4,
+        "anchor": "start"
+      },
+      "count": 1
+    },
+    {
       "label": "Bogota, Colombia",
       "country": "Colombia",
       "lat": 4.71,
@@ -89,9 +102,9 @@
       "lng": -6.26,
       "short": "Dublin",
       "offset": {
-        "dx": 11,
-        "dy": 4,
-        "anchor": "start"
+        "dx": 0,
+        "dy": -13,
+        "anchor": "middle"
       },
       "count": 1
     },
@@ -116,7 +129,7 @@
       "short": "Cambridge",
       "offset": {
         "dx": -10,
-        "dy": 1,
+        "dy": 17,
         "anchor": "end"
       },
       "count": 1
@@ -128,9 +141,9 @@
       "lng": 13.4,
       "short": "Berlin",
       "offset": {
-        "dx": 10,
-        "dy": -3,
-        "anchor": "start"
+        "dx": 0,
+        "dy": -13,
+        "anchor": "middle"
       },
       "count": 1
     },
@@ -167,9 +180,35 @@
       "lng": -118.24,
       "short": "Los Angeles",
       "offset": {
-        "dx": -11,
+        "dx": 11,
         "dy": 4,
-        "anchor": "end"
+        "anchor": "start"
+      },
+      "count": 1
+    },
+    {
+      "label": "Minsk, Belarus",
+      "country": "Belarus",
+      "lat": 53.9,
+      "lng": 27.57,
+      "short": "Minsk",
+      "offset": {
+        "dx": 11,
+        "dy": 4,
+        "anchor": "start"
+      },
+      "count": 1
+    },
+    {
+      "label": "Palo Alto, USA",
+      "country": "United States",
+      "lat": 37.44,
+      "lng": -122.14,
+      "short": "Palo Alto",
+      "offset": {
+        "dx": 0,
+        "dy": -13,
+        "anchor": "middle"
       },
       "count": 1
     },
@@ -193,15 +232,15 @@
       "lng": 4.9,
       "short": "Amsterdam",
       "offset": {
-        "dx": 11,
-        "dy": 4,
+        "dx": 10,
+        "dy": 17,
         "anchor": "start"
       },
       "count": 1
     }
   ],
-  "cities": 14,
-  "countryCount": 10,
+  "cities": 17,
+  "countryCount": 12,
   "regions": [
     {
       "name": "Asia",
@@ -210,11 +249,16 @@
     },
     {
       "name": "Europe",
+      "count": 6,
+      "percent": 13
+    },
+    {
+      "name": "North America",
       "count": 5,
       "percent": 11
     },
     {
-      "name": "North America",
+      "name": "South America",
       "count": 2,
       "percent": 5
     },
@@ -224,15 +268,10 @@
       "percent": 2
     },
     {
-      "name": "South America",
-      "count": 1,
-      "percent": 2
-    },
-    {
       "name": "Others",
-      "count": 21,
+      "count": 16,
       "note": "Contributors whose GitHub profile does not say where they are.",
-      "percent": 47
+      "percent": 36
     }
   ]
 }

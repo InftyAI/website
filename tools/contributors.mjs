@@ -70,33 +70,82 @@ if (!token) {
   console.warn("warning: no GITHUB_TOKEN set, expect to be rate limited\n");
 }
 
-async function github(path) {
+async function request(path) {
   const headers = {
     Accept: "application/vnd.github+json",
     "User-Agent": "inftyai-website",
   };
   if (token) headers.Authorization = `Bearer ${token}`;
 
-  const response = await fetch(`https://api.github.com/${path}`, { headers });
+  const response = await fetch(
+    path.startsWith("https://") ? path : `https://api.github.com/${path}`,
+    { headers },
+  );
   if (!response.ok) {
     exit(`GET ${path} responded ${response.status} ${response.statusText}`);
   }
-  return response.json();
+  return response;
+}
+
+async function github(path) {
+  return (await request(path)).json();
+}
+
+// Every page, not just the first. A repository with more than one page of commits
+// used to be counted from its first hundred alone.
+//
+// The `Link` header rather than a page counter: it is what tells us there is a next
+// page at all, and following it means never asking for a page that is not there.
+async function githubAll(path) {
+  const items = [];
+  let next = path;
+  while (next) {
+    const response = await request(next);
+    items.push(...(await response.json()));
+    next = /<([^>]+)>;\s*rel="next"/.exec(
+      response.headers.get("link") ?? "",
+    )?.[1];
+  }
+  return items;
 }
 
 // Contributors are collected across every project, then deduplicated: someone who
 // has worked on three of them is one person on the map, not three.
+//
+// From the commits, not from `repos/{repo}/contributors`, which is where this
+// started and which is a cached statistic GitHub recomputes on its own schedule. On
+// 2026-09-03 it reported 17 people for Awesome-LLMOps against 27 with commits on
+// `main` — every one of the ten it omitted had arrived that August, and the repo's
+// `stats/contributors` had been answering "still computing" for as long as anyone
+// looked. A map of who is here cannot be a month behind on who is here, and there is
+// no parameter to ask that endpoint for a fresh answer.
+//
+// The cost is pagination — about twenty requests across the seven projects instead of
+// seven — which is nothing against the hourly limit, and the per-contributor profile
+// lookups below already dwarf it.
 const logins = new Set();
 for (const repo of repos) {
-  const contributors = await github(`repos/${repo}/contributors?per_page=100`);
-  for (const contributor of contributors) {
+  const commits = await githubAll(`repos/${repo}/commits?per_page=100`);
+  const seen = new Set();
+  let unattributed = 0;
+  for (const { author } of commits) {
+    // No linked account: a commit whose author email belongs to no GitHub user.
+    // Nothing to look a location up for, so it can only be counted and reported.
+    if (!author) {
+      unattributed += 1;
+      continue;
+    }
     // `type` is "Bot" for GitHub Apps; EXCLUDE covers machine accounts that are
     // ordinary users as far as the API is concerned.
-    if (contributor.type !== "User") continue;
-    if (EXCLUDE.has(contributor.login.toLowerCase())) continue;
-    logins.add(contributor.login);
+    if (author.type !== "User") continue;
+    if (EXCLUDE.has(author.login.toLowerCase())) continue;
+    seen.add(author.login);
+    logins.add(author.login);
   }
-  console.log(`${repo}: ${contributors.length} contributors`);
+  console.log(
+    `${repo}: ${seen.size} contributors across ${commits.length} commits` +
+      (unattributed ? ` (${unattributed} by no GitHub account)` : ""),
+  );
 }
 
 // Lowercased, trimmed, and with one space after each comma, so "Shenzhen,China",
