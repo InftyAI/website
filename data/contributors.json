@@ -14,7 +14,30 @@
         "dy": 5,
         "anchor": "start"
       },
-      "count": 6
+      "count": 6,
+      "people": [
+        {
+          "login": "cr7258",
+          "avatar": "https://avatars.githubusercontent.com/u/40051120?v=4&s=64"
+        },
+        {
+          "login": "carlory",
+          "avatar": "https://avatars.githubusercontent.com/u/28390961?v=4&s=64"
+        },
+        {
+          "login": "X1aoZEOuO",
+          "avatar": "https://avatars.githubusercontent.com/u/97826429?v=4&s=64"
+        },
+        {
+          "login": "pacoxu",
+          "avatar": "https://avatars.githubusercontent.com/u/2010320?v=4&s=64"
+        },
+        {
+          "login": "rudeigerc",
+          "avatar": "https://avatars.githubusercontent.com/u/18243819?v=4&s=64"
+        }
+      ],
+      "more": 1
     },
     {
       "label": "San Francisco, USA",
@@ -27,7 +50,22 @@
         "dy": -14,
         "anchor": "start"
       },
-      "count": 3
+      "count": 3,
+      "people": [
+        {
+          "login": "paralleliq",
+          "avatar": "https://avatars.githubusercontent.com/u/241533185?v=4&s=64"
+        },
+        {
+          "login": "neerazz",
+          "avatar": "https://avatars.githubusercontent.com/u/43318996?v=4&s=64"
+        },
+        {
+          "login": "rohilvagarwal",
+          "avatar": "https://avatars.githubusercontent.com/u/88454899?v=4&s=64"
+        }
+      ],
+      "more": 0
     },
     {
       "label": "India",
@@ -41,7 +79,18 @@
         "dy": 23,
         "anchor": "middle"
       },
-      "count": 2
+      "count": 2,
+      "people": [
+        {
+          "login": "SanjanShiv",
+          "avatar": "https://avatars.githubusercontent.com/u/90202905?v=4&s=64"
+        },
+        {
+          "login": "VedantMadane",
+          "avatar": "https://avatars.githubusercontent.com/u/6527493?v=4&s=64"
+        }
+      ],
+      "more": 0
     },
     {
       "label": "Guangzhou, China",
@@ -54,7 +103,18 @@
         "dy": 20,
         "anchor": "end"
       },
-      "count": 2
+      "count": 2,
+      "people": [
+        {
+          "login": "kenwoodjw",
+          "avatar": "https://avatars.githubusercontent.com/u/10386710?v=4&s=64"
+        },
+        {
+          "login": "Whitea029",
+          "avatar": "https://avatars.githubusercontent.com/u/145814986?v=4&s=64"
+        }
+      ],
+      "more": 0
     },
     {
       "label": "Beijing, China",
@@ -67,7 +127,18 @@
         "dy": 4,
         "anchor": "start"
       },
-      "count": 2
+      "count": 2,
+      "people": [
+        {
+          "login": "jiahuipaung",
+          "avatar": "https://avatars.githubusercontent.com/u/70688286?v=4&s=64"
+        },
+        {
+          "login": "yafengio",
+          "avatar": "https://avatars.githubusercontent.com/u/45666616?v=4&s=64"
+        }
+      ],
+      "more": 0
     },
     {
       "label": "Shenzhen, China",
@@ -80,7 +151,18 @@
         "dy": 11,
         "anchor": "start"
       },
-      "count": 2
+      "count": 2,
+      "people": [
+        {
+          "login": "nayihz",
+          "avatar": "https://avatars.githubusercontent.com/u/65757763?v=4&s=64"
+        },
+        {
+          "login": "liangyuanpeng",
+          "avatar": "https://avatars.githubusercontent.com/u/28711504?v=4&s=64"
+        }
+      ],
+      "more": 0
     },
     {
       "label": "Paris, France",
@@ -93,7 +175,14 @@
         "dy": 28,
         "anchor": "start"
       },
-      "count": 1
+      "count": 1,
+      "people": [
+        {
+          "login": "ThibautMelen",
+          "avatar": "https://avatars.githubusercontent.com/u/20891897?v=4&s=64"
+        }
+      ],
+      "more": 0
     },
     {
       "label": "Sao Paulo, Brazil",
@@ -106,7 +195,14 @@
         "dy": 4,
         "anchor": "start"
       },
-      "count": 1
+      "count": 1,
+      "people": [
+        {
+          "login": "alegauss",
+          "avatar": "https://avatars.githubusercontent.com/u/331174?v=4&s=64"
+        }
+      ],
+      "more": 0
     },
     {
       "label": "Bogota, Colombia",
@@ -119,7 +215,14 @@
         "dy": 4,
         "anchor": "start"
       },
-      "count": 1
+      "count": 1,
+      "people": [
+        {
+          "login": "amedinat",
+          "avatar": "https://avatars.githubusercontent.com/u/25287764?v=4&s=64"
+        }
+      ],
+      "more": 0
     },
     {
       "label": "Toronto, Canada",
@@ -132,7 +235,14 @@
         "dy": 4,
         "anchor": "start"
       },
-      "count": 1
+      "count": 1,
+      "people": [
+        {
+          "login": "davidahmann",
+          "avatar": "https://avatars.githubusercontent.com/u/46606159?v=4&s=64"
+        }
+      ],
+      "more": 0
     },
     {
       "label": "Dublin, Ireland",
@@ -145,7 +255,14 @@
         "dy": -11,
         "anchor": "middle"
       },
-      "count": 1
+      "count": 1,
+      "people": [
+        {
+          "login": "evandempsey",
+          "avatar": "https://avatars.githubusercontent.com/u/5140530?v=4&s=64"
+        }
+      ],
+      "more": 0
     },
     {
       "label": "Chengdu, China",
@@ -158,7 +275,14 @@
         "dy": 4,
         "anchor": "end"
       },
-      "count": 1
+      "count": 1,
+      "people": [
+        {
+          "login": "googs1025",
+          "avatar": "https://avatars.githubusercontent.com/u/86391540?v=4&s=64"
+        }
+      ],
+      "more": 0
     },
     {
       "label": "Cambridge, UK",
@@ -171,7 +295,14 @@
         "dy": 19,
         "anchor": "end"
       },
-      "count": 1
+      "count": 1,
+      "people": [
+        {
+          "login": "kerthcet",
+          "avatar": "https://avatars.githubusercontent.com/u/18364341?v=4&s=64"
+        }
+      ],
+      "more": 0
     },
     {
       "label": "New Zealand",
@@ -185,7 +316,14 @@
         "dy": 4,
         "anchor": "start"
       },
-      "count": 1
+      "count": 1,
+      "people": [
+        {
+          "login": "lee101",
+          "avatar": "https://avatars.githubusercontent.com/u/2122616?v=4&s=64"
+        }
+      ],
+      "more": 0
     },
     {
       "label": "Brisbane, Australia",
@@ -198,7 +336,14 @@
         "dy": 4,
         "anchor": "start"
       },
-      "count": 1
+      "count": 1,
+      "people": [
+        {
+          "login": "matthewdcage",
+          "avatar": "https://avatars.githubusercontent.com/u/132959513?v=4&s=64"
+        }
+      ],
+      "more": 0
     },
     {
       "label": "Berlin, Germany",
@@ -211,7 +356,14 @@
         "dy": -11,
         "anchor": "middle"
       },
-      "count": 1
+      "count": 1,
+      "people": [
+        {
+          "login": "mbakgun",
+          "avatar": "https://avatars.githubusercontent.com/u/8726393?v=4&s=64"
+        }
+      ],
+      "more": 0
     },
     {
       "label": "Melbourne, Australia",
@@ -224,7 +376,14 @@
         "dy": 6,
         "anchor": "start"
       },
-      "count": 1
+      "count": 1,
+      "people": [
+        {
+          "login": "robert-cronin",
+          "avatar": "https://avatars.githubusercontent.com/u/8540764?v=4&s=64"
+        }
+      ],
+      "more": 0
     },
     {
       "label": "Chicago, USA",
@@ -237,7 +396,14 @@
         "dy": 19,
         "anchor": "start"
       },
-      "count": 1
+      "count": 1,
+      "people": [
+        {
+          "login": "samvallad33",
+          "avatar": "https://avatars.githubusercontent.com/u/143034159?v=4&s=64"
+        }
+      ],
+      "more": 0
     },
     {
       "label": "Los Angeles, USA",
@@ -250,7 +416,14 @@
         "dy": 4,
         "anchor": "start"
       },
-      "count": 1
+      "count": 1,
+      "people": [
+        {
+          "login": "samzong",
+          "avatar": "https://avatars.githubusercontent.com/u/13782141?v=4&s=64"
+        }
+      ],
+      "more": 0
     },
     {
       "label": "Minsk, Belarus",
@@ -263,7 +436,14 @@
         "dy": 4,
         "anchor": "start"
       },
-      "count": 1
+      "count": 1,
+      "people": [
+        {
+          "login": "svalench",
+          "avatar": "https://avatars.githubusercontent.com/u/20963370?v=4&s=64"
+        }
+      ],
+      "more": 0
     },
     {
       "label": "Palo Alto, USA",
@@ -276,7 +456,14 @@
         "dy": 23,
         "anchor": "end"
       },
-      "count": 1
+      "count": 1,
+      "people": [
+        {
+          "login": "tonydzi",
+          "avatar": "https://avatars.githubusercontent.com/u/194927794?v=4&s=64"
+        }
+      ],
+      "more": 0
     },
     {
       "label": "Barcelona, Spain",
@@ -289,7 +476,14 @@
         "dy": 22,
         "anchor": "start"
       },
-      "count": 1
+      "count": 1,
+      "people": [
+        {
+          "login": "vgmartinez",
+          "avatar": "https://avatars.githubusercontent.com/u/10614247?v=4&s=64"
+        }
+      ],
+      "more": 0
     },
     {
       "label": "Amsterdam, Netherlands",
@@ -302,7 +496,14 @@
         "dy": 23,
         "anchor": "start"
       },
-      "count": 1
+      "count": 1,
+      "people": [
+        {
+          "login": "vivekchand",
+          "avatar": "https://avatars.githubusercontent.com/u/987905?v=4&s=64"
+        }
+      ],
+      "more": 0
     }
   ],
   "cities": 21,
@@ -311,207 +512,33 @@
     {
       "name": "Asia",
       "count": 15,
-      "percent": 28,
-      "commits": 100,
-      "top": [
-        {
-          "login": "cr7258",
-          "name": "Se7en",
-          "commits": 28,
-          "repos": 2
-        },
-        {
-          "login": "googs1025",
-          "name": "CYJiang",
-          "commits": 24,
-          "repos": 2
-        },
-        {
-          "login": "carlory",
-          "name": "杨朱 · Kiki",
-          "commits": 10,
-          "repos": 1
-        },
-        {
-          "login": "X1aoZEOuO",
-          "name": "Zefeng Ni",
-          "commits": 9,
-          "repos": 1
-        },
-        {
-          "login": "nayihz",
-          "name": "nayihz",
-          "commits": 8,
-          "repos": 1
-        }
-      ],
-      "more": 10
+      "percent": 28
     },
     {
       "name": "North America",
       "count": 9,
-      "percent": 17,
-      "commits": 19,
-      "top": [
-        {
-          "login": "samzong",
-          "name": "samzong",
-          "commits": 10,
-          "repos": 1
-        },
-        {
-          "login": "paralleliq",
-          "name": "ParallelIQ",
-          "commits": 2,
-          "repos": 1
-        },
-        {
-          "login": "awdemos",
-          "name": "Drew the AI Guy",
-          "commits": 1,
-          "repos": 1
-        },
-        {
-          "login": "davidahmann",
-          "name": "David Ahmann",
-          "commits": 1,
-          "repos": 1
-        },
-        {
-          "login": "neerazz",
-          "name": "Neeraj Kumar Singh B",
-          "commits": 1,
-          "repos": 1
-        }
-      ],
-      "more": 4
+      "percent": 17
     },
     {
       "name": "Europe",
       "count": 7,
-      "percent": 13,
-      "commits": 797,
-      "top": [
-        {
-          "login": "kerthcet",
-          "name": "Kante Yin",
-          "commits": 790,
-          "repos": 7
-        },
-        {
-          "login": "vivekchand",
-          "name": "Vivek Chand",
-          "commits": 2,
-          "repos": 1
-        },
-        {
-          "login": "evandempsey",
-          "name": "Evan Dempsey",
-          "commits": 1,
-          "repos": 1
-        },
-        {
-          "login": "mbakgun",
-          "name": "Burak Akgün",
-          "commits": 1,
-          "repos": 1
-        },
-        {
-          "login": "svalench",
-          "name": "alexander valenchits",
-          "commits": 1,
-          "repos": 1
-        }
-      ],
-      "more": 2
+      "percent": 13
     },
     {
       "name": "Oceania",
       "count": 3,
-      "percent": 6,
-      "commits": 3,
-      "top": [
-        {
-          "login": "lee101",
-          "name": "Lee Penkman",
-          "commits": 1,
-          "repos": 1
-        },
-        {
-          "login": "matthewdcage",
-          "name": "Matthew Cage",
-          "commits": 1,
-          "repos": 1
-        },
-        {
-          "login": "robert-cronin",
-          "name": "Robbie Cronin",
-          "commits": 1,
-          "repos": 1
-        }
-      ],
-      "more": 0
+      "percent": 6
     },
     {
       "name": "South America",
       "count": 2,
-      "percent": 4,
-      "commits": 2,
-      "top": [
-        {
-          "login": "alegauss",
-          "name": "Alê Oliveira",
-          "commits": 1,
-          "repos": 1
-        },
-        {
-          "login": "amedinat",
-          "name": "John Medina",
-          "commits": 1,
-          "repos": 1
-        }
-      ],
-      "more": 0
+      "percent": 4
     },
     {
       "name": "Others",
       "count": 17,
       "note": "Contributors whose GitHub profile does not say where they are.",
-      "percent": 32,
-      "commits": 43,
-      "top": [
-        {
-          "login": "qinguoyi",
-          "name": "evan",
-          "commits": 9,
-          "repos": 2
-        },
-        {
-          "login": "wanyingz-dis",
-          "name": "sherry Zhao",
-          "commits": 6,
-          "repos": 1
-        },
-        {
-          "login": "hojkol",
-          "name": "hoj",
-          "commits": 5,
-          "repos": 1
-        },
-        {
-          "login": "Jerry-Kon",
-          "name": "Junyang Kong",
-          "commits": 4,
-          "repos": 2
-        },
-        {
-          "login": "kerry-he",
-          "name": "kerry-he",
-          "commits": 3,
-          "repos": 1
-        }
-      ],
-      "more": 12
+      "percent": 32
     }
   ]
 }

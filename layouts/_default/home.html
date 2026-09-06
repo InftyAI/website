@@ -46,12 +46,12 @@
                 aria-label="{{ $summary }}." xmlns="http://www.w3.org/2000/svg">
                 <path class="worldmap-land" d="{{ $map.land }}" />
                 {{ range .places -}}
-                {{/* The projection tools/worldmap.mjs drew the land with,
-                     equirectangular so that it is these two lines rather than a
-                     JavaScript map library. */}}
-                {{ $x := mul $map.k (add .lng 180.0) -}}
-                {{ $y := mul $map.k (sub $map.latTop .lat) -}}
-                {{/* Area, not radius, carries the count: doubling the radius
+                {{/* Position and size, from the one place that computes them: the
+                     stylesheet generated in head/resource-hints.html has to put each
+                     card's hover target exactly on top of the dot drawn here, and
+                     two copies of this arithmetic would eventually disagree.
+
+                     Area, not radius, carries the count: doubling the radius
                      would draw a city of two as four times the city of one.
 
                      Strictly proportional area — 6·√count — is where this started,
@@ -67,8 +67,8 @@
                      That is a compressed scale and it should be said plainly:
                      these dots are comparable, not measurable. Nothing here rests
                      on reading a count out of a radius — every city's exact number
-                     is in its `<title>` tooltip, and the shares are the text list
-                     beside the map.
+                     is in the card that opens on it, and the shares are the text
+                     list beside the map.
 
                      The compression is at the top rather than in the base, because
                      the base is set from the narrowest case. These are viewBox
@@ -77,11 +77,19 @@
                      of 4 into 1.4 real pixels and lost the single-contributor
                      cities altogether. Scaling everything down to shrink Shanghai
                      would have spent them again. */}}
-                {{ $r := mul 6.0 (math.Sqrt (add 1.0 (mul 0.5 (sub .count 1)))) -}}
+                {{ $pos := partial "worldmap-place.html" (dict "map" $map "place" .) -}}
+                {{ $x := $pos.x -}}
+                {{ $y := $pos.y -}}
+                {{ $r := $pos.r -}}
                 <g class="worldmap-place">
-                    {{/* Native tooltip — no JS, and it works on the keyboard in
-                         the browsers that surface it. */}}
-                    <title>{{ .label }} — {{ .count }} contributor{{ if ne (int .count) 1 }}s{{ end }}</title>
+                    {{/* No `<title>` here any more. It was a native tooltip naming the
+                         city and its count, and the card in the layer below now sits
+                         over the dot and says the same thing plus who is there — so
+                         the tooltip could no longer be triggered by a pointer that
+                         never reaches the svg, and a title nothing can open is worse
+                         than none. Nothing is lost to a screen reader either: this
+                         svg is a single `role="img"`, so child titles were never
+                         announced. */}}
                     {{/* The ring that pulses out of the dot. Grown by the stylesheet,
                          so one animation covers every size; first in the group, so it
                          passes under the dot rather than over the top of it.
@@ -99,14 +107,12 @@
                          the dot, and the ring only says the map is live — so the rings
                          can be closer in size than the counts are.
 
-                         Not the halo below, which is the hover target — scaling that
-                         would have made the tooltip's hit area breathe under the
-                         cursor. Decoration only, and it is nowhere in the
+                         Not the hover target, which is in the html layer below the
+                         svg — scaling that would have made the hit area breathe
+                         under the cursor. Decoration only, and it is nowhere in the
                          accessibility tree: the svg is a single `role="img"`. */}}
                     <circle class="worldmap-pulse" cx="{{ printf "%.1f" $x }}" cy="{{ printf "%.1f" $y }}"
                         r="{{ printf "%.1f" (div (add $r 13.0) 2.0) }}" />
-                    <circle class="worldmap-halo" cx="{{ printf "%.1f" $x }}" cy="{{ printf "%.1f" $y }}"
-                        r="{{ printf "%.1f" (mul $r 2.1) }}" />
                     <circle class="worldmap-dot" cx="{{ printf "%.1f" $x }}" cy="{{ printf "%.1f" $y }}"
                         r="{{ printf "%.1f" $r }}" />
                     {{/* Offsets come from tools/locations.json, hand-placed per
@@ -122,6 +128,62 @@
                 </g>
                 {{ end -}}
             </svg>
+
+            {{/* One hover target per mark, in html on top of the svg, each holding the
+                 card for its city. Nothing is drawn here that the svg does not
+                 already draw — the layer exists because a card cannot be html inside
+                 an svg, and an html card outside it cannot be positioned against a
+                 dot inside it. So the dot and its target are two elements over the
+                 same point, both placed from partials/worldmap-place.html.
+
+                 The coordinates are in a stylesheet generated in
+                 head/resource-hints.html, not in a `style` attribute here, which the
+                 site's own `style-src 'self'` refuses. That is also why the order of
+                 these divs matters: the generated rules address them by
+                 `nth-child`, so this must stay a flat list in the order of
+                 `.places`.
+
+                 This layer takes the pointer for the whole map, so it is also what
+                 replaced the dots' `<title>` tooltips — the card names the city and
+                 counts it, which is what the tooltip did.
+
+                 `tabindex` so the cards can be opened without a pointer. It is the
+                 only route to these names for a keyboard or a screen reader, since
+                 the svg is one `role="img"` graphic — at the cost of one tab stop
+                 per city between the map and the projects below it. */}}
+            <div class="worldmap-hits">
+                {{ range .places -}}
+                {{ $pos := partial "worldmap-place.html" (dict "map" $map "place" .) -}}
+                {{/* Which side the card opens on, decided here because no script
+                     measures it at runtime: everything east of the middle opens to
+                     the left, everything west of it to the right, so a card never
+                     runs off the near edge of the map. */}}
+                <div class="worldmap-hit{{ if gt $pos.x (mul 0.5 $map.width) }} worldmap-hit-left{{ end }}"
+                    tabindex="0">
+                    <div class="worldmap-city">
+                        <p class="worldmap-city-head">{{ .label }} — {{ .count }}
+                            contributor{{ if ne (int .count) 1 }}s{{ end }}</p>
+                        <ul class="worldmap-city-people">
+                            {{ range .people -}}
+                            <li>
+                                {{/* Empty `alt`: the handle is right beside it, so a
+                                     screen reader announcing the avatar as well would
+                                     say the name twice. `lazy` and the `s=64` in the
+                                     url are what keep 33 faces off the critical path
+                                     — see tools/contributors.mjs. */}}
+                                <img class="worldmap-avatar" src="{{ .avatar }}" alt="" width="24" height="24"
+                                    loading="lazy" decoding="async">
+                                <span class="worldmap-city-login">{{ .login }}</span>
+                            </li>
+                            {{ end -}}
+                        </ul>
+                        {{/* Five faces is what the card has room for; this is what says
+                             the mark stands for more than that. */}}
+                        {{ with .more }}<p class="worldmap-city-more">+{{ . }} more</p>{{ end }}
+                    </div>
+                </div>
+                {{ end -}}
+            </div>
         </figure>
 
         {{/* The legend the dots need: a dot's size is comparable but not readable,
@@ -138,50 +200,13 @@
         <div class="worldmap-summary">
             <ul class="worldmap-regions">
                 {{ range .regions -}}
-                {{/* Focusable so the card below opens on the keyboard as well as
-                     under a cursor: the stylesheet shows it on `:focus-within`, and
-                     without a tab stop there is no way to get focus into the row.
-                     `tabindex` and not a `<button>` — nothing here is clickable, and
-                     announcing seven buttons that do nothing would be worse than
-                     announcing seven rows. */}}
-                <li tabindex="0">
-                    <div class="worldmap-region-row">
-                        <span class="worldmap-region-name">{{ .name }}</span>
-                        {{/* Percentages, not counts, and they add to 100 — see the
-                             apportionment in tools/contributors.mjs. */}}
-                        <span class="worldmap-region-share">{{ .percent }}%</span>
-                    </div>
-                    {{/* Who is behind the percentage. Hidden until the row is hovered
-                         or focused, but real text in the page either way — no script
-                         builds it, and no request fetches it.
-
-                         This is where the "Others" note now lives. It was a `title`
-                         on the row, which would have opened a second, native tooltip
-                         on top of this card a moment after this one appeared. */}}
-                    <div class="worldmap-card">
-                        <p class="worldmap-card-head">
-                            {{ .name }} — {{ .count }} contributor{{ if ne (int .count) 1 }}s{{ end }},
-                            {{ .commits }} commit{{ if ne (int .commits) 1 }}s{{ end }}
-                        </p>
-                        {{ with .note }}<p class="worldmap-card-note">{{ . }}</p>{{ end }}
-                        <ul class="worldmap-card-people">
-                            {{ range .top -}}
-                            <li>
-                                {{/* The display name reads as a person; the login is
-                                     what identifies the account, so it is the title
-                                     rather than being dropped. */}}
-                                <span class="worldmap-card-name" title="@{{ .login }}">{{ .name }}</span>
-                                <span class="worldmap-card-meta">
-                                    {{ .commits }} commit{{ if ne (int .commits) 1 }}s{{ end }}
-                                    · {{ .repos }} repo{{ if ne (int .repos) 1 }}s{{ end }}
-                                </span>
-                            </li>
-                            {{ end -}}
-                        </ul>
-                        {{/* The cap is five, so this is what says the list is not the
-                             whole region. */}}
-                        {{ with .more }}<p class="worldmap-card-more">+{{ . }} more</p>{{ end }}
-                    </div>
+                {{/* Only "Others" carries a note — the one row whose name does not
+                     say what it counts. */}}
+                <li{{ with .note }} title="{{ . }}"{{ end }}>
+                    <span class="worldmap-region-name">{{ .name }}</span>
+                    {{/* Percentages, not counts, and they add to 100 — see the
+                         apportionment in tools/contributors.mjs. */}}
+                    <span class="worldmap-region-share">{{ .percent }}%</span>
                 </li>
                 {{ end -}}
             </ul>

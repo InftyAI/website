@@ -1,0 +1,25 @@
+{{/* Where one mark goes on the map, and how big it is. Returns `x`, `y` and `r` in
+     viewBox units for a place from data/contributors.json.
+
+     A partial because two callers need the same three numbers and must agree on them
+     to the pixel: layouts/_default/home.html draws the dot in the svg, and
+     layouts/partials/head/resource-hints.html generates the CSS that puts each
+     card's hover target on top of it. Computed twice, a change to either would silently
+     separate the cards from the dots they belong to.
+
+     Call as:
+       {{ $pos := partial "worldmap-place.html" (dict "map" $map "place" $place) }} */}}
+{{- $map := .map -}}
+{{- $place := .place -}}
+{{/* The projection tools/worldmap.mjs drew the land with, equirectangular so that it
+     is these two lines rather than a JavaScript map library. */}}
+{{- $x := mul $map.k (add $place.lng 180.0) -}}
+{{- $y := mul $map.k (sub $map.latTop $place.lat) -}}
+{{/* Area, not radius, carries the count: doubling the radius would draw a city of two
+     as four times the city of one. Offset rather than strictly proportional — the
+     first contributor buys a mark of a fixed size and each one after adds half that
+     mark's area again, which keeps Shanghai the largest dot without making it the
+     subject of the map. The long version of this reasoning is in home.html, beside
+     the dot it draws. */}}
+{{- $r := mul 6.0 (math.Sqrt (add 1.0 (mul 0.5 (sub $place.count 1)))) -}}
+{{- return dict "x" $x "y" $y "r" $r -}}

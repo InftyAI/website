@@ -1,0 +1,58 @@
+{{/* A hook the theme's head calls before its own stylesheet
+     (@thulite/core/layouts/_partials/head/head.html). Two things for the contributor
+     map, both homepage-only so no other page pays for them.
+
+     Note for anyone looking for the more obvious hook: layouts/partials/head/
+     custom-head.html is dead. It belongs to @thulite/doks-core's head partial, which
+     @thulite/core's `_partials/head/head.html` now takes precedence over, and that
+     one calls resource-hints and script-header and nothing else. */}}
+{{ if and .IsHome site.Data.contributors site.Data.worldmap -}}
+{{/* The cards on the map show contributors' avatars, hotlinked from GitHub — the one
+     third party the page talks to, and the only host beyond 'self' in the site's own
+     `img-src` (netlify.toml). Opening the connection here saves the DNS, TCP and TLS
+     round trips from the moment the first card is hovered. */}}
+<link rel="preconnect" href="https://avatars.githubusercontent.com" crossorigin>
+{{/* Where each city's hover target sits on the map, as a real stylesheet.
+
+     The homepage draws one target per mark on top of its dot (see the
+     `.worldmap-hits` layer in _default/home.html), and each one needs its own
+     position and size — data only data/contributors.json has. A `style` attribute per
+     div is the obvious way to carry that and is not available: the site sends
+     `style-src 'self'`, which refuses inline styles and inline `<style>` blocks
+     alike. So the per-city values are built into a file served from this origin like
+     any other stylesheet, and the design itself stays in
+     assets/scss/common/_custom.scss.
+
+     Positions and sizes come out of partials/worldmap-place.html, the same partial
+     the svg's dots are drawn from, because these two have to agree to the pixel. */}}
+{{ $map := site.Data.worldmap -}}
+{{ $rules := slice -}}
+{{ range $i, $place := site.Data.contributors.places -}}
+{{ $pos := partial "worldmap-place.html" (dict "map" $map "place" $place) -}}
+{{/* Percentages of the layer, which is the svg's own box — so the targets track the
+     map through every width it renders at, exactly as the dots do.
+
+     The diameter is 2.1 radii, the same generous target the svg's halo circle used to
+     be: the smallest dot is 6 units in a 1000-unit box, which is around 5px on screen
+     and not something to ask anyone to hit. */}}
+{{ $left := div (mul 100.0 $pos.x) $map.width -}}
+{{ $top := div (mul 100.0 $pos.y) $map.height -}}
+{{ $size := div (mul 100.0 (mul 4.2 $pos.r)) $map.width -}}
+{{/* How much room this mark's card has, as a percentage of the map's width: the
+     distance from the edge of the hover target to the edge of the map on whichever
+     side the card opens on (the same longitude test as the template's
+     `worldmap-hit-left`). The stylesheet reads it as container query units and caps
+     the card there, so a card can no longer cross the map's edge on a narrow screen.
+
+     Without it the cards were sized only in rem and the worst case was a city near
+     the middle of the map: at 320px Cambridge's card reached 34px past the left edge,
+     and Dublin's past the right by enough to give the whole page a horizontal
+     scrollbar. The floor this puts under a card is half the map's width, which is the
+     room a mark at the centre has — around 130px at 320px wide, still a readable
+     column of faces. */}}
+{{ $room := cond (gt $pos.x (mul 0.5 $map.width)) (sub $left (div $size 2.0)) (sub (sub 100.0 $left) (div $size 2.0)) -}}
+{{ $rules = $rules | append (printf ".worldmap-hit:nth-child(%d){left:%.3f%%;top:%.3f%%;width:%.3f%%;--map-room:%.3f}" (add $i 1) $left $top $size $room) -}}
+{{ end -}}
+{{ $css := resources.FromString "css/worldmap-hits.css" (delimit $rules "\n") | resources.Minify | fingerprint -}}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+{{ end -}}
