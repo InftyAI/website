@@ -124,6 +124,12 @@ async function githubAll(path) {
 // seven — which is nothing against the hourly limit, and the per-contributor profile
 // lookups below already dwarf it.
 const logins = new Set();
+// How much each person has done, for the panel the legend opens on hover. Both come
+// out of the commit pages that are already being read for the headcount, so the
+// ranking costs no extra requests — which is the only reason it is commit-based
+// rather than something the API would have to be asked for separately.
+const commitsBy = new Map();
+const reposBy = new Map();
 for (const repo of repos) {
   const commits = await githubAll(`repos/${repo}/commits?per_page=100`);
   const seen = new Set();
@@ -141,6 +147,9 @@ for (const repo of repos) {
     if (EXCLUDE.has(author.login.toLowerCase())) continue;
     seen.add(author.login);
     logins.add(author.login);
+    commitsBy.set(author.login, (commitsBy.get(author.login) ?? 0) + 1);
+    if (!reposBy.has(author.login)) reposBy.set(author.login, new Set());
+    reposBy.get(author.login).add(repo);
   }
   console.log(
     `${repo}: ${seen.size} contributors across ${commits.length} commits` +
@@ -157,8 +166,30 @@ const places = new Map();
 const unmatched = new Map();
 let located = 0;
 
+// Everyone, whether or not they could be placed. The region panels are built from
+// this rather than from `places`, because the "Others" row has to list people too
+// and they are precisely the ones no place could be found for.
+const people = [];
+
 for (const login of [...logins].sort()) {
-  const { location } = await github(`users/${login}`);
+  const { location, name } = await github(`users/${login}`);
+
+  // `country` stays null until a place is matched, and null is what puts someone in
+  // the "Others" panel: no location, a location the table has not learned, and a
+  // known non-place like "Remote" all end up here, which is exactly the set that
+  // `total - located` counts.
+  const person = {
+    login,
+    // The display name when the profile has one — "Se7en" reads as a person where
+    // "cr7258" reads as a handle — and the login when it does not. Both are kept:
+    // the name is for reading, the login is what identifies the account.
+    name: name?.trim() || login,
+    commits: commitsBy.get(login) ?? 0,
+    repos: reposBy.get(login)?.size ?? 0,
+    country: null,
+  };
+  people.push(person);
+
   if (!location || !location.trim()) continue;
 
   const key = normalise(location);
@@ -172,6 +203,11 @@ for (const login of [...logins].sort()) {
   const place = typeof known[key] === "string" ? known[known[key]] : known[key];
   // An explicit null: a known non-place, already decided about.
   if (place === null) continue;
+
+  // The region a panel will list them under. Taken from the place rather than from
+  // the label, so somebody on a country-level fallback still counts under their
+  // region after that mark has yielded to a city.
+  person.country = place.country;
 
   const existing = places.get(place.label);
   if (existing) {
@@ -235,6 +271,47 @@ for (const place of matched) {
     );
   }
   regionCounts.set(region, (regionCounts.get(region) ?? 0) + place.count);
+}
+
+// Who is in each region, for the panel its legend row opens. Ranked by commits, then
+// by how many of the seven projects they have touched, then by login so that two
+// people with one commit each on one project do not swap places between runs.
+//
+// Commits are a rough measure of activity and worth being honest about: a one-line
+// addition to Awesome-LLMOps counts the same as a feature in llmaz, and reviewing,
+// filing and answering are worth nothing here at all. `repos` is carried beside the
+// count for exactly that reason — it separates one typo from work across projects,
+// and it is the second thing the panel shows.
+const TOP = 5;
+const regionPeople = new Map();
+for (const person of people) {
+  const region = person.country
+    ? (regions[person.country] ?? "Unknown")
+    : "Others";
+  if (!regionPeople.has(region)) regionPeople.set(region, []);
+  regionPeople.get(region).push(person);
+}
+for (const list of regionPeople.values()) {
+  list.sort(
+    (a, b) =>
+      b.commits - a.commits ||
+      b.repos - a.repos ||
+      a.login.localeCompare(b.login),
+  );
+}
+
+// The panel and the percentage beside it are counted two different ways — the
+// percentage from the places on the map, the panel from the people behind them — so
+// they can disagree, and a panel listing four people beside a row reading 29% would
+// be a bug nobody would notice by looking. Checked rather than assumed.
+for (const [region, count] of regionCounts) {
+  const listed = regionPeople.get(region)?.length ?? 0;
+  if (listed !== count) {
+    exit(
+      `region ${region} has ${count} contributor(s) by place but ${listed} by person` +
+        ` — the panel and the share are counting different things`,
+    );
+  }
 }
 
 // Shares of every contributor, as whole numbers that still add to 100.
@@ -319,10 +396,26 @@ const output = {
   // Regions plus the "Others" remainder: one row each in the summary. `count` is
   // not rendered — `percent` is — but it stays so the file can be checked against
   // itself: the counts sum to `total`, and the percents to 100.
-  regions: ranked.map((region, index) => ({
-    ...region,
-    percent: shares[index],
-  })),
+  //
+  // `top` and `more` are the panel each row opens on hover. Capped at five, because
+  // the panel is a card floating over the map rather than a page of its own, and a
+  // region of seventeen would cover the continent it belongs to; `more` is what stops
+  // the cap from quietly hiding the rest.
+  regions: ranked.map((region, index) => {
+    const list = regionPeople.get(region.name) ?? [];
+    return {
+      ...region,
+      percent: shares[index],
+      commits: list.reduce((sum, p) => sum + p.commits, 0),
+      top: list.slice(0, TOP).map(({ login, name, commits, repos }) => ({
+        login,
+        name,
+        commits,
+        repos,
+      })),
+      more: Math.max(0, list.length - TOP),
+    };
+  }),
 };
 
 // Same data as last time, only a newer date: the file is left exactly as it is.

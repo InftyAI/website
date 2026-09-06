@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-03",
+  "generated": "2026-09-06",
   "total": 53,
   "located": 36,
   "places": [
@@ -311,33 +311,207 @@
     {
       "name": "Asia",
       "count": 15,
-      "percent": 28
+      "percent": 28,
+      "commits": 100,
+      "top": [
+        {
+          "login": "cr7258",
+          "name": "Se7en",
+          "commits": 28,
+          "repos": 2
+        },
+        {
+          "login": "googs1025",
+          "name": "CYJiang",
+          "commits": 24,
+          "repos": 2
+        },
+        {
+          "login": "carlory",
+          "name": "杨朱 · Kiki",
+          "commits": 10,
+          "repos": 1
+        },
+        {
+          "login": "X1aoZEOuO",
+          "name": "Zefeng Ni",
+          "commits": 9,
+          "repos": 1
+        },
+        {
+          "login": "nayihz",
+          "name": "nayihz",
+          "commits": 8,
+          "repos": 1
+        }
+      ],
+      "more": 10
     },
     {
       "name": "North America",
       "count": 9,
-      "percent": 17
+      "percent": 17,
+      "commits": 19,
+      "top": [
+        {
+          "login": "samzong",
+          "name": "samzong",
+          "commits": 10,
+          "repos": 1
+        },
+        {
+          "login": "paralleliq",
+          "name": "ParallelIQ",
+          "commits": 2,
+          "repos": 1
+        },
+        {
+          "login": "awdemos",
+          "name": "Drew the AI Guy",
+          "commits": 1,
+          "repos": 1
+        },
+        {
+          "login": "davidahmann",
+          "name": "David Ahmann",
+          "commits": 1,
+          "repos": 1
+        },
+        {
+          "login": "neerazz",
+          "name": "Neeraj Kumar Singh B",
+          "commits": 1,
+          "repos": 1
+        }
+      ],
+      "more": 4
     },
     {
       "name": "Europe",
       "count": 7,
-      "percent": 13
+      "percent": 13,
+      "commits": 797,
+      "top": [
+        {
+          "login": "kerthcet",
+          "name": "Kante Yin",
+          "commits": 790,
+          "repos": 7
+        },
+        {
+          "login": "vivekchand",
+          "name": "Vivek Chand",
+          "commits": 2,
+          "repos": 1
+        },
+        {
+          "login": "evandempsey",
+          "name": "Evan Dempsey",
+          "commits": 1,
+          "repos": 1
+        },
+        {
+          "login": "mbakgun",
+          "name": "Burak Akgün",
+          "commits": 1,
+          "repos": 1
+        },
+        {
+          "login": "svalench",
+          "name": "alexander valenchits",
+          "commits": 1,
+          "repos": 1
+        }
+      ],
+      "more": 2
     },
     {
       "name": "Oceania",
       "count": 3,
-      "percent": 6
+      "percent": 6,
+      "commits": 3,
+      "top": [
+        {
+          "login": "lee101",
+          "name": "Lee Penkman",
+          "commits": 1,
+          "repos": 1
+        },
+        {
+          "login": "matthewdcage",
+          "name": "Matthew Cage",
+          "commits": 1,
+          "repos": 1
+        },
+        {
+          "login": "robert-cronin",
+          "name": "Robbie Cronin",
+          "commits": 1,
+          "repos": 1
+        }
+      ],
+      "more": 0
     },
     {
       "name": "South America",
       "count": 2,
-      "percent": 4
+      "percent": 4,
+      "commits": 2,
+      "top": [
+        {
+          "login": "alegauss",
+          "name": "Alê Oliveira",
+          "commits": 1,
+          "repos": 1
+        },
+        {
+          "login": "amedinat",
+          "name": "John Medina",
+          "commits": 1,
+          "repos": 1
+        }
+      ],
+      "more": 0
     },
     {
       "name": "Others",
       "count": 17,
       "note": "Contributors whose GitHub profile does not say where they are.",
-      "percent": 32
+      "percent": 32,
+      "commits": 43,
+      "top": [
+        {
+          "login": "qinguoyi",
+          "name": "evan",
+          "commits": 9,
+          "repos": 2
+        },
+        {
+          "login": "wanyingz-dis",
+          "name": "sherry Zhao",
+          "commits": 6,
+          "repos": 1
+        },
+        {
+          "login": "hojkol",
+          "name": "hoj",
+          "commits": 5,
+          "repos": 1
+        },
+        {
+          "login": "Jerry-Kon",
+          "name": "Junyang Kong",
+          "commits": 4,
+          "repos": 2
+        },
+        {
+          "login": "kerry-he",
+          "name": "kerry-he",
+          "commits": 3,
+          "repos": 1
+        }
+      ],
+      "more": 12
     }
   ]
 }

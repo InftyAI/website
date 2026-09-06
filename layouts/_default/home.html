@@ -138,13 +138,50 @@
         <div class="worldmap-summary">
             <ul class="worldmap-regions">
                 {{ range .regions -}}
-                {{/* Only "Others" carries a note — the one row whose name does not
-                     say what it counts. */}}
-                <li{{ with .note }} title="{{ . }}"{{ end }}>
-                    <span class="worldmap-region-name">{{ .name }}</span>
-                    {{/* Percentages, not counts, and they add to 100 — see the
-                         apportionment in tools/contributors.mjs. */}}
-                    <span class="worldmap-region-share">{{ .percent }}%</span>
+                {{/* Focusable so the card below opens on the keyboard as well as
+                     under a cursor: the stylesheet shows it on `:focus-within`, and
+                     without a tab stop there is no way to get focus into the row.
+                     `tabindex` and not a `<button>` — nothing here is clickable, and
+                     announcing seven buttons that do nothing would be worse than
+                     announcing seven rows. */}}
+                <li tabindex="0">
+                    <div class="worldmap-region-row">
+                        <span class="worldmap-region-name">{{ .name }}</span>
+                        {{/* Percentages, not counts, and they add to 100 — see the
+                             apportionment in tools/contributors.mjs. */}}
+                        <span class="worldmap-region-share">{{ .percent }}%</span>
+                    </div>
+                    {{/* Who is behind the percentage. Hidden until the row is hovered
+                         or focused, but real text in the page either way — no script
+                         builds it, and no request fetches it.
+
+                         This is where the "Others" note now lives. It was a `title`
+                         on the row, which would have opened a second, native tooltip
+                         on top of this card a moment after this one appeared. */}}
+                    <div class="worldmap-card">
+                        <p class="worldmap-card-head">
+                            {{ .name }} — {{ .count }} contributor{{ if ne (int .count) 1 }}s{{ end }},
+                            {{ .commits }} commit{{ if ne (int .commits) 1 }}s{{ end }}
+                        </p>
+                        {{ with .note }}<p class="worldmap-card-note">{{ . }}</p>{{ end }}
+                        <ul class="worldmap-card-people">
+                            {{ range .top -}}
+                            <li>
+                                {{/* The display name reads as a person; the login is
+                                     what identifies the account, so it is the title
+                                     rather than being dropped. */}}
+                                <span class="worldmap-card-name" title="@{{ .login }}">{{ .name }}</span>
+                                <span class="worldmap-card-meta">
+                                    {{ .commits }} commit{{ if ne (int .commits) 1 }}s{{ end }}
+                                    · {{ .repos }} repo{{ if ne (int .repos) 1 }}s{{ end }}
+                                </span>
+                            </li>
+                            {{ end -}}
+                        </ul>
+                        {{/* The cap is five, so this is what says the list is not the
+                             whole region. */}}
+                        {{ with .more }}<p class="worldmap-card-more">+{{ . }} more</p>{{ end }}
+                    </div>
                 </li>
                 {{ end -}}
             </ul>

@@ -658,13 +658,12 @@ $map-pulse-offsets:
   list-style: none;
   font-size: 0.9375rem;
 
-  li {
-    display: flex;
-    align-items: baseline;
-    // Holds the share against the right edge, so the figures line up into a
-    // column that can be read down without the eye tracking across each row.
-    justify-content: space-between;
-    gap: 1rem;
+  // `> li` throughout, not `li`: each row now contains a second list — the people
+  // in the card — and a descendant selector gave every one of those a rule under it
+  // and the row's own padding.
+  > li {
+    // What the card is positioned against.
+    position: relative;
     padding: 0.3125rem 0;
     // The map's own land colour, so the legend's rules and the continents beside
     // them are the same grey rather than two different near-whites.
@@ -673,9 +672,28 @@ $map-pulse-offsets:
 
   // The list is the whole block now; a rule under the last row would read as a
   // divider from whatever follows the section.
-  li:last-child {
+  > li:last-child {
     border-bottom: 0;
   }
+
+  // The rows are focusable (see the `tabindex` in layouts/_default/home.html), so
+  // they need to show it — but only for the keyboard: `:focus-visible` and not
+  // `:focus` keeps a ring off the row a mouse just clicked on, which is not a
+  // click that does anything.
+  > li:focus-visible {
+    outline: 2px solid $map-mark;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+.worldmap-region-row {
+  display: flex;
+  align-items: baseline;
+  // Holds the share against the right edge, so the figures line up into a
+  // column that can be read down without the eye tracking across each row.
+  justify-content: space-between;
+  gap: 1rem;
 }
 
 .worldmap-region-share {
@@ -689,6 +707,158 @@ $map-pulse-offsets:
   // column are enough to mark them as the figures; the rule under each row is what
   // pairs each one with its name.
   font-weight: 400;
+  color: $map-text;
+}
+
+// The panel a legend row opens: who the region's percentage is made of, most active
+// first. Content and ranking come from tools/contributors.mjs, which builds `top`
+// out of the commit pages it already reads for the headcount.
+//
+// CSS only, on `:hover` and `:focus-within`. There is no script on this page and
+// this was not worth adding one for: every card is already in the HTML, so the
+// interaction is a selector rather than a listener, and it works with JavaScript
+// off. What that costs is the thing a listener would have bought — no flipping the
+// card to the other side when it would leave the viewport — which is why the
+// position below is a fixed side chosen from where the legend actually sits.
+.worldmap-card {
+  position: absolute;
+  // Over the map and over the rows below it.
+  z-index: 3;
+  padding: 0.75rem 0.875rem;
+  text-align: left;
+  // Opaque, because it sits on top of the dots — a tint would leave the map showing
+  // through the names.
+  background: var(--bs-body-bg, #fff);
+  border: 1px solid $map-land;
+  border-radius: 0.5rem;
+  // The one thing that says this is above the page rather than part of it. The
+  // border alone read as a box drawn on the map.
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.08);
+  // Hidden in both senses: `opacity` is what fades, `visibility` is what keeps a
+  // closed card out of the accessibility tree and out of the way of the cursor.
+  // `display: none` would do the second but cannot be transitioned.
+  opacity: 0;
+  visibility: hidden;
+  // `visibility` is a discrete property: given a duration it flips at the halfway
+  // point, which showed the card at half a fade rather than at the start of one. So
+  // it is switched with a zero-length transition and a delay instead — held back to
+  // the end of the fade out here, and taken off entirely in the rule that shows the
+  // card, so opening is immediate and closing waits for the fade.
+  transition:
+    opacity 0.15s ease,
+    visibility 0s linear 0.15s;
+
+  // Stacked, the legend is full width under the map: there is no side to open to, so
+  // the card drops out of the row and takes the legend's own width. Flush against the
+  // row rather than offset — a gap here is a strip where a cursor on its way down to
+  // the card is over neither, and the fade would start over.
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+
+// Hover is what this is for; focus is how it works on a keyboard, and — since the
+// row is focusable and a tap moves focus to it — on a touchscreen. `:focus-within`
+// rather than `:focus` so the card stays open while focus is inside it.
+//
+// One rule for both. Hover was scoped to `@media (hover: hover)` first, to keep a
+// tap on a touchscreen from leaving a card stuck open, and that turns out to buy
+// nothing: the same tap opens the card through `:focus-within` anyway, and both
+// states clear the same way, on the next tap elsewhere.
+.worldmap-regions > li:hover .worldmap-card,
+.worldmap-regions > li:focus-within .worldmap-card {
+  opacity: 1;
+  visibility: visible;
+  // Visible from the first frame of the fade rather than halfway through it — see
+  // the transition above.
+  transition:
+    opacity 0.15s ease,
+    visibility 0s;
+}
+
+@include media-breakpoint-up(lg) {
+  .worldmap-card {
+    // Beside the row, opening left over the map. Left because the legend is at the
+    // container's right edge — see `justify-content: space-between` on
+    // `.worldmap-layout` — so a card opening right would go off the viewport, and
+    // no-JS means nothing can measure that at runtime and turn it around.
+    top: 50%;
+    left: auto;
+    right: calc(100% + 0.75rem);
+    width: 17rem;
+    // Centred on its row, so the card is next to the name it belongs to rather than
+    // hanging off it.
+    transform: translateY(-50%);
+
+    // Bridges the 0.75rem between the row and the card. Without it the gap is a
+    // strip belonging to neither, and a cursor crossing it to reach the card starts
+    // the card fading out first. Transparent, and a child of the card, which is what
+    // keeps `:hover` on the row true while the pointer is inside it.
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 100%;
+      width: 0.75rem;
+    }
+  }
+}
+
+// Which region, how many people, how much they have done.
+.worldmap-card-head {
+  margin: 0 0 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+// "Others" only: the one row whose name does not say what it counts. It used to be a
+// `title` on the row — see layouts/_default/home.html.
+.worldmap-card-note {
+  margin: -0.25rem 0 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: $map-text;
+}
+
+.worldmap-card-people {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.1875rem 0;
+    font-size: 0.8125rem;
+  }
+}
+
+.worldmap-card-name {
+  // Truncated rather than wrapped: a long display name would otherwise push the
+  // commit count onto a second line and break the column the counts read down.
+  // `min-width: 0` because a flex item will not shrink below its content otherwise.
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.worldmap-card-meta {
+  flex: 0 0 auto;
+  font-size: 0.75rem;
+  // Same column treatment as the shares in the legend.
+  font-variant-numeric: tabular-nums;
+  color: $map-text;
+}
+
+// What the cap leaves out. Lighter than the names, because it is not one of them.
+.worldmap-card-more {
+  margin: 0.5rem 0 0;
+  font-size: 0.75rem;
   color: $map-text;
 }
 
