@@ -57,8 +57,8 @@
                      Strictly proportional area — 6·√count — is where this started,
                      and it drew Shanghai at a radius of 14.7 against 6 for a city
                      of one. Rendered, that is not a bigger dot, it is the subject
-                     of the map: six of thirty-five contributors took the eye and
-                     the other nine cities read as its outliers. So the area is
+                     of the map: six of the thirty-six contributors it can place took
+                     the eye and the other cities read as its outliers. So the area is
                      offset rather than proportional. The first contributor buys a
                      mark of a fixed size, and each one after adds half that mark's
                      area again — Shanghai lands at 11.2, still unmistakably the
@@ -66,9 +66,9 @@
 
                      That is a compressed scale and it should be said plainly:
                      these dots are comparable, not measurable. Nothing here rests
-                     on reading a count out of a radius — every city's exact number
-                     is in the card that opens on it, and the shares are the text
-                     list beside the map.
+                     on reading a count out of a radius — the card that opens on a
+                     city lists who is there, so its exact number can be counted off
+                     the faces, and the shares are the text list beside the map.
 
                      The compression is at the top rather than in the base, because
                      the base is set from the narrowest case. These are viewBox
@@ -84,7 +84,7 @@
                 <g class="worldmap-place">
                     {{/* No `<title>` here any more. It was a native tooltip naming the
                          city and its count, and the card in the layer below now sits
-                         over the dot and says the same thing plus who is there — so
+                         over the dot, names the city and lists who is there — so
                          the tooltip could no longer be triggered by a pointer that
                          never reaches the svg, and a title nothing can open is worse
                          than none. Nothing is lost to a screen reader either: this
@@ -144,13 +144,18 @@
                  `.places`.
 
                  This layer takes the pointer for the whole map, so it is also what
-                 replaced the dots' `<title>` tooltips — the card names the city and
-                 counts it, which is what the tooltip did.
+                 replaced the dots' `<title>` tooltips — the card names the city,
+                 which is what the tooltip did.
 
                  `tabindex` so the cards can be opened without a pointer. It is the
                  only route to these names for a keyboard or a screen reader, since
-                 the svg is one `role="img"` graphic — at the cost of one tab stop
-                 per city between the map and the projects below it. */}}
+                 the svg is one `role="img"` graphic — at the cost of tab stops between
+                 the map and the projects below it: one per city to open its card, and
+                 then one per handle in the card that opens, since those are links to
+                 the profiles. Fifty-seven of them today. The city's own stop cannot be
+                 dropped in favour of the links inside it: the card is `visibility:
+                 hidden` until something in it has focus, and a hidden link is not
+                 focusable, so without a stop on the mark itself there is no way in. */}}
             <div class="worldmap-hits">
                 {{ range .places -}}
                 {{ $pos := partial "worldmap-place.html" (dict "map" $map "place" .) -}}
@@ -161,25 +166,61 @@
                 <div class="worldmap-hit{{ if gt $pos.x (mul 0.5 $map.width) }} worldmap-hit-left{{ end }}"
                     tabindex="0">
                     <div class="worldmap-city">
-                        <p class="worldmap-city-head">{{ .label }} — {{ .count }}
-                            contributor{{ if ne (int .count) 1 }}s{{ end }}</p>
+                        {{/* The place, and only the place. The count was here — "Shanghai,
+                             China — 6 contributors" — and it said twice what the card
+                             already shows: the faces below are the count, and the dot's
+                             size is what carries it on the map. */}}
+                        <p class="worldmap-city-head">{{ .label }}</p>
                         <ul class="worldmap-city-people">
                             {{ range .people -}}
                             <li>
-                                {{/* Empty `alt`: the handle is right beside it, so a
-                                     screen reader announcing the avatar as well would
-                                     say the name twice. `lazy` and the `s=64` in the
-                                     url are what keep 33 faces off the critical path
-                                     — see tools/contributors.mjs. */}}
-                                <img class="worldmap-avatar" src="{{ .avatar }}" alt="" width="24" height="24"
-                                    loading="lazy" decoding="async">
-                                <span class="worldmap-city-login">{{ .login }}</span>
+                                {{/* Each row links to the profile. The url is built here
+                                     rather than carried in data/contributors.json: it is
+                                     github.com plus the handle, which the data already
+                                     has, so storing it would be a second copy of the
+                                     same fact to keep in step.
+
+                                     The whole row is the link — avatar and handle both —
+                                     so the target is the 24px face and its name rather
+                                     than a line of 13px text. Same tab, like every other
+                                     link on this page. */}}
+                                <a href="https://github.com/{{ .login }}">
+                                    {{/* Empty `alt`: the handle is right beside it, so a
+                                         screen reader announcing the avatar as well would
+                                         say the name twice — and the link is not left
+                                         nameless by that, it is named by the handle it
+                                         wraps. `lazy` and the `s=64` in the url are what
+                                         keep 34 faces off the critical path — see
+                                         tools/contributors.mjs. */}}
+                                    <img class="worldmap-avatar" src="{{ .avatar }}" alt="" width="24" height="24"
+                                        loading="lazy" decoding="async">
+                                    <span class="worldmap-city-login">{{ .login }}</span>
+                                </a>
                             </li>
                             {{ end -}}
                         </ul>
-                        {{/* Five faces is what the card has room for; this is what says
-                             the mark stands for more than that. */}}
-                        {{ with .more }}<p class="worldmap-city-more">+{{ . }} more</p>{{ end }}
+                        {{/* Ten faces is what the card has room for; this is what says the
+                             mark stands for more than that. Nothing renders it today —
+                             the largest city on the map has six — so it is the cap's
+                             overflow behaviour rather than a row anyone currently sees.
+
+                             An ellipsis where the eleventh avatar would be, sized and
+                             aligned to the faces above it so the row reads as the
+                             continuation of the list rather than a note under it. The
+                             count is text beside the icon: an icon alone would say there
+                             are more without saying how many, and how many is the only
+                             thing this row knows. */}}
+                        {{ with .more }}
+                        <p class="worldmap-city-more">
+                            <svg class="worldmap-city-more-icon" width="24" height="24" viewBox="0 0 24 24"
+                                fill="currentColor" stroke="none" aria-hidden="true">
+                                <circle cx="6" cy="12" r="1.75" />
+                                <circle cx="12" cy="12" r="1.75" />
+                                <circle cx="18" cy="12" r="1.75" />
+                            </svg>
+                            <span>{{ . }} more</span>
+                        </p>
+                        {{ end }}
                     </div>
                 </div>
                 {{ end -}}

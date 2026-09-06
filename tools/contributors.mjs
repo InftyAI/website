@@ -292,8 +292,14 @@ for (const place of matched) {
 // measure of activity and a poor thing to publish beside someone's face — a one-line
 // addition to Awesome-LLMOps counts the same as a feature in llmaz, and reviewing,
 // filing and answering count for nothing at all. They are a defensible way to decide
-// which five faces a card has room for, and not much more than that.
-const TOP = 5;
+// which ten faces a card has room for, and not much more than that.
+//
+// Ten, not the five this started at: five cut the largest city on the map short by one
+// face, which is a cap earning nothing. Ten clears every city today — the largest is
+// six — so the ordering above decides nothing at present and the cap is headroom. It is
+// still a cap because a card is a card: ten rows is already 300px of it, and a city that
+// ever passes ten is a city whose card has to say "and more" rather than grow.
+const TOP = 10;
 const placePeople = new Map();
 for (const person of people) {
   if (!person.place) continue;
@@ -410,9 +416,9 @@ const output = {
   // before the small ones and a city of one is never hidden underneath a city of
   // six. Country-level fallbacks that have yielded to a city are already gone.
   //
-  // `people` is the card the mark opens: a handle and an avatar each, capped at five
-  // because the card is a panel floating over the map and a mark of thirteen would
-  // cover the continent it sits on. `more` is what stops the cap from quietly hiding
+  // `people` is the card the mark opens: a handle and an avatar each, capped at ten
+  // because the card is a panel floating over the map and a mark of thirty would cover
+  // the continent it sits on. `more` is what stops the cap from quietly hiding
   // the rest. Most marks are one person, so most cards are one face — that is the
   // shape of the contributor list, not a limitation of the card.
   places: [...places.values()]
