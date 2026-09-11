@@ -20,6 +20,24 @@
      first contributor buys a mark of a fixed size and each one after adds half that
      mark's area again, which keeps Shanghai the largest dot without making it the
      subject of the map. The long version of this reasoning is in home.html, beside
-     the dot it draws. */}}
-{{- $r := mul 6.0 (math.Sqrt (add 1.0 (mul 0.5 (sub $place.count 1)))) -}}
+     the dot it draws.
+
+     Capped at 10, which is a ceiling and not a scale change: at seven contributors
+     Shanghai reached 12 units against 8.5 for the next city down, and a dot that size
+     is read as the point of the map rather than as one city on it. The cap holds the
+     top still while leaving the bottom alone — a city of one is 6 units and a city of
+     two is 7.3 either way, and those are the marks that cannot afford to lose size,
+     since at 390px wide six units is already only two real pixels.
+
+     Flattening the whole curve was the alternative and it costs more: taking the
+     half-again down to a third would have put Shanghai at 10 too, and brought a city
+     of two to 6.8 — under a pixel apart from a city of one on a phone, which loses the
+     one comparison the dots are actually for.
+
+     What a cap gives up is the difference between two cities above it, and today
+     nothing else is close: the second largest is 8.5, so this bites Shanghai alone.
+     When a second city passes it the two will read as one size, which is the point at
+     which the dots have said all they can and the cards behind them — which list who
+     is in each city, so the count can be counted — are the honest place to look. */}}
+{{- $r := math.Min 10.0 (mul 6.0 (math.Sqrt (add 1.0 (mul 0.5 (sub $place.count 1))))) -}}
 {{- return dict "x" $x "y" $y "r" $r -}}
