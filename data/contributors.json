@@ -1,6 +1,6 @@
 {
-  "generated": "2026-09-12",
-  "total": 76,
+  "generated": "2026-09-15",
+  "total": 77,
   "located": 49,
   "places": [
     {
@@ -785,7 +785,7 @@
     },
     {
       "name": "Others",
-      "count": 27,
+      "count": 28,
       "note": "Contributors whose GitHub profile does not say where they are.",
       "percent": 36
     }
