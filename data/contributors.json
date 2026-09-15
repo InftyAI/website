@@ -1,7 +1,7 @@
 {
   "generated": "2026-09-15",
-  "total": 77,
-  "located": 49,
+  "total": 78,
+  "located": 50,
   "places": [
     {
       "label": "Shanghai, China",
@@ -730,6 +730,26 @@
       "more": 0
     },
     {
+      "label": "Moscow, Russia",
+      "country": "Russia",
+      "lat": 55.76,
+      "lng": 37.62,
+      "short": "Moscow",
+      "offset": {
+        "dx": 11,
+        "dy": 4,
+        "anchor": "start"
+      },
+      "count": 1,
+      "people": [
+        {
+          "login": "vshulcz",
+          "avatar": "https://avatars.githubusercontent.com/u/99616188?v=4&s=64"
+        }
+      ],
+      "more": 0
+    },
+    {
       "label": "Tampa, USA",
       "country": "United States",
       "lat": 27.95,
@@ -750,8 +770,8 @@
       "more": 0
     }
   ],
-  "cities": 28,
-  "countryCount": 20,
+  "cities": 29,
+  "countryCount": 21,
   "regions": [
     {
       "name": "Asia",
@@ -760,8 +780,8 @@
     },
     {
       "name": "Europe",
-      "count": 12,
-      "percent": 16
+      "count": 13,
+      "percent": 17
     },
     {
       "name": "North America",
@@ -776,7 +796,7 @@
     {
       "name": "South America",
       "count": 2,
-      "percent": 3
+      "percent": 2
     },
     {
       "name": "Africa",
