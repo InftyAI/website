@@ -1,7 +1,7 @@
 {
-  "generated": "2026-09-16",
+  "generated": "2026-09-20",
   "total": 79,
-  "located": 50,
+  "located": 49,
   "places": [
     {
       "label": "Shanghai, China",
@@ -530,26 +530,6 @@
       "more": 0
     },
     {
-      "label": "Lucknow, India",
-      "country": "India",
-      "lat": 26.85,
-      "lng": 80.95,
-      "short": "Lucknow",
-      "offset": {
-        "dx": -11,
-        "dy": 4,
-        "anchor": "end"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "prakhar1605",
-          "avatar": "https://avatars.githubusercontent.com/u/182423721?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
       "label": "Bengaluru, India",
       "country": "India",
       "lat": 12.97,
@@ -770,13 +750,13 @@
       "more": 0
     }
   ],
-  "cities": 29,
+  "cities": 28,
   "countryCount": 21,
   "regions": [
     {
       "name": "Asia",
-      "count": 20,
-      "percent": 25
+      "count": 19,
+      "percent": 24
     },
     {
       "name": "Europe",
@@ -805,9 +785,9 @@
     },
     {
       "name": "Others",
-      "count": 29,
+      "count": 30,
       "note": "Contributors whose GitHub profile does not say where they are.",
-      "percent": 37
+      "percent": 38
     }
   ]
 }
