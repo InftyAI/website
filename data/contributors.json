@@ -1,6 +1,6 @@
 {
-  "generated": "2026-09-20",
-  "total": 79,
+  "generated": "2026-09-27",
+  "total": 80,
   "located": 49,
   "places": [
     {
@@ -776,7 +776,7 @@
     {
       "name": "South America",
       "count": 2,
-      "percent": 3
+      "percent": 2
     },
     {
       "name": "Africa",
@@ -785,9 +785,9 @@
     },
     {
       "name": "Others",
-      "count": 30,
+      "count": 31,
       "note": "Contributors whose GitHub profile does not say where they are.",
-      "percent": 38
+      "percent": 39
     }
   ]
 }
