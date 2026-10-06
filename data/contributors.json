@@ -1,7 +1,7 @@
 {
-  "generated": "2026-10-02",
-  "total": 79,
-  "located": 48,
+  "generated": "2026-10-06",
+  "total": 80,
+  "located": 49,
   "places": [
     {
       "label": "Shanghai, China",
@@ -323,6 +323,27 @@
         {
           "login": "damienen",
           "avatar": "https://avatars.githubusercontent.com/u/44813558?v=4&s=64"
+        }
+      ],
+      "more": 0
+    },
+    {
+      "label": "Poland",
+      "country": "Poland",
+      "lat": 52.1,
+      "lng": 19.4,
+      "countryOnly": true,
+      "short": "Poland",
+      "offset": {
+        "dx": 11,
+        "dy": 4,
+        "anchor": "start"
+      },
+      "count": 1,
+      "people": [
+        {
+          "login": "DEENUU1",
+          "avatar": "https://avatars.githubusercontent.com/u/111304236?v=4&s=64"
         }
       ],
       "more": 0
@@ -731,7 +752,7 @@
     }
   ],
   "cities": 27,
-  "countryCount": 20,
+  "countryCount": 21,
   "regions": [
     {
       "name": "Asia",
@@ -740,13 +761,13 @@
     },
     {
       "name": "Europe",
-      "count": 13,
-      "percent": 16
+      "count": 14,
+      "percent": 18
     },
     {
       "name": "North America",
       "count": 10,
-      "percent": 13
+      "percent": 12
     },
     {
       "name": "Oceania",
@@ -756,7 +777,7 @@
     {
       "name": "South America",
       "count": 2,
-      "percent": 3
+      "percent": 2
     },
     {
       "name": "Africa",
