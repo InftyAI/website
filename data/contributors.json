@@ -1,7 +1,7 @@
 {
-  "generated": "2026-10-10",
+  "generated": "2026-10-13",
   "total": 81,
-  "located": 49,
+  "located": 48,
   "places": [
     {
       "label": "Shanghai, China",
@@ -14,7 +14,7 @@
         "dy": 5,
         "anchor": "start"
       },
-      "count": 7,
+      "count": 6,
       "people": [
         {
           "login": "cr7258",
@@ -27,10 +27,6 @@
         {
           "login": "X1aoZEOuO",
           "avatar": "https://avatars.githubusercontent.com/u/97826429?v=4&s=64"
-        },
-        {
-          "login": "pacoxu",
-          "avatar": "https://avatars.githubusercontent.com/u/2010320?v=4&s=64"
         },
         {
           "login": "rudeigerc",
@@ -756,8 +752,8 @@
   "regions": [
     {
       "name": "Asia",
-      "count": 19,
-      "percent": 23
+      "count": 18,
+      "percent": 22
     },
     {
       "name": "Europe",
@@ -786,9 +782,9 @@
     },
     {
       "name": "Others",
-      "count": 32,
+      "count": 33,
       "note": "Contributors whose GitHub profile does not say where they are.",
-      "percent": 40
+      "percent": 41
     }
   ]
 }
