@@ -1,7 +1,7 @@
 {
-  "generated": "2026-10-13",
-  "total": 81,
-  "located": 48,
+  "generated": "2026-10-14",
+  "total": 83,
+  "located": 49,
   "places": [
     {
       "label": "Shanghai, China",
@@ -486,6 +486,27 @@
       "more": 0
     },
     {
+      "label": "Germany",
+      "country": "Germany",
+      "lat": 51,
+      "lng": 10,
+      "countryOnly": true,
+      "short": "Germany",
+      "offset": {
+        "dx": 11,
+        "dy": 4,
+        "anchor": "start"
+      },
+      "count": 1,
+      "people": [
+        {
+          "login": "mertkayacs",
+          "avatar": "https://avatars.githubusercontent.com/u/47145541?v=4&s=64"
+        }
+      ],
+      "more": 0
+    },
+    {
       "label": "Limassol, Cyprus",
       "country": "Cyprus",
       "lat": 34.71,
@@ -757,8 +778,8 @@
     },
     {
       "name": "Europe",
-      "count": 14,
-      "percent": 17
+      "count": 15,
+      "percent": 18
     },
     {
       "name": "North America",
@@ -773,7 +794,7 @@
     {
       "name": "South America",
       "count": 2,
-      "percent": 3
+      "percent": 2
     },
     {
       "name": "Africa",
@@ -782,7 +803,7 @@
     },
     {
       "name": "Others",
-      "count": 33,
+      "count": 34,
       "note": "Contributors whose GitHub profile does not say where they are.",
       "percent": 41
     }
