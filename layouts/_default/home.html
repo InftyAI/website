@@ -297,9 +297,7 @@
              and a row per city (or per country) turned the column into a ranking of
              Chinese cities rather than the spread the map is for.
 
-             The last row is "Others", the contributors with no location on their
-             profile, so the column is shares of everyone rather than of the half
-             the map can draw.
+             The shares are of everyone, not of the half the map can draw.
 
              It is also what a screen reader or a keyboard gets, since the svg is a
              single `role="img"` graphic. */}}
@@ -307,12 +305,18 @@
             {{/* After the figure in source order, which costs nothing: the svg is a
                  labelled `role="img"`, so a screen reader announces what it is before
                  reaching this. */}}
-            <h2 class="worldmap-key-title">Contributors</h2>
+            {{/* The key's own label, first on its line, so the map is named as
+                 the contributors' map without a heading band above it. */}}
+            {{/* The dot is the map's own mark, so the label reads as a legend entry —
+                 this is what a dot is — as well as the section's name. */}}
+            <h2 class="worldmap-key-title"><span class="worldmap-key-dot" aria-hidden="true"></span>Contributors</h2>
             <ul class="worldmap-regions">
-                {{ range .regions -}}
-                {{/* Only "Others" carries a note — the one row whose name does not
-                     say what it counts. */}}
-                <li{{ with .note }} title="{{ . }}"{{ end }}>
+                {{/* Without "Others", the contributors whose profile does not say
+                     where they are: a "location unknown" row was the key's largest
+                     region. The shares stay shares of everyone, as
+                     tools/contributors.mjs computes them. */}}
+                {{ range where .regions "name" "ne" "Others" -}}
+                <li>
                     <span class="worldmap-region-name">{{ .name }}</span>
                     {{/* Percentages, not counts, and they add to 100 — see the
                          apportionment in tools/contributors.mjs. */}}
@@ -401,7 +405,11 @@
         {{/* One line rather than a title over a sentence: the page ends on it, and
              two lines of its own read as one more block rather than a sign-off. */}}
         <p class="feature-cta">
+            {{ if .url -}}
+            <a class="feature-cta-title" href="{{ .url }}">{{ .name }}</a>
+            {{- else -}}
             <span class="feature-cta-title">{{ .name }}</span>
+            {{- end }}
             <span class="feature-cta-text">{{ .description }}</span>
         </p>
         {{ end -}}

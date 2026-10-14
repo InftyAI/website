@@ -1,0 +1,75 @@
+{{/* The theme's blog list (doks-core layouts/blog/list.html), copied whole so the
+     empty case can be added in front of it: everything after the `else` is the
+     theme's template unchanged, and is what to re-copy if doks-core changes it.
+
+     With no posts the theme rendered a "Blog" heading over an empty page, linked
+     from the navbar. Until there is something to read, the page says what the
+     site's own 404 says — same strings (`404_title`, `404_text`) and the same
+     markup as doks-core's layouts/404.html — rather than a blank that looks like
+     a broken page. */}}
+{{ define "main" }}
+{{ if not .Pages -}}
+<div class="row justify-content-center">
+  <div class="col-md-12 col-lg-10 col-xl-8">
+    <article>
+      <h1 class="text-center">{{ i18n "404_title" }}</h1>
+      <p class="text-center">{{ i18n "404_text" }}</p>
+    </article>
+  </div>
+</div>
+{{ else -}}
+<div class="row justify-content-center">
+  <div class="col-md-12 col-lg-9">
+    {{ if .Params.avatar -}}
+      {{ $image := .Resources.GetMatch (printf "**%s" .Params.avatar) -}}
+      {{ $imageLq := $image.Resize "15x15 webp q95" -}}
+      {{ $image = $image.Resize "300x300 webp q95" -}}
+      <div class="contributor-image">
+        <img class="img-fluid lazyload blur-up rounded-circle" src="{{ $imageLq.RelPermalink }}" data-src="{{ $image.RelPermalink }}" alt="{{ .Title }}" width="150" height="150">
+      </div>
+    {{ end -}}
+    {{ with .Params.headline -}}
+      <h1 class="text-center">{{ . }}</h1>
+    {{ else -}}
+      <h1 class="text-center">{{ .Title }}</h1>
+    {{ end -}}
+    {{ with .Params.summary -}}<p class="lead text-center">{{ . }}</p>{{ end -}}
+    {{ with .Content -}}<div class="text-center">{{ . }}</div>{{ end -}}
+  </div>
+</div>
+<div class="row justify-content-center">
+  <div class="col-lg-9">
+    {{ $paginator := .Paginate (.Data.Pages) -}}
+    {{ range $paginator.Pages -}}
+      <div class="card">
+        {{ if site.Params.doks.imageList -}}
+          {{- $images := .Resources.ByType "image" -}}
+          {{- $featured := $images.GetMatch "*feature*" -}}
+          {{- if not $featured }}{{ $featured = $images.GetMatch "{*cover*,*thumbnail*}" }}{{ end -}}
+          {{- if $featured -}}
+            {{ partial "img" (dict
+            "page" .
+            "src" $featured
+            "alt" .Title
+            "class" "rounded-top-1"
+            )}}
+          {{ end -}}
+        {{ end -}}
+        <div class="card-body">
+          <article>
+            <h2 class="h3"><a class="stretched-link text-body" href="{{ .RelPermalink }}">{{ .Params.title }}</a></h2>
+            <p>{{ .Params.summary | safeHTML }}</p>
+            {{ partial "main/blog-meta.html" . -}}
+          </article>
+        </div>
+      </div>
+    {{ end -}}
+  </div>
+</div>
+<div class="row justify-content-center">
+  <div class="col-md-12 col-lg-9">
+    {{ template "_internal/pagination.html" . }}    
+  </div>
+</div>
+{{ end -}}
+{{ end }}
