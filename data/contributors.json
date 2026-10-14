@@ -128,7 +128,7 @@
       "short": "London",
       "offset": {
         "dx": 0,
-        "dy": -28,
+        "dy": -27,
         "anchor": "middle"
       },
       "count": 2,
@@ -331,9 +331,9 @@
       "countryOnly": true,
       "short": "Poland",
       "offset": {
-        "dx": 11,
-        "dy": 4,
-        "anchor": "start"
+        "dx": 2,
+        "dy": -13,
+        "anchor": "middle"
       },
       "count": 1,
       "people": [
@@ -473,7 +473,7 @@
       "short": "Berlin",
       "offset": {
         "dx": 0,
-        "dy": -11,
+        "dy": -26,
         "anchor": "middle"
       },
       "count": 1,
@@ -654,8 +654,8 @@
       "lng": 27.57,
       "short": "Minsk",
       "offset": {
-        "dx": 11,
-        "dy": 4,
+        "dx": 8,
+        "dy": 17,
         "anchor": "start"
       },
       "count": 1,
@@ -714,9 +714,9 @@
       "lng": 4.9,
       "short": "Amsterdam",
       "offset": {
-        "dx": 11,
-        "dy": -25,
-        "anchor": "start"
+        "dx": 0,
+        "dy": -41,
+        "anchor": "middle"
       },
       "count": 1,
       "people": [

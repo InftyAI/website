@@ -42,8 +42,9 @@ projects:
     url: https://github.com/InftyAI/mlx
     description: "Rust bindings for Apple's MLX framework."
 
-# Rendered below the grid as plain text — not a project, and not a link, so it
-# has no `repo` (no star count) and no `url`.
+# Rendered below the grid as one line — not a project, so it has no `repo` (no
+# star count). `url` is optional: set it and the name becomes a link; leave it out
+# and the line is plain text, as it was.
 cta:
   name: "✨ Donation Plan"
   description: "Got a brilliant idea? Let's build something extraordinary together."

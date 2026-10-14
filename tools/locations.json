@@ -1015,7 +1015,7 @@
     "United States": "North America",
     "Vietnam": "Asia"
   },
-  "//labels": "Where each city's name is drawn relative to its dot, in viewBox units, keyed by label so aliases share one entry. Hand-placed because no automatic rule survives the two crowded corners of the map. Guangzhou and Shenzhen are 100km apart, which is 2.6 units at this scale, so one name goes below its dot and the other to the right; and Dublin, Cambridge, Amsterdam, Berlin and Minsk sit within 94 units of each other on one latitude, where 340 units of names have to be stacked onto separate rows above and below, with Barcelona taking the row under Amsterdam. Anything not listed defaults to `start` a little to the right. `anchor` is an SVG text-anchor: start places the text to the right of the dot, end to its left, middle centres it. A name reads as belonging to the dot nearest its anchored edge, so that is what a new entry has to get right — the dots in those two clusters are close enough that a name 20 units out can sit nearer a neighbour's dot than its own. Lucknow and Chengdu are the third case, and what collides there is a name with a dot rather than a name with a name: they are 64 units apart on nearly one latitude, and Chengdu's name reaches 49 of those units back west, so on the default anchor Lucknow's own name ran east under Chengdu's and Chengdu's ran over Lucknow's dot. Lucknow is anchored `end` so its name goes west into the empty Arabian Sea instead, where the nearest dot is Bengaluru's 35 units below, and Chengdu's `dy` lifts it a row above Lucknow's dot — which is the half of this that only moving Lucknow's name could not fix, since it was Chengdu's name that was sitting on somebody else's dot. A name also has to stay inside the map, which is what the eastern edge asks for: the svg does not clip, and on the default `start` anchor New Zealand's name ran 65 units past the map's right edge and into the region list beside it, so it is anchored `end` and drawn below Melbourne's row instead.",
+  "//labels": "Where each city's name is drawn relative to its dot, in viewBox units, keyed by label so aliases share one entry. Hand-placed because no automatic rule survives the two crowded corners of the map. Guangzhou and Shenzhen are 100km apart, which is 2.6 units at this scale, so one name goes below its dot and the other to the right; and Dublin, Cambridge, Amsterdam, Berlin and Minsk sit within 94 units of each other on one latitude, where 340 units of names have to be stacked onto separate rows above and below, with Barcelona taking the row under Amsterdam. Poland and Minsk extend that cluster east to Moscow, and on the default anchor each name ran over the next dot along — Poland's over Minsk's, Minsk's over Moscow's. So the names over the cluster are a stack, each centred on its own dot: Amsterdam on top, London and Berlin under it, Poland lowest; and Minsk's goes below its dot, into the gap above Romania. Centring is the point of it: a name that starts at its dot and runs right covers the dot after it, which read as that city's name rather than its own. Lucknow and Chengdu are the third case, and what collides there is a name with a dot rather than a name with a name: they are 64 units apart on nearly one latitude, and Chengdu's name reaches 49 of those units back west, so on the default anchor Lucknow's own name ran east under Chengdu's and Chengdu's ran over Lucknow's dot. Lucknow is anchored `end` so its name goes west into the empty Arabian Sea instead, where the nearest dot is Bengaluru's 35 units below, and Chengdu's `dy` lifts it a row above Lucknow's dot — which is the half of this that only moving Lucknow's name could not fix, since it was Chengdu's name that was sitting on somebody else's dot. A name also has to stay inside the map, which is what the eastern edge asks for: the svg does not clip, and on the default `start` anchor New Zealand's name ran 65 units past the map's right edge and into the region list beside it, so it is anchored `end` and drawn below Melbourne's row instead.",
   "labels": {
     "Shanghai, China": {
       "dx": 15,
@@ -1054,7 +1054,7 @@
     },
     "Berlin, Germany": {
       "dx": 0,
-      "dy": -11,
+      "dy": -26,
       "anchor": "middle"
     },
     "Melbourne, Australia": {
@@ -1073,8 +1073,18 @@
       "anchor": "end"
     },
     "Amsterdam, Netherlands": {
-      "dx": 11,
-      "dy": -25,
+      "dx": 0,
+      "dy": -41,
+      "anchor": "middle"
+    },
+    "Poland": {
+      "dx": 2,
+      "dy": -13,
+      "anchor": "middle"
+    },
+    "Minsk, Belarus": {
+      "dx": 8,
+      "dy": 17,
       "anchor": "start"
     },
     "Barcelona, Spain": {
@@ -1099,7 +1109,7 @@
     },
     "London, UK": {
       "dx": 0,
-      "dy": -28,
+      "dy": -27,
       "anchor": "middle"
     },
     "New Zealand": {

@@ -1,6 +1,6 @@
-.PHONY: launch data cover worldmap contributors
+.PHONY: start data cover worldmap contributors
 
-launch: data
+start: data
 	@echo "Launching the application..."
 	npm run dev
 
