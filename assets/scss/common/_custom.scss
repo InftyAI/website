@@ -108,7 +108,9 @@ body > * {
 // Each block owns the space below itself, so every gap is set in exactly one
 // place. That is why `.section-cta` zeroes its top padding rather than splitting
 // the difference with the section above it.
-$home-gap: clamp(2.5rem, 5.5vw, 4.5rem);
+// Tightened from clamp(2.5rem, 5.5vw, 4.5rem) when the section labels came out: with
+// two fewer bands, gaps sized to separate them left the page reading as islands.
+$home-gap: clamp(2rem, 4.5vw, 3.5rem);
 
 .home {
   // The whole homepage, one notch down. Every part of it was sized on its own —
@@ -199,6 +201,20 @@ $feature-gap: 1.25rem;
   // Not lower: at 13px this is normal-size text for WCAG, so it needs 4.5:1.
   // 0.5 measured 3.01:1 and failed; 0.7 measures 5.4:1.
   opacity: 0.7;
+}
+
+// A heading kept for screen readers and dropped from the layout — the standard
+// visually-hidden recipe, as in `.skip-link` above, and for the same reason not
+// Bootstrap's `.visually-hidden`: this does not depend on that utility surviving
+// purgecss.
+.home-hidden-title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .feature-grid {
@@ -346,7 +362,7 @@ $feature-gap: 1.25rem;
 // graphic needed to understand the content, and this no longer meets it. What makes
 // that a considered trade rather than an oversight is that nothing here is only on
 // the map: every city is named in the card that opens on its dot, along with the
-// people who are there, and the region shares are the text list beside it. Going
+// people who are there, and the region shares are the key under it. Going
 // back to 72% (#E47351) restores 3.1:1 on the keyline.
 //
 // The keyline is what keeps the dots countable over the shade, and it gains what the
@@ -406,9 +422,11 @@ $map-halo-alpha-hover: 0.22;
 // pointing at a city says less than the city was already saying on its own.
 $map-pulse-alpha: 0.18;
 
-// Map and legend side by side from `lg` up, stacked below it. The breakpoint is
-// where the legend still has room for "Melbourne, Australia" and a count on one
-// line; narrower than that it wraps every row and reads worse than stacking.
+// The map with its legend centred underneath at every width. The legend used to
+// stand beside the map from `lg` up, and that pushed the map off the axis the section
+// heading and the card grid are centred on: a 900px graphic hard against the left
+// edge, and a narrow column of figures floating at the right. Underneath, as a key
+// along the bottom of the graphic, the whole section shares one centre line.
 .worldmap-layout {
   display: flex;
   flex-direction: column;
@@ -436,79 +454,58 @@ $map-pulse-alpha: 0.18;
 // tall or more, the worst overhang is 18px, and the gap can go back to being spacing.
 @include media-breakpoint-up(sm) {
   .worldmap-layout {
-    // Under the block gap either way, so the map and its legend still read as one
-    // thing — but not so tight that the legend looks welded to the map's edge.
-    gap: 2rem;
-  }
-}
-
-@include media-breakpoint-up(lg) {
-  .worldmap-layout {
-    flex-direction: row;
-    // Centred vertically: the legend is well under half the map's height, so
-    // top-aligning it sat the whole column up level with the empty Arctic and
-    // left it looking detached from the dots it describes.
-    align-items: center;
-    // Horizontally, out to the container's own edges. Centring the pair as a unit
-    // was what this did before, and it gave the section four vertical edges where
-    // the card grid below it has two: at 1400 the cards spanned the full container
-    // while the map began 52px inside it and the legend stopped 52px short of the
-    // other side. Nothing lined up with anything, which is most of what made the
-    // map read as pasted on top of the page rather than part of it.
-    justify-content: space-between;
-    // Wider than the stacked gap: side by side, the legend was close enough to the
-    // eastern edge of the map to read as a column of the same graphic. A floor, not
-    // a fixed value — `space-between` puts the leftover width here.
-    //
-    // 4rem before. Reduced with the legend's own width to give the map more of the
-    // container; still well clear of the 2rem stacked gap, which is what stopped the
-    // legend reading as part of the graphic.
-    gap: 3rem;
+    // Close enough that the key reads as the bottom of the graphic rather than a
+    // block of its own between the map and the projects.
+    gap: 1.75rem;
   }
 }
 
 .worldmap {
   margin: 0;
   // Narrower than the container: at full width on a large screen the map turns
-  // into wallpaper, and the dots — which are the actual content — get lost in it.
-  max-width: 56rem;
+  // into wallpaper and outweighs the whole page — taller than the project grid
+  // under it, with more grey in it than everything else together. 72rem is between
+  // the two: 56rem, where it used to be held, up to 68rem all read as too small.
+  max-width: 72rem;
   width: 100%;
   margin-inline: auto;
   // What `.worldmap-hits` is positioned against. The figure holds nothing but the
   // svg, so its content box is the svg's box — which is what lets the percentages in
   // the generated stylesheet land the hover targets on the dots.
   position: relative;
+  // How much each mark is shrunk to stay at the size it had on a 56rem map: the dots
+  // and labels are drawn in viewBox units, so left alone they grow with the map. 896px
+  // over the width the map renders at — 1 below `lg`, where it is narrower than 56rem
+  // anyway. Read by `.worldmap-place` for the dots, rings and labels, and by the
+  // generated stylesheet for the hover targets, so the two stay the same size.
+  --mark-scale: 1;
 }
 
-// In the row, the map takes exactly what the legend and the gap leave. Everything
-// here is undoing a stacked-case default that is wrong for a flex item being sized
-// by the row it is in rather than by the block it centres itself in:
-//
-// `margin-inline: auto` centres the map when stacked, but in a flex row auto
-// margins take the free space *before* `justify-content` is consulted — the map
-// absorbed all of it, half to its left and half into the gap, and that was the
-// 200px hole that used to sit between map and legend.
-//
-// `width: 100%` makes the flex base size the whole container, so the pair's
-// hypothetical widths overflow the line and the map is shrunk to fit rather than
-// laid out — `max-width` then clipping it. `auto` bases it on the content.
-//
-// `max-width: none` lifts the 56rem cap, which is there to stop the map becoming
-// wallpaper on a wide screen and cannot happen here: the container itself stops at
-// 1320px however wide the window is, so filling the row tops the map out around
-// 900px on screen either way.
-//
-// After the rule above, not inside the block with `justify-content`: a media query
-// adds no specificity, so declared first this would be overridden. Scoped to this
-// breakpoint at all because `flex-basis` follows `flex-direction` — in the stacked
-// case it would set a height, not a width.
+// At `lg` the map is the container's 912px (960 less its 3rem gutter, from doks-core's
+// $container-max-widths); from `xl` up it is the 72rem cap.
 @include media-breakpoint-up(lg) {
   .worldmap {
-    flex: 1 1 auto;
-    max-width: none;
-    width: auto;
-    margin-inline: 0;
+    --mark-scale: 0.982; // 896 / 912
   }
+}
+
+@include media-breakpoint-up(xl) {
+  .worldmap {
+    --mark-scale: 0.778; // 896 / 1152
+  }
+}
+
+// One city's dot, ring and label, shrunk together about the dot's centre — the
+// origin is per city, so it comes from the generated stylesheet in
+// head/resource-hints.html. Scaling the group rather than each element keeps the
+// composition hand-placed in tools/locations.json: a label shrinks towards its own
+// dot, so the gap between them stays the gap it was drawn with.
+//
+// `view-box` so that origin is in the svg's own units, the same numbers the template
+// puts in `cx` and `cy`.
+.worldmap-place {
+  transform-box: view-box;
+  transform: scale(var(--mark-scale));
 }
 
 // City names on the map. Sized in viewBox units, so they scale with it — which
@@ -517,8 +514,8 @@ $map-pulse-alpha: 0.18;
 .worldmap-label {
   display: none;
   fill: $map-text;
-  // 13.5 units against a 1000-unit width is about 11.4px at the `xl` breakpoint
-  // where the labels appear, and 12.4px on the widest screens.
+  // 13.5 units against a 1000-unit width, shrunk by `--mark-scale`, is about 12.1px
+  // at every width the labels appear at.
   //
   // 15 before, and the 10% came off for room rather than for looks. These units are
   // the map's, not the screen's, so a name's width in them is what decides whether
@@ -545,11 +542,12 @@ $map-pulse-alpha: 0.18;
   pointer-events: none;
 }
 
-// `xl` and not `lg`, which is where the row itself starts. Between the two the map
-// has to share the container with the legend and comes out around 580px wide, at
-// which the labels render at 8.6px and the five names around the Pearl River Delta
-// overlap each other. The dots and the legend still say everything; the names are
-// what has to wait for the room to be legible in.
+// `xl` and not earlier. From there the map is at its 72rem cap and `--mark-scale` holds
+// the names at 12.1px. At `lg` the map is 912px and the names render at the same size
+// against a map a fifth narrower, which central Europe has no room for: Paris's name
+// is 13 units tall and the gap between the Berlin and Italy dots it sits in is 11.5.
+// The dots and the legend still say everything; the names are what has to wait for
+// the room to be legible in.
 @include media-breakpoint-up(xl) {
   .worldmap-label {
     display: block;
@@ -698,7 +696,7 @@ $map-pulse-offsets:
 }
 
 // Motion is not what any of this is for: every city's name, count and contributors are
-// in the card that opens on its dot and the shares are the text list beside the map, so
+// in the card that opens on its dot and the shares are the key under the map, so
 // there is nothing here to lose.
 @media (prefers-reduced-motion: reduce) {
   .worldmap-pulse {
@@ -947,9 +945,8 @@ $map-pulse-offsets:
     visibility 0s;
 }
 
-// The place, on one line and in one ink, with a hairline under it — the same hairline the
-// legend rules its rows with, so the card and the list beside the map are ruled by the
-// same line.
+// The place, on one line and in one ink, with a hairline under it — in the map's land colour,
+// so the rule and the continents around the card are the same grey.
 //
 // The city and the country were two tones here for a while, the country in the lighter
 // ink. It read wrong: the comma belongs to neither half, so it took the city's weight and
@@ -1086,67 +1083,79 @@ $map-pulse-offsets:
   background: $map-land;
 }
 
-// The legend beside the map: each region and its share of all contributors.
+// The key under the map: each region and its share of all contributors, as one
+// centred line of entries rather than a table. A row per region made a column
+// taller than the map on a phone, and seven rules under seven short figures read as
+// a spreadsheet next to a graphic that has no lines in it at all.
 .worldmap-summary {
-  // Full width while stacked, so the rules under each row start and end where the
-  // map above and the project cards below do. At its `lg` width of 13rem it sat
-  // inset from both, which read as a third column indented for no reason.
   width: 100%;
+  // The heading and the regions on one centred line, wrapping together.
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.5rem 1.25rem;
 }
 
-@include media-breakpoint-up(lg) {
-  .worldmap-summary {
-    // Beside the map instead: wide enough for "North America" and its share on one
-    // line, and no wider — the map should keep the width it needs to stay readable.
-    flex: 0 0 auto;
-    width: auto;
-    // 13rem before. The container tops out at 1188px and the map takes what the
-    // legend and the gap leave, so this is the only width on the page the map can
-    // grow into: a rem off here and one off the gap put the map at 935px instead of
-    // 900. "North America" and its share still share one line — that is what sets
-    // the floor, and it is measured, not guessed.
-    min-width: 12rem;
-  }
+// The section's heading, as the first entry of the key: what the figures after it
+// are shares of. The eyebrow style the project grid's heading used, at the key's
+// size, so it reads as the key's label rather than a title over the map.
+.worldmap-key-title {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  // 5.4:1, the contrast the eyebrow was measured at.
+  opacity: 0.7;
 }
 
 .worldmap-regions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  // Wider between entries than inside one, so each name stays paired with its own
+  // figure when the line wraps, without a separator to say so.
+  gap: 0.5rem 1.25rem;
   margin: 0;
   padding-left: 0;
   list-style: none;
-  font-size: 0.9375rem;
+  // Under the map's own city labels, so the legend reads as a caption to the
+  // graphic rather than a second block of body text beside it.
+  font-size: 0.8125rem;
+  line-height: 1.4;
 
   li {
     display: flex;
     align-items: baseline;
-    // Holds the share against the right edge, so the figures line up into a
-    // column that can be read down without the eye tracking across each row.
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 0.3125rem 0;
-    // The map's own land colour, so the legend's rules and the continents beside
-    // them are the same grey rather than two different near-whites.
-    border-bottom: 1px solid $map-land;
-  }
-
-  // The list is the whole block now; a rule under the last row would read as a
-  // divider from whatever follows the section.
-  li:last-child {
-    border-bottom: 0;
+    gap: 0.375rem;
+    white-space: nowrap;
   }
 }
 
-.worldmap-region-share {
-  flex: 0 0 auto;
-  // Digits of equal width, so 46% and 3% start at the same offset from the edge
-  // and the column reads as a column.
-  font-variant-numeric: tabular-nums;
-  // Neither bold nor coloured. These were 600-weight $primary, which made them the
-  // loudest thing in the section — third orange element after the dots and the
-  // CTA — and pulled the eye off the map they annotate. Position and the tabular
-  // column are enough to mark them as the figures; the rule under each row is what
-  // pairs each one with its name.
-  font-weight: 400;
+// Looser once the map is wide enough to hold the whole key on one line. Below `lg`
+// the tighter spacing is what keeps all seven on one line at `md`, where 1.75rem
+// left "Others" wrapped onto a line by itself.
+@include media-breakpoint-up(lg) {
+  .worldmap-regions {
+    column-gap: 1.75rem;
+  }
+}
+
+// Body ink at reduced strength, the quieter of the two: on one line the figure is
+// what the eye is scanning for, and the name is the label on it.
+.worldmap-region-name {
   color: $map-text;
+}
+
+.worldmap-region-share {
+  // Digits of equal width, so the figures do not jitter in size against each other.
+  font-variant-numeric: tabular-nums;
+  // Medium, not bold, and never $primary: 600-weight orange figures were the loudest
+  // thing in the section, a third orange element after the dots and the CTA. A
+  // step of weight and the darker ink are enough to pick them out of the line.
+  font-weight: 500;
+  color: $gray-700;
 }
 
 // The donation call to action. Deliberately unboxed: a panel here competed with
@@ -1154,19 +1163,20 @@ $map-pulse-offsets:
 // A plain centred line separates it from the grid on whitespace alone.
 .feature-cta {
   // No top margin of its own: it sits in `.section-cta` now, whose padding is
-  // what separates it from the map above, so a margin here would be added twice.
-  margin-top: 0;
+  // what separates it from the projects above, so a margin here would be added twice.
+  margin: 0;
   text-align: center;
+  font-size: 0.9375rem;
 
   .feature-cta-title {
-    display: block;
     font-weight: 600;
     color: $primary;
   }
 
-  p {
-    margin: 0.125rem 0 0;
-    font-size: 0.9375rem;
+  // Lighter than the name, so the line reads as a name and its gloss. Spacing comes
+  // from the space between the two spans in the template, so the sentence still
+  // wraps at word boundaries on a phone.
+  .feature-cta-text {
     opacity: 0.7;
   }
 }

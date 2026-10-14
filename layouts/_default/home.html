@@ -23,7 +23,9 @@
      cards be the first thing on it.
 
      Its own section with its own heading — the map is not an eighth project, and
-     nesting it under "Projects" would have filed it as one.
+     nesting it under "Projects" would have filed it as one. The heading is the first
+     entry of the key under the map rather than a label over it: a label band above
+     the map and a key band below it were two layers saying one thing.
 
      Both data files are generated and committed (`make worldmap`, `make
      contributors`), so this needs no lookup at build time and cannot be emptied
@@ -32,7 +34,6 @@
 {{ $map := site.Data.worldmap -}}
 <section class="section section-contributors">
     <div class="container">
-        <h2 class="feature-grid-title">Contributors</h2>
         {{/* `.cities` rather than `len .places`: a country-level fallback is a mark
              but not a city, so counting the marks called India a city. */}}
         {{ $summary := printf "%d of %d contributors, in %d cities across %d countries" (int .located) (int .total) (int .cities) (int .countryCount) -}}
@@ -40,7 +41,7 @@
         <figure class="worldmap">
             {{/* `role="img"` with a label: the map is one graphic, and without it
                  a screen reader would read out a path, ten empty groups and the
-                 city names a second time. The list beside it carries the detail,
+                 city names a second time. The key under it carries the detail,
                  as text that can be navigated rather than only announced. */}}
             <svg class="worldmap-svg" viewBox="0 0 {{ $map.width }} {{ $map.height }}" role="img"
                 aria-label="{{ $summary }}." xmlns="http://www.w3.org/2000/svg">
@@ -111,7 +112,7 @@
                      these dots are comparable, not measurable. Nothing here rests
                      on reading a count out of a radius — the card that opens on a
                      city lists who is there, so its exact number can be counted off
-                     the faces, and the shares are the text list beside the map.
+                     the faces, and the shares are the key under the map.
 
                      The compression is at the top rather than in the base, because
                      the base is set from the narrowest case. These are viewBox
@@ -303,6 +304,10 @@
              It is also what a screen reader or a keyboard gets, since the svg is a
              single `role="img"` graphic. */}}
         <div class="worldmap-summary">
+            {{/* After the figure in source order, which costs nothing: the svg is a
+                 labelled `role="img"`, so a screen reader announces what it is before
+                 reaching this. */}}
+            <h2 class="worldmap-key-title">Contributors</h2>
             <ul class="worldmap-regions">
                 {{ range .regions -}}
                 {{/* Only "Others" carries a note — the one row whose name does not
@@ -348,8 +353,10 @@
 <section class="section section-md section-features">
     <div class="container">
         {{/* Names the grid, so the seven project headings hang off a section
-             instead of directly off the page's h1. */}}
-        <h2 class="feature-grid-title">Projects</h2>
+             instead of directly off the page's h1. Read out but not shown: seven
+             cards of repositories with star counts say what they are, and the label
+             was one more band between the map and them. */}}
+        <h2 class="feature-grid-title home-hidden-title">Projects</h2>
         {{/* A list, because that is what seven sibling projects are: screen
              readers announce the count and allow item-by-item navigation.
              Flexbox rather than Bootstrap's row/col — it needs no breakpoint
@@ -391,10 +398,12 @@
 <section class="section section-cta">
     <div class="container">
         {{ with site.Data.projects.cta -}}
-        <div class="feature-cta">
+        {{/* One line rather than a title over a sentence: the page ends on it, and
+             two lines of its own read as one more block rather than a sign-off. */}}
+        <p class="feature-cta">
             <span class="feature-cta-title">{{ .name }}</span>
-            <p>{{ .description }}</p>
-        </div>
+            <span class="feature-cta-text">{{ .description }}</span>
+        </p>
         {{ end -}}
     </div>
 </section>

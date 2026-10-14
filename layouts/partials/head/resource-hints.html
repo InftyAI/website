@@ -55,7 +55,11 @@
      room a mark at the centre has — around 130px at 320px wide, still a readable
      column of faces. */}}
 {{ $room := cond (gt $pos.x (mul 0.5 $map.width)) (sub $left (div $size 2.0)) (sub (sub 100.0 $left) (div $size 2.0)) -}}
-{{ $rules = $rules | append (printf ".worldmap-hit:nth-child(%d){left:%.3f%%;top:%.3f%%;width:%.3f%%;--map-room:%.3f}" (add $i 1) $left $top $size $room) -}}
+{{ $rules = $rules | append (printf ".worldmap-hit:nth-child(%d){left:%.3f%%;top:%.3f%%;width:calc(%.3f%% * var(--mark-scale, 1));--map-room:%.3f}" (add $i 1) $left $top $size $room) -}}
+{{/* The point the svg's group for this mark is scaled about — its dot's centre, in
+     viewBox units. See `.worldmap-place` in the stylesheet; `nth-of-type` because the
+     groups are the only `<g>` in the svg, one per mark in this same order. */}}
+{{ $rules = $rules | append (printf ".worldmap-place:nth-of-type(%d){transform-origin:%.1fpx %.1fpx}" (add $i 1) $pos.x $pos.y) -}}
 {{ end -}}
 {{/* The target path carries a hash of the rules, which is not decoration: it is what
      keeps this stylesheet from going stale against the page it positions.
