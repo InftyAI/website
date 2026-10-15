@@ -2,10 +2,15 @@
 {{/* No `py-*` utility: Bootstrap marks those `!important`, so the hero spacing
      could not then be set from _custom.scss. */}}
 <section class="section container-fluid text-center">
+    {{/* The headline and the tagline in one box as wide as the headline, so the
+         tagline is never the wider of the two: it wraps under the headline instead
+         of running past both its ends. See `.home-hero` in _custom.scss. */}}
+    <div class="home-hero">
     <h1 class="home-title">{{ .Title }}</h1>
     {{ with .Params.lead -}}
     <p class="lead">{{ . | safeHTML }}</p>
     {{ end -}}
+    </div>
     {{ .Content }}
 </section>
 {{ end }}
@@ -302,25 +307,31 @@
              It is also what a screen reader or a keyboard gets, since the svg is a
              single `role="img"` graphic. */}}
         <div class="worldmap-summary">
-            {{/* After the figure in source order, which costs nothing: the svg is a
-                 labelled `role="img"`, so a screen reader announces what it is before
-                 reaching this. */}}
-            {{/* The key's own label, first on its line, so the map is named as
-                 the contributors' map without a heading band above it. */}}
-            {{/* The dot is the map's own mark, so the label reads as a legend entry —
-                 this is what a dot is — as well as the section's name. */}}
-            <h2 class="worldmap-key-title"><span class="worldmap-key-dot" aria-hidden="true"></span>Contributors</h2>
+            {{/* One line of text: "By region", then each region and its share. The
+                 tagline above the map already says whose map it is, so all the line
+                 needs to say is what the shares are split by. "Contributors" is read
+                 out in front of it, so a screen reader hears "Contributors by region".
+
+                 Simple on purpose: a stacked bar and then a chart of ranked bars were
+                 both tried here, and both were more to read than seven numbers. */}}
+            {{/* A row of figures: each region's share, large, over its name, in
+                 columns of one width. The numbers are what this is for, and as a
+                 line of text — name, share, name, share — they had to be picked out
+                 of it. "Others", the contributors whose profile does not say where
+                 they are, comes last and in the label's lighter ink, so the largest
+                 share of the seven does not read as the biggest region.
+
+                 The heading is read out as "Contributors by region" (its
+                 `aria-label`); on screen the tagline is what names the map. */}}
+            <h2 class="worldmap-key-title" aria-label="Contributors by region">By region</h2>
             <ul class="worldmap-regions">
-                {{/* Without "Others", the contributors whose profile does not say
-                     where they are: a "location unknown" row was the key's largest
-                     region. The shares stay shares of everyone, as
-                     tools/contributors.mjs computes them. */}}
-                {{ range where .regions "name" "ne" "Others" -}}
-                <li>
-                    <span class="worldmap-region-name">{{ .name }}</span>
-                    {{/* Percentages, not counts, and they add to 100 — see the
-                         apportionment in tools/contributors.mjs. */}}
+                {{/* Largest first, as tools/contributors.mjs ranks them; "Others"
+                     last, so a remainder never heads a list of places. With it the
+                     shares add to 100 — see the apportionment there. */}}
+                {{ range .regions -}}
+                <li{{ with .note }} class="worldmap-region-rest" title="{{ . }}"{{ end }}>
                     <span class="worldmap-region-share">{{ .percent }}%</span>
+                    <span class="worldmap-region-name">{{ .name }}</span>
                 </li>
                 {{ end -}}
             </ul>
@@ -357,10 +368,10 @@
 <section class="section section-md section-features">
     <div class="container">
         {{/* Names the grid, so the seven project headings hang off a section
-             instead of directly off the page's h1. Read out but not shown: seven
-             cards of repositories with star counts say what they are, and the label
-             was one more band between the map and them. */}}
-        <h2 class="feature-grid-title home-hidden-title">Projects</h2>
+             instead of directly off the page's h1. Shown, as a section heading:
+             without it nothing said these are InftyAI's projects and not a list
+             of tools it recommends. */}}
+        <h2 class="feature-grid-title">Projects</h2>
         {{/* A list, because that is what seven sibling projects are: screen
              readers announce the count and allow item-by-item navigation.
              Flexbox rather than Bootstrap's row/col — it needs no breakpoint

@@ -1,10 +1,62 @@
 // Put your custom SCSS code here
 
-// Shrink the top-right navbar icons (social links + color mode toggler)
+// The navbar's icons, all one size. Search was the theme's 24px beside four 20px
+// links, so the row read as two sets of icons.
 #socialMenu .social-link svg,
-#buttonColorMode svg {
+#buttonColorMode svg,
+#searchToggleDesktop svg,
+#searchToggleMobile svg {
+  // Block, not the default inline: an inline svg sits on a text line and keeps
+  // room under it for descenders, which made each 20px icon a 43px link and the
+  // navbar 68px tall around them.
+  display: block;
   width: 20px;
   height: 20px;
+}
+
+// Muted at rest and the accent on hover, like a link. The theme drew them in the
+// body ink, darker than any text on the page under them.
+#socialMenu .social-link,
+#searchToggleDesktop,
+#searchToggleMobile,
+.navbar [data-bs-target="#offcanvasNavMain"] {
+  color: $gray-600;
+  transition: color 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    color: $primary;
+  }
+}
+
+// The navbar row centred rather than stretched, and the search button without the
+// border and line box it brings as a Bootstrap `.btn`, so nothing in the row is
+// taller than the 36px icon links.
+@include media-breakpoint-up(lg) {
+  .navbar .offcanvas-body {
+    align-items: center;
+  }
+}
+
+#searchToggleDesktop {
+  border: 0;
+  line-height: 1;
+}
+
+// And the theme's 4px above and below each social icon's list item, the last thing
+// holding the row taller than its 36px links.
+#socialMenu .nav-item {
+  margin-block: 0;
+}
+
+// The navbar at a fixed 60px, its logo and icons centred in it. Height rather than
+// the theme's padding, so it is the same 60 on a phone, where the row holds the
+// search and menu buttons, as on a desktop, where it holds the links. Its width is
+// the theme's own container: narrowed to the cards' width, and then the map's, the
+// logo and the icons sat too far into the middle of the page.
+.navbar {
+  min-height: 60px;
+  padding-block: 0;
 }
 
 // Skip link: the first focusable thing on the page, hidden until it has focus.
@@ -68,10 +120,22 @@ body > * {
 .home h1.home-title {
   // `clamp()` passes through to CSS; Sass would try to evaluate `min()`
   // itself and fail on the mixed rem/vw units.
-  font-size: clamp(1.5rem, 3.4vw, 3rem);
+  //
+  //
+  // The top of the page's type scale, which runs (as rendered, through the
+  // homepage's `zoom: 0.9`) 36 / 18 / 16 / 14 / 12px: this headline; "Projects";
+  // the tagline and the card titles; the card text; the map key's names. 2.5rem is
+  // the 36px — wide enough (about 560px) for the tagline to sit under it on one
+  // line. It was 3rem, 43px, and read as a banner; 30px left the tagline the wider.
+  //
+  // The vw term is the tagline's ×2.25, so the two shrink together with the window
+  // and the tagline keeps fitting under the headline until both reach their floors.
+  // The 1.9rem floor is the narrowest headline the 13.5px tagline still fits under,
+  // so tablets keep one line too; only a phone, too narrow for either, wraps them.
+  font-size: clamp(1.9rem, 3.2vw, 2.5rem);
   // Doks pulls the home headline up by 1rem, which eats into the hero padding.
   margin-top: 0;
-  margin-bottom: 1.75rem;
+  margin-bottom: 1rem;
 }
 
 // One line, but only where one line fits. Below `sm` the headline would have to
@@ -84,11 +148,36 @@ body > * {
   }
 }
 
+// The headline's box, sized by the headline alone. `fit-content` would take the
+// wider of the two lines; the tagline is taken out of that sum by `width: 0` and then
+// filled back to the box's width by `min-width: 100%`, so it wraps to the
+// headline's width rather than setting it. It was the longer of the two — 499px
+// under a 341px headline on a tablet — which made the subtitle the widest thing in
+// the hero. `balance` evens the two lines it wraps into.
+.home-hero {
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+
+  .lead {
+    width: 0;
+    min-width: 100%;
+    max-width: none;
+    text-wrap: balance;
+  }
+}
+
 // The one piece of prose on the page. Constrained because a full-width measure
 // under a centred headline reads as a caption rather than a statement.
 .home .lead {
   max-width: 40rem;
   margin-inline: auto;
+  // 16px rendered at most, the card titles' size. Bootstrap's `.lead` is 1.25rem,
+  // 18px here, which put the tagline level with "Projects". Scaled with the window
+  // in step with the headline (see `.home-title`), so it stays on one line under it
+  // wherever the headline is wide enough to hold it.
+  font-size: clamp(0.9375rem, 1.42vw, 1.125rem);
+  line-height: 1.5;
   opacity: 0.75;
   // Doks gives `.lead` a bottom margin. It is the last thing in the hero, so that
   // margin only stacked on top of the hero's own bottom padding — which is what
@@ -172,13 +261,26 @@ $home-gap: clamp(2rem, 4.5vw, 3.5rem);
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  // The bar's height came from here: the theme's 5px of brand padding around a 32px
+  // logo made a 43px block in a 68px navbar whose icons are 20px. Without the padding,
+  // and with the mark and the wordmark a step smaller, it no longer sets the bar's
+  // height; with the icon fixes above, the bar is 52px, the height of what is in it.
+  padding-block: 0;
+  font-size: 1.25rem;
+  // The headings' ink rather than the theme's pure black, which was the one black
+  // thing on a page drawn in $body-color.
+  color: $body-color;
+
+  &:hover {
+    color: $body-color;
+  }
 
   &::before {
     content: "";
     display: inline-block;
     flex: 0 0 auto;
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     background: url("images/logo.png") no-repeat center / contain;
     border-radius: 50%;
   }
@@ -196,38 +298,24 @@ $feature-gap: 1.25rem;
 // the clamp on `.feature-card p`, which is what holds a longer description to it.
 $feature-card-height: calc(3rem + 1.125rem * #{$line-height-base} + 0.5rem + 3rem * #{$line-height-base});
 
-// Names the grid without shouting: smaller than the headline, uppercase and
-// tracked out so it reads as a label for the section rather than a second title
-// competing with the hero.
+// Names the grid without shouting: a label for the section rather than a second
+// title competing with the hero.
 //
 // Deliberately not called `.section-title` — the theme already uses that for the
 // "Related posts" heading on blog and legal pages (doks-core _posts.scss:55), and
 // this would have restyled those into tiny uppercase labels.
 .feature-grid-title {
-  margin-top: 0;
-  margin-bottom: 1.5rem;
+  margin: 0 0 1.25rem;
   text-align: center;
-  font-size: 0.8125rem;
+  // A real section heading. At the map key's 13px it was smaller than the card text
+  // under it and read as a caption; with the map's own label gone it is the only
+  // heading between the hero and the footer. Above the 1.125rem card titles and
+  // under the hero, in the body ink at the card titles' weight family.
+  // 18px rendered: under the 30px headline, over the 16px card titles.
+  font-size: 1.25rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  // Not lower: at 13px this is normal-size text for WCAG, so it needs 4.5:1.
-  // 0.5 measured 3.01:1 and failed; 0.7 measures 5.4:1.
-  opacity: 0.7;
-}
-
-// A heading kept for screen readers and dropped from the layout — the standard
-// visually-hidden recipe, as in `.skip-link` above, and for the same reason not
-// Bootstrap's `.visually-hidden`: this does not depend on that utility surviving
-// purgecss.
-.home-hidden-title {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: 0;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
+  line-height: 1.3;
+  color: $body-color;
 }
 
 .feature-grid {
@@ -1127,100 +1215,74 @@ $map-pulse-offsets:
 // a spreadsheet next to a graphic that has no lines in it at all.
 .worldmap-summary {
   width: 100%;
-  // The label and the regions on one centred line from `lg`; stacked below it, where
-  // at `md` the one line took the container's full 744px with nothing to spare, and
-  // the regions become a grid of their own.
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.625rem;
-  font-size: 0.8125rem;
-  line-height: 1.4;
+  // Narrower than the map: seven columns across its full width spread the figures
+  // so far apart that they read as seven separate things rather than one row.
+  max-width: 44rem;
+  margin-inline: auto;
 }
 
-@include media-breakpoint-up(lg) {
-  .worldmap-summary {
-    flex-direction: row;
-    justify-content: center;
-    align-items: baseline;
-    gap: 0;
-  }
-}
-
-// The section's heading, as the key's label: a dot in the map's mark colour and the
-// word, so the key says what a dot on the map is. Sentence case at the key's own
-// size — tracked capitals made it a second heading standing apart from the line it
-// labels.
+// "By region", a caption over the row.
 .worldmap-key-title {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.4375rem;
-  margin: 0;
-  font-size: inherit;
-  // One size and one weight across the whole key, the label included: a 600 label
-  // and 500 figures beside 400 names read as three sizes of type on one line.
+  margin: 0 0 0.625rem;
+  text-align: center;
+  // 12px rendered, the smallest step of the page's scale.
+  font-size: 0.8125rem;
   font-weight: 400;
-  line-height: inherit;
-  color: $gray-700;
+  line-height: 1.4;
+  // $gray-600, 4.7:1 on white: $gray-500 is only 2:1, under the 4.5:1 text this
+  // size needs.
+  color: $gray-600;
 }
 
-.worldmap-key-dot {
-  flex: 0 0 auto;
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  background: $map-mark;
-  // Onto the x-height rather than the baseline it is aligned to.
-  transform: translateY(-0.0625rem);
-}
-
-// A hairline between the label and what it labels, on the one-line layout only.
-@include media-breakpoint-up(lg) {
-  .worldmap-key-title {
-    padding-right: 1.25rem;
-    margin-right: 1.25rem;
-    border-right: 1px solid $map-region;
-  }
-}
-
+// The row: seven columns of one width from `md`; on a phone, four to a row with the
+// last three centred under them.
 .worldmap-regions {
-  // Three columns by two rows on a phone. Wrapped as a line, six entries broke four
-  // and two, and the short second line read as an afterthought.
-  display: grid;
-  grid-template-columns: repeat(3, auto);
-  gap: 0.375rem 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: 0.875rem;
   margin: 0;
   padding-left: 0;
   list-style: none;
 
   li {
+    flex: 0 0 25%;
     display: flex;
-    align-items: baseline;
-    gap: 0.3125rem;
-    white-space: nowrap;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.125rem;
+    min-width: 0;
   }
 }
 
-@include media-breakpoint-up(lg) {
-  .worldmap-regions {
-    display: flex;
-    // Wider between entries than inside one, so each figure stays paired with its
-    // own name without a separator to say so.
-    column-gap: 1.5rem;
+@include media-breakpoint-up(md) {
+  .worldmap-regions li {
+    flex: 1 1 0;
   }
 }
 
-// The name is the label and the figure the value, told apart by ink alone: the
-// figure darker, both at the key's one size and weight. Bold figures beside every
-// name made six loud numbers the most prominent thing under the map.
-.worldmap-region-name {
-  color: $map-text;
-}
-
+// The figure is what the row is for: the larger of the two, and the darker.
 .worldmap-region-share {
   // Digits of equal width, so the figures do not jitter in size against each other.
   font-variant-numeric: tabular-nums;
-  color: $gray-800;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  line-height: 1.3;
+  color: $gray-900;
+}
+
+.worldmap-region-name {
+  // 12px rendered, like the caption.
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  white-space: nowrap;
+  color: $gray-600;
+}
+
+// "Others": its figure in the names' lighter ink, so the largest share is not the
+// loudest number in the row.
+.worldmap-regions .worldmap-region-rest .worldmap-region-share {
+  color: $gray-600;
 }
 
 // The donation call to action. Deliberately unboxed: a panel here competed with
