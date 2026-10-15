@@ -235,7 +235,11 @@ $home-gap: clamp(2rem, 4.5vw, 3.5rem);
     // 1440, 43.2 to 32.4 at 1200, 28.8 to 21.6 on a phone. The floor is what keeps
     // the headline off the navbar on a narrow screen, so it comes down by the same
     // proportion rather than to nothing.
-    padding-top: clamp(1.5rem, 3vw, 2.5rem);
+    //
+    // Then lowered again, roughly doubled: hard under the navbar, the headline and
+    // everything after it read as pushed up against the top of the window. Rendered,
+    // through the 0.9: about 78px at 1440, 65 at 1200, 36 on a phone.
+    padding-top: clamp(2.5rem, 6vw, 5.5rem);
     padding-bottom: $home-gap;
   }
 
