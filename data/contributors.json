@@ -1,6 +1,6 @@
 {
-  "generated": "2026-10-14",
-  "total": 83,
+  "generated": "2026-10-19",
+  "total": 84,
   "located": 49,
   "places": [
     {
@@ -25,16 +25,16 @@
           "avatar": "https://avatars.githubusercontent.com/u/28390961?v=4&s=64"
         },
         {
-          "login": "X1aoZEOuO",
-          "avatar": "https://avatars.githubusercontent.com/u/97826429?v=4&s=64"
-        },
-        {
           "login": "rudeigerc",
           "avatar": "https://avatars.githubusercontent.com/u/18243819?v=4&s=64"
         },
         {
           "login": "windsonsea",
           "avatar": "https://avatars.githubusercontent.com/u/79828097?v=4&s=64"
+        },
+        {
+          "login": "X1aoZEOuO",
+          "avatar": "https://avatars.githubusercontent.com/u/97826429?v=4&s=64"
         },
         {
           "login": "caozhuozi",
@@ -774,7 +774,7 @@
     {
       "name": "Asia",
       "count": 18,
-      "percent": 22
+      "percent": 21
     },
     {
       "name": "Europe",
@@ -803,9 +803,9 @@
     },
     {
       "name": "Others",
-      "count": 34,
+      "count": 35,
       "note": "Contributors whose GitHub profile does not say where they are.",
-      "percent": 41
+      "percent": 42
     }
   ]
 }
