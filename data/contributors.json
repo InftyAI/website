@@ -1,7 +1,7 @@
 {
-  "generated": "2026-10-19",
-  "total": 84,
-  "located": 49,
+  "generated": "2026-10-20",
+  "total": 85,
+  "located": 50,
   "places": [
     {
       "label": "Shanghai, China",
@@ -258,6 +258,26 @@
         {
           "login": "AbdulDavids",
           "avatar": "https://avatars.githubusercontent.com/u/125186956?v=4&s=64"
+        }
+      ],
+      "more": 0
+    },
+    {
+      "label": "Sydney, Australia",
+      "country": "Australia",
+      "lat": -33.87,
+      "lng": 151.21,
+      "short": "Sydney",
+      "offset": {
+        "dx": 11,
+        "dy": 4,
+        "anchor": "start"
+      },
+      "count": 1,
+      "people": [
+        {
+          "login": "agairola",
+          "avatar": "https://avatars.githubusercontent.com/u/16770959?v=4&s=64"
         }
       ],
       "more": 0
@@ -768,7 +788,7 @@
       "more": 0
     }
   ],
-  "cities": 27,
+  "cities": 28,
   "countryCount": 21,
   "regions": [
     {
@@ -788,8 +808,8 @@
     },
     {
       "name": "Oceania",
-      "count": 3,
-      "percent": 4
+      "count": 4,
+      "percent": 5
     },
     {
       "name": "South America",
@@ -805,7 +825,7 @@
       "name": "Others",
       "count": 35,
       "note": "Contributors whose GitHub profile does not say where they are.",
-      "percent": 42
+      "percent": 41
     }
   ]
 }
