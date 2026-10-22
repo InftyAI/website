@@ -1,7 +1,7 @@
 {
   "generated": "2026-10-22",
-  "total": 86,
-  "located": 50,
+  "total": 87,
+  "located": 51,
   "places": [
     {
       "label": "Shanghai, China",
@@ -768,6 +768,26 @@
       "more": 0
     },
     {
+      "label": "Singapore",
+      "country": "Singapore",
+      "lat": 1.35,
+      "lng": 103.82,
+      "short": "Singapore",
+      "offset": {
+        "dx": 11,
+        "dy": 4,
+        "anchor": "start"
+      },
+      "count": 1,
+      "people": [
+        {
+          "login": "xqliu",
+          "avatar": "https://avatars.githubusercontent.com/u/22554?v=4&s=64"
+        }
+      ],
+      "more": 0
+    },
+    {
       "label": "Tampa, USA",
       "country": "United States",
       "lat": 27.95,
@@ -788,13 +808,13 @@
       "more": 0
     }
   ],
-  "cities": 28,
-  "countryCount": 21,
+  "cities": 29,
+  "countryCount": 22,
   "regions": [
     {
       "name": "Asia",
-      "count": 18,
-      "percent": 21
+      "count": 19,
+      "percent": 22
     },
     {
       "name": "Europe",
@@ -822,10 +842,10 @@
       "percent": 1
     },
     {
-      "name": "Others",
+      "name": "Unlisted",
       "count": 36,
       "note": "Contributors whose GitHub profile does not say where they are.",
-      "percent": 42
+      "percent": 41
     }
   ]
 }

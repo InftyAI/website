@@ -269,7 +269,7 @@ for (const [id, entry] of [...contributors].sort(([a], [b]) =>
   // A login is a login as it was on the day of the commit it was read from, and three
   // of the ones in these repositories now 404: renamed or deleted since. Dropped
   // rather than counted, because there is no profile to place them by and no avatar to
-  // show — all they could add is another line to the "Others" share.
+  // show — all they could add is another line to the "Unlisted" share.
   if (profile === null) {
     contributors.delete(id);
     console.warn(
@@ -360,7 +360,7 @@ const matched = [...places.values()];
 // A country with no region in tools/locations.json is counted under "Unknown"
 // rather than dropped: silently omitting one would leave the column adding up to
 // 100% of the wrong total. The warning is what gets it mapped properly. Distinct
-// from the "Others" row added below — an Unknown has a dot on the map and only
+// from the "Unlisted" row added below — an Unknown has a dot on the map and only
 // wants a line in tools/locations.json, so in a healthy run it never appears.
 const regionCounts = new Map();
 for (const place of matched) {
@@ -473,7 +473,7 @@ const ranked = [...regionCounts]
 const unlocated = contributors.size - located;
 if (unlocated > 0) {
   ranked.push({
-    name: "Others",
+    name: "Unlisted",
     count: unlocated,
     note: "Contributors whose GitHub profile does not say where they are.",
   });
@@ -521,7 +521,7 @@ const output = {
   // are marks: six of these are American. Not shown, but it is what the map's
   // accessible name says, being more use to a screen reader than "4 regions".
   countryCount: new Set(matched.map((p) => p.country)).size,
-  // Regions plus the "Others" remainder: one row each in the summary. `count` is
+  // Regions plus the "Unlisted" remainder: one row each in the summary. `count` is
   // not rendered — `percent` is — but it stays so the file can be checked against
   // itself: the counts sum to `total`, and the percents to 100.
   //

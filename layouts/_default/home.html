@@ -317,7 +317,7 @@
             {{/* A row of figures: each region's share, large, over its name, in
                  columns of one width. The numbers are what this is for, and as a
                  line of text — name, share, name, share — they had to be picked out
-                 of it. "Others", the contributors whose profile does not say where
+                 of it. "Unlisted", the contributors whose profile does not say where
                  they are, comes last and in the label's lighter ink, so the largest
                  share of the seven does not read as the biggest region.
 
@@ -325,7 +325,7 @@
                  `aria-label`); on screen the tagline is what names the map. */}}
             <h2 class="worldmap-key-title" aria-label="Contributors by region">By region</h2>
             <ul class="worldmap-regions">
-                {{/* Largest first, as tools/contributors.mjs ranks them; "Others"
+                {{/* Largest first, as tools/contributors.mjs ranks them; "Unlisted"
                      last, so a remainder never heads a list of places. With it the
                      shares add to 100 — see the apportionment there. */}}
                 {{ range .regions -}}
@@ -371,7 +371,7 @@
              instead of directly off the page's h1. Shown, as a section heading:
              without it nothing said these are InftyAI's projects and not a list
              of tools it recommends. */}}
-        <h2 class="feature-grid-title">Projects</h2>
+        <h2 class="feature-grid-title">Featured Projects</h2>
         {{/* A list, because that is what seven sibling projects are: screen
              readers announce the count and allow item-by-item navigation.
              Flexbox rather than Bootstrap's row/col — it needs no breakpoint
@@ -404,6 +404,23 @@
             </li>
             {{ end -}}
         </ul>
+        {{/* The grid is a selection, not the whole organisation: point at the
+             rest of it on GitHub rather than listing every repository here. */}}
+        {{ with site.Data.projects.more -}}
+        <p class="feature-more">
+            <a class="feature-more-link" href="{{ .url }}">
+                {{/* The header's GitHub mark (menus.en.toml), so the link says
+                     where it goes before it is read. */}}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                    stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                    stroke-linejoin="round" aria-hidden="true">
+                    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"></path>
+                </svg>
+                <span>{{ .name }}</span>
+                <span class="feature-more-arrow" aria-hidden="true">→</span>
+            </a>
+        </p>
+        {{ end -}}
     </div>
 </section>
 
@@ -413,16 +430,33 @@
 <section class="section section-cta">
     <div class="container">
         {{ with site.Data.projects.cta -}}
-        {{/* One line rather than a title over a sentence: the page ends on it, and
-             two lines of its own read as one more block rather than a sign-off. */}}
-        <p class="feature-cta">
-            {{ if .url -}}
-            <a class="feature-cta-title" href="{{ .url }}">{{ .name }}</a>
-            {{- else -}}
-            <span class="feature-cta-title">{{ .name }}</span>
-            {{- end }}
-            <span class="feature-cta-text">{{ .description }}</span>
-        </p>
+        {{/* A heading, a line, and two buttons. As one line of muted text with
+             two inline links, it read as a footnote under the "More on GitHub"
+             pill — the page ended on its quietest element. Icons are the
+             header's (menus.en.toml). */}}
+        {{ $icons := dict
+            "discord" `<path d="M8 12a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"></path><path d="M14 12a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"></path><path d="M8.5 17c0 1 -1.356 3 -1.832 3c-1.429 0 -2.698 -1.667 -3.333 -3c-.635 -1.667 -.476 -5.833 1.428 -11.5c1.388 -1.015 2.782 -1.34 4.237 -1.5l.975 1.923a11.913 11.913 0 0 1 4.053 0l.972 -1.923c1.5 .16 3.043 .485 4.5 1.5c2 5.667 2.167 9.833 1.5 11.5c-.667 1.333 -2 3 -3.5 3c-.5 0 -2 -2 -2 -3"></path><path d="M7 16.5c3.5 1 6.5 1 10 0"></path>`
+            "heart" `<path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"></path>`
+        -}}
+        <div class="feature-cta">
+            <h2 class="feature-cta-title">{{ .title }}</h2>
+            {{ with .text }}<p class="feature-cta-text">{{ . }}</p>{{ end }}
+            {{ with .links -}}
+            <div class="feature-cta-actions">
+                {{ range $i, $l := . -}}
+                {{/* The first is the main action and filled; the rest outlined. */}}
+                <a class="feature-cta-btn{{ if eq $i 0 }} feature-cta-btn-primary{{ end }}" href="{{ $l.url }}">
+                    {{ with index $icons ($l.icon | default "") -}}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round" aria-hidden="true">{{ . | safeHTML }}</svg>
+                    {{- end }}
+                    <span>{{ $l.name }}</span>
+                </a>
+                {{ end -}}
+            </div>
+            {{ end -}}
+        </div>
         {{ end -}}
     </div>
 </section>
