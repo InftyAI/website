@@ -58,7 +58,7 @@ more:
 # and is drawn filled. `icon` is optional — `discord` or `heart` (see the cta
 # section in home.html).
 cta:
-  title: "Build. Ship. Together."
+  title: "Build. Grow. Together."
   links:
     - name: "Join our Discord"
       icon: discord
