@@ -195,8 +195,8 @@ body > * {
 // 2000px tall — that much between every pair is height a thumb has to travel past.
 //
 // Each block owns the space below itself, so every gap is set in exactly one
-// place. That is why `.section-cta` zeroes its top padding rather than splitting
-// the difference with the section above it.
+// place: a section zeroes its top padding rather than splitting the difference
+// with the section above it.
 // Tightened from clamp(2.5rem, 5.5vw, 4.5rem) when the section labels came out: with
 // two fewer bands, gaps sized to separate them left the page reading as islands.
 $home-gap: clamp(2rem, 4.5vw, 3.5rem);
@@ -1289,35 +1289,142 @@ $map-pulse-offsets:
   color: $gray-600;
 }
 
-// The donation call to action. Deliberately unboxed: a panel here competed with
-// the project cards for attention and left a large empty band across the page.
-// A plain centred line separates it from the grid on whitespace alone.
-.feature-cta {
-  // No top margin of its own: it sits in `.section-cta` now, whose padding is
-  // what separates it from the projects above, so a margin here would be added twice.
-  margin: 0;
+// "More on GitHub" under the grid: an outlined pill in the cards' own border and
+// ink, so it reads as the end of the list. A bare orange link here looked like the
+// call to action below it, and the two ran together.
+.feature-more {
+  margin: 2rem 0 0;
   text-align: center;
-  font-size: 0.9375rem;
+}
 
-  .feature-cta-title {
-    font-weight: 600;
-    color: $primary;
+.feature-more-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.125rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  // The CSS variable, not `$body-color`, so it follows dark mode like the cards.
+  color: var(--bs-body-color);
+  text-decoration: none;
+  background: rgba($primary, 0.02);
+  border: 1px solid rgba($primary, 0.18);
+  border-radius: 999px;
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+
+  .feature-more-arrow {
+    transition: transform 0.15s ease;
   }
 
-  // Set when data/projects.yaml gives the call to action a `url`.
-  a.feature-cta-title {
-    text-decoration: none;
+  &:hover,
+  &:focus-visible {
+    color: $primary;
+    background: rgba($primary, 0.06);
+    border-color: rgba($primary, 0.45);
 
-    &:hover {
-      text-decoration: underline;
+    .feature-more-arrow {
+      transform: translateX(3px);
     }
   }
 
-  // Lighter than the name, so the line reads as a name and its gloss. Spacing comes
-  // from the space between the two spans in the template, so the sentence still
-  // wraps at word boundaries on a phone.
+  @media (prefers-reduced-motion: reduce) {
+    &,
+    .feature-more-arrow {
+      transition: none;
+    }
+
+    &:hover .feature-more-arrow,
+    &:focus-visible .feature-more-arrow {
+      transform: none;
+    }
+  }
+}
+
+// The closing call to action: a heading, a line, and two buttons, on a faint wash
+// of the accent that fades out at its edges. Not a bordered panel — a box here once
+// competed with the project cards — but no longer a lone muted line either, which
+// ended the page on its quietest element.
+.feature-cta {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  background: radial-gradient(ellipse at center, rgba($primary, 0.07) 0%, rgba($primary, 0) 70%);
+
+  // The gap to the buttons. `.feature-cta-text`, when set, brings its own.
+  // A slogan, three words, so set as display type rather than as a section label:
+  // between the 36px hero headline and the 18px "Featured Projects" (rendered,
+  // through the homepage's `zoom: 0.9`), heavy, and tracked in a touch the way
+  // large type wants. Scales down with the window like the headline does.
+  .feature-cta-title {
+    margin: 0 0 1.5rem;
+    font-size: clamp(1.5rem, 2.4vw, 1.875rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  // Muted with colour rather than `opacity`, as on the card descriptions.
   .feature-cta-text {
-    opacity: 0.7;
+    margin: -0.75rem 0 1.5rem;
+    font-size: 1rem;
+    color: rgba(var(--bs-body-color-rgb), 0.78);
+  }
+}
+
+.feature-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+// Pills, the shape of "More on GitHub" above, but taller: these are the page's
+// actions, that one is a way to see more of the list.
+.feature-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.375rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: $primary;
+  text-decoration: none;
+  background: var(--bs-body-bg);
+  border: 1px solid rgba($primary, 0.35);
+  border-radius: 999px;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease,
+    transform 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    border-color: $primary;
+    background: rgba($primary, 0.06);
+    box-shadow: 0 4px 14px rgba($primary, 0.15);
+    transform: translateY(-1px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+
+    &:hover,
+    &:focus-visible {
+      transform: none;
+    }
+  }
+}
+
+.feature-cta-btn-primary {
+  color: #fff;
+  background: $primary;
+  border-color: $primary;
+
+  &:hover,
+  &:focus-visible {
+    color: #fff;
+    background: darken($primary, 6%);
+    border-color: darken($primary, 6%);
+    box-shadow: 0 6px 18px rgba($primary, 0.3);
   }
 }
 

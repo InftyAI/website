@@ -10,22 +10,27 @@ projects:
   - name: Awesome-LLMOps
     repo: InftyAI/Awesome-LLMOps
     url: https://github.com/InftyAI/Awesome-LLMOps
-    description: "An awesome & curated list of best LLMOps tools."
+    description: "A curated list of the best LLMOps tools."
+
+  - name: Awesome-Kernel-Agents
+    repo: InftyAI/Awesome-Kernel-Agents
+    url: https://github.com/InftyAI/Awesome-Kernel-Agents
+    description: "A curated list of AI agents for GPU kernel generation, optimization, and verification."
 
   - name: llmaz
     repo: InftyAI/llmaz
     url: https://github.com/InftyAI/llmaz
-    description: "Easy, advanced inference platform for large language models on Kubernetes."
+    description: "An easy-to-use, production-grade inference platform for LLMs on Kubernetes."
 
   - name: Alphatrion
     repo: InftyAI/alphatrion
     url: https://github.com/InftyAI/alphatrion
-    description: "The open-source framework for LLM experiments and agent orchestration."
+    description: "A framework for LLM experiments and agent orchestration."
 
-  - name: AMRS
-    repo: InftyAI/amrs
-    url: https://github.com/InftyAI/amrs
-    description: "The adaptive model routing system for exploration and exploitation."
+  # - name: AMRS
+  #   repo: InftyAI/amrs
+  #   url: https://github.com/InftyAI/amrs
+  #   description: "The adaptive model routing system for exploration and exploitation."
 
   - name: SandD
     repo: InftyAI/sandd
@@ -35,16 +40,29 @@ projects:
   - name: Nebula
     repo: InftyAI/Nebula
     url: https://github.com/InftyAI/Nebula
-    description: "The control plane for GPUaaS."
+    description: "The control plane for GPUaaS — across neoclouds, hyperscalers, and your own infrastructure."
 
   - name: MLX
     repo: InftyAI/mlx
     url: https://github.com/InftyAI/mlx
     description: "Rust bindings for Apple's MLX framework."
 
-# Rendered below the grid as one line — not a project, so it has no `repo` (no
-# star count). `url` is optional: set it and the name becomes a link; leave it out
-# and the line is plain text, as it was.
+# The link under the grid: the cards are a selection, the rest are on GitHub.
+more:
+  name: "More on GitHub"
+  url: https://github.com/InftyAI
+
+# The page's closing block, below the grid: `title`, an optional `text` under it,
+# then a button for each of `links`. No `text` for now — every line tried here
+# restated the lead at the top of the page. The first link is the main action
+# and is drawn filled. `icon` is optional — `discord` or `heart` (see the cta
+# section in home.html).
 cta:
-  name: "✨ Donation Plan"
-  description: "Got a brilliant idea? Let's build something extraordinary together."
+  title: "Build. Ship. Together."
+  links:
+    - name: "Join our Discord"
+      icon: discord
+      url: https://discord.com/invite/UWnjUG6X8j
+    - name: "Sponsor"
+      icon: heart
+      url: https://opencollective.com/inftyai
