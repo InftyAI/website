@@ -1,7 +1,7 @@
 {
-  "generated": "2026-10-27",
-  "total": 90,
-  "located": 51,
+  "generated": "2026-10-28",
+  "total": 91,
+  "located": 52,
   "places": [
     {
       "label": "Shanghai, China",
@@ -788,6 +788,26 @@
       "more": 0
     },
     {
+      "label": "Dubai, UAE",
+      "country": "United Arab Emirates",
+      "lat": 25.2,
+      "lng": 55.27,
+      "short": "Dubai",
+      "offset": {
+        "dx": 11,
+        "dy": 4,
+        "anchor": "start"
+      },
+      "count": 1,
+      "people": [
+        {
+          "login": "yura-build",
+          "avatar": "https://avatars.githubusercontent.com/u/24231496?v=4&s=64"
+        }
+      ],
+      "more": 0
+    },
+    {
       "label": "Tampa, USA",
       "country": "United States",
       "lat": 27.95,
@@ -808,13 +828,13 @@
       "more": 0
     }
   ],
-  "cities": 29,
-  "countryCount": 22,
+  "cities": 30,
+  "countryCount": 23,
   "regions": [
     {
       "name": "Asia",
-      "count": 19,
-      "percent": 21
+      "count": 20,
+      "percent": 22
     },
     {
       "name": "Europe",
@@ -829,7 +849,7 @@
     {
       "name": "Oceania",
       "count": 4,
-      "percent": 5
+      "percent": 4
     },
     {
       "name": "South America",
