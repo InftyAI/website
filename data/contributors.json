@@ -1,6 +1,6 @@
 {
-  "generated": "2026-10-28",
-  "total": 91,
+  "generated": "2026-10-31",
+  "total": 92,
   "located": 52,
   "places": [
     {
@@ -839,7 +839,7 @@
     {
       "name": "Europe",
       "count": 15,
-      "percent": 17
+      "percent": 16
     },
     {
       "name": "North America",
@@ -863,9 +863,9 @@
     },
     {
       "name": "Unlisted",
-      "count": 39,
+      "count": 40,
       "note": "Contributors whose GitHub profile does not say where they are.",
-      "percent": 43
+      "percent": 44
     }
   ]
 }
