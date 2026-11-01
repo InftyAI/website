@@ -1,7 +1,7 @@
 {
   "generated": "2026-11-01",
   "total": 94,
-  "located": 53,
+  "located": 55,
   "places": [
     {
       "label": "Shanghai, China",
@@ -54,7 +54,7 @@
         "dy": 4,
         "anchor": "end"
       },
-      "count": 3,
+      "count": 4,
       "people": [
         {
           "login": "paralleliq",
@@ -63,6 +63,10 @@
         {
           "login": "neerazz",
           "avatar": "https://avatars.githubusercontent.com/u/43318996?v=4&s=64"
+        },
+        {
+          "login": "nk-ag",
+          "avatar": "https://avatars.githubusercontent.com/u/46679818?v=4&s=64"
         },
         {
           "login": "rohilvagarwal",
@@ -343,6 +347,27 @@
         {
           "login": "amedinat",
           "avatar": "https://avatars.githubusercontent.com/u/25287764?v=4&s=64"
+        }
+      ],
+      "more": 0
+    },
+    {
+      "label": "Montenegro",
+      "country": "Montenegro",
+      "lat": 42.8,
+      "lng": 19.3,
+      "countryOnly": true,
+      "short": "Montenegro",
+      "offset": {
+        "dx": 11,
+        "dy": 4,
+        "anchor": "start"
+      },
+      "count": 1,
+      "people": [
+        {
+          "login": "artempartos",
+          "avatar": "https://avatars.githubusercontent.com/u/1943859?v=4&s=64"
         }
       ],
       "more": 0
@@ -833,7 +858,7 @@
     }
   ],
   "cities": 30,
-  "countryCount": 23,
+  "countryCount": 24,
   "regions": [
     {
       "name": "Asia",
@@ -842,13 +867,13 @@
     },
     {
       "name": "Europe",
-      "count": 16,
-      "percent": 17
+      "count": 17,
+      "percent": 18
     },
     {
       "name": "North America",
-      "count": 10,
-      "percent": 11
+      "count": 11,
+      "percent": 12
     },
     {
       "name": "Oceania",
@@ -867,9 +892,9 @@
     },
     {
       "name": "Unlisted",
-      "count": 41,
+      "count": 39,
       "note": "Contributors whose GitHub profile does not say where they are.",
-      "percent": 44
+      "percent": 42
     }
   ]
 }
