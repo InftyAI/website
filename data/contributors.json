@@ -1,7 +1,7 @@
 {
-  "generated": "2026-10-31",
-  "total": 92,
-  "located": 52,
+  "generated": "2026-11-01",
+  "total": 94,
+  "located": 53,
   "places": [
     {
       "label": "Shanghai, China",
@@ -67,6 +67,31 @@
         {
           "login": "rohilvagarwal",
           "avatar": "https://avatars.githubusercontent.com/u/88454899?v=4&s=64"
+        }
+      ],
+      "more": 0
+    },
+    {
+      "label": "Germany",
+      "country": "Germany",
+      "lat": 51,
+      "lng": 10,
+      "countryOnly": true,
+      "short": "Germany",
+      "offset": {
+        "dx": 11,
+        "dy": 4,
+        "anchor": "start"
+      },
+      "count": 2,
+      "people": [
+        {
+          "login": "alexsergivan",
+          "avatar": "https://avatars.githubusercontent.com/u/7488348?v=4&s=64"
+        },
+        {
+          "login": "mertkayacs",
+          "avatar": "https://avatars.githubusercontent.com/u/47145541?v=4&s=64"
         }
       ],
       "more": 0
@@ -506,27 +531,6 @@
       "more": 0
     },
     {
-      "label": "Germany",
-      "country": "Germany",
-      "lat": 51,
-      "lng": 10,
-      "countryOnly": true,
-      "short": "Germany",
-      "offset": {
-        "dx": 11,
-        "dy": 4,
-        "anchor": "start"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "mertkayacs",
-          "avatar": "https://avatars.githubusercontent.com/u/47145541?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
       "label": "Limassol, Cyprus",
       "country": "Cyprus",
       "lat": 34.71,
@@ -834,12 +838,12 @@
     {
       "name": "Asia",
       "count": 20,
-      "percent": 22
+      "percent": 21
     },
     {
       "name": "Europe",
-      "count": 15,
-      "percent": 16
+      "count": 16,
+      "percent": 17
     },
     {
       "name": "North America",
@@ -863,7 +867,7 @@
     },
     {
       "name": "Unlisted",
-      "count": 40,
+      "count": 41,
       "note": "Contributors whose GitHub profile does not say where they are.",
       "percent": 44
     }
