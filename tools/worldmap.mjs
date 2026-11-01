@@ -250,9 +250,9 @@ const d = land.map(encode).join("");
 //
 // That list, and not the countries actually on the map today:
 // data/contributors.json is regenerated on every contributor change, and this file
-// would then have to be rebuilt over the network to catch up with it. Fifty-five
-// outlines is some 20 KB of path data in a file nothing downloads; the page carries
-// only the twenty of them that are used.
+// would then have to be rebuilt over the network to catch up with it. Every country
+// in the world is some tens of KB of path data in a file nothing downloads; the page
+// carries only the ones that are used.
 const places = JSON.parse(
   await readFile("tools/locations.json", "utf8"),
 ).places;
@@ -262,16 +262,61 @@ const wanted = new Set(
     .map((place) => place.country),
 );
 
-// Natural Earth's own names, where they differ from the ones the site uses. Only
-// one does today; the rest of the fifty-five match on the nose.
-const NE_NAMES = { "United States": "United States of America" };
+// Natural Earth's own names, where they differ from the ones the site uses — its
+// abbreviations, mostly, and a few older names. The rest match on the nose.
+const NE_NAMES = {
+  "Bosnia and Herzegovina": "Bosnia and Herz.",
+  "Central African Republic": "Central African Rep.",
+  "DR Congo": "Dem. Rep. Congo",
+  "Dominican Republic": "Dominican Rep.",
+  "Equatorial Guinea": "Eq. Guinea",
+  Eswatini: "eSwatini",
+  "North Macedonia": "Macedonia",
+  "Republic of the Congo": "Congo",
+  "Solomon Islands": "Solomon Is.",
+  "South Sudan": "S. Sudan",
+  "United States": "United States of America",
+};
 
-// The city-states, which 110m has no polygon for at all — one is 50 km across and
-// the other 25, well under the pixel this dataset resolves. Listed rather than
-// warned about: their contributors are on the map as city dots, a shade of a
-// country that small would be invisible under its own dot, and a warning on every
-// run for something that cannot be fixed is a warning nobody reads.
-const NO_OUTLINE = new Set(["Hong Kong", "Singapore"]);
+// The city-states, microstates and small island nations, which 110m has no polygon
+// for at all — Singapore is 50 km across and Hong Kong 25, well under the pixel this
+// dataset resolves, and the rest are of that order. Listed rather than warned about:
+// their contributors are on the map as dots, a shade of a country that small would
+// be invisible under its own dot, and a warning on every run for something that
+// cannot be fixed is a warning nobody reads.
+const NO_OUTLINE = new Set([
+  "Andorra",
+  "Antigua and Barbuda",
+  "Bahrain",
+  "Barbados",
+  "Cape Verde",
+  "Comoros",
+  "Dominica",
+  "Grenada",
+  "Hong Kong",
+  "Kiribati",
+  "Liechtenstein",
+  "Macau",
+  "Maldives",
+  "Malta",
+  "Marshall Islands",
+  "Mauritius",
+  "Micronesia",
+  "Monaco",
+  "Nauru",
+  "Palau",
+  "Saint Kitts and Nevis",
+  "Saint Lucia",
+  "Saint Vincent and the Grenadines",
+  "Samoa",
+  "San Marino",
+  "São Tomé and Príncipe",
+  "Seychelles",
+  "Singapore",
+  "Tonga",
+  "Tuvalu",
+  "Vatican City",
+]);
 
 const countries = {};
 for (const name of [...wanted].sort()) {
