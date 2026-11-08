@@ -1,7 +1,7 @@
 {
-  "generated": "2026-11-03",
-  "total": 95,
-  "located": 55,
+  "generated": "2026-11-08",
+  "total": 96,
+  "located": 56,
   "places": [
     {
       "label": "Shanghai, China",
@@ -145,6 +145,30 @@
         {
           "login": "vgmartinez",
           "avatar": "https://avatars.githubusercontent.com/u/10614247?v=4&s=64"
+        }
+      ],
+      "more": 0
+    },
+    {
+      "label": "Palo Alto, USA",
+      "country": "United States",
+      "lat": 37.44,
+      "lng": -122.14,
+      "short": "Palo Alto",
+      "offset": {
+        "dx": -12,
+        "dy": 23,
+        "anchor": "end"
+      },
+      "count": 2,
+      "people": [
+        {
+          "login": "itomatik",
+          "avatar": "https://avatars.githubusercontent.com/u/972084?v=4&s=64"
+        },
+        {
+          "login": "tonydzi",
+          "avatar": "https://avatars.githubusercontent.com/u/194927794?v=4&s=64"
         }
       ],
       "more": 0
@@ -737,26 +761,6 @@
       "more": 0
     },
     {
-      "label": "Palo Alto, USA",
-      "country": "United States",
-      "lat": 37.44,
-      "lng": -122.14,
-      "short": "Palo Alto",
-      "offset": {
-        "dx": -12,
-        "dy": 23,
-        "anchor": "end"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "tonydzi",
-          "avatar": "https://avatars.githubusercontent.com/u/194927794?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
       "label": "Amsterdam, Netherlands",
       "country": "Netherlands",
       "lat": 52.37,
@@ -872,7 +876,7 @@
     },
     {
       "name": "North America",
-      "count": 11,
+      "count": 12,
       "percent": 12
     },
     {
