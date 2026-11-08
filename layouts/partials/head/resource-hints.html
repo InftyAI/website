@@ -56,6 +56,12 @@
      column of faces. */}}
 {{ $room := cond (gt $pos.x (mul 0.5 $map.width)) (sub $left (div $size 2.0)) (sub (sub 100.0 $left) (div $size 2.0)) -}}
 {{ $rules = $rules | append (printf ".worldmap-hit:nth-child(%d){left:%.3f%%;top:%.3f%%;width:calc(%.3f%% * var(--mark-scale, 1));--map-room:%.3f}" (add $i 1) $left $top $size $room) -}}
+{{/* Where the city's name sits relative to its dot, in viewBox units — the same
+     hand-placed offset the svg label is drawn at, so the name's hover target in
+     `.worldmap-hit-label` lands on the name. */}}
+{{ with $place.offset -}}
+{{ $rules = $rules | append (printf ".worldmap-hit:nth-child(%d){--label-dx:%.1f;--label-dy:%.1f}" (add $i 1) (float .dx) (float .dy)) -}}
+{{ end -}}
 {{/* The point the svg's group for this mark is scaled about — its dot's centre, in
      viewBox units. See `.worldmap-place` in the stylesheet; `nth-of-type` because the
      groups are the only `<g>` in the svg, one per mark in this same order. */}}

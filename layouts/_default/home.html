@@ -292,6 +292,22 @@
                         </p>
                         {{ end }}
                     </div>
+                    {{/* A second way into the card: the city's name. The dots are a few
+                         pixels across and hard to hit, while the name beside each one is
+                         the thing a reader is actually looking at. This is the same text
+                         as the svg label, set transparent at the same size and laid over
+                         it (offsets from the generated stylesheet, anchor from the class),
+                         so its box is the name's own box without anything measuring it.
+
+                         Inside the hit rather than beside it, which is the whole trick:
+                         hovering it is hovering `.worldmap-hit`, and a tap or click on it
+                         focuses the hit, so the card opens through the same `:hover` and
+                         `:focus-within` rules as the dot and no script is needed.
+                         `aria-hidden` because the card head already names the place. */}}
+                    {{ $short := .short -}}
+                    {{ with .offset -}}
+                    <span class="worldmap-hit-label worldmap-hit-label-{{ .anchor }}" aria-hidden="true">{{ $short }}</span>
+                    {{- end }}
                 </div>
                 {{ end -}}
             </div>

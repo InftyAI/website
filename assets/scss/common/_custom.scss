@@ -668,7 +668,8 @@ $map-pulse-alpha: 0.18;
   stroke: var(--bs-body-bg, #fff);
   stroke-width: 3px;
   paint-order: stroke;
-  // Purely a caption for the dot, which is already the hit target.
+  // The pointer goes to `.worldmap-hit-label`, the transparent copy of this name in
+  // the html layer above, which is what makes the name open the card.
   pointer-events: none;
 }
 
@@ -908,6 +909,49 @@ $map-pulse-offsets:
 .worldmap-hit:hover,
 .worldmap-hit:focus-within {
   z-index: 4;
+}
+
+// The city's name as a second hover target for its card — see the template. The same
+// text at the same size as `.worldmap-label`, painted transparent over it, so its box
+// is the name's box. Everything is in map units turned into `cqw` (the layer is the
+// query container and is the map's width, so one viewBox unit is 0.1cqw), and shrunk
+// by `--mark-scale` exactly as the svg group is, so the two stay on top of each other
+// at every width the names are drawn at.
+//
+// Anchored at the hit's centre, which is the dot's: `--label-dx` and `--label-dy` from
+// the generated stylesheet are the svg label's own offset, and `dy` lands on its
+// baseline. With `line-height: 1` the baseline is about 0.8em below the top of the
+// line, so the box is lifted by that plus the padding — the padding is slack that
+// makes a 12px name a little easier to land on than its glyphs alone.
+.worldmap-hit-label {
+  display: none;
+  position: absolute;
+  left: calc(50% + var(--label-dx, 0) * 0.1cqw * var(--mark-scale, 1));
+  top: calc(50% + var(--label-dy, 0) * 0.1cqw * var(--mark-scale, 1));
+  padding: 0.2em;
+  font-size: calc(1.35cqw * var(--mark-scale, 1));
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+  color: transparent;
+  user-select: none;
+  transform: translate(-0.2em, -1em);
+}
+
+.worldmap-hit-label-end {
+  transform: translate(calc(-100% + 0.2em), -1em);
+}
+
+.worldmap-hit-label-middle {
+  transform: translate(-50%, -1em);
+}
+
+// Only where the svg draws the names — a target over a name that is not there would be
+// a patch of empty map that opens a card.
+@include media-breakpoint-up(xl) {
+  .worldmap-hit-label {
+    display: block;
+  }
 }
 
 // The ring is the focus indicator's job here too, but on its own it is a 22% wash
