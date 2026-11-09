@@ -1,7 +1,7 @@
 {
-  "generated": "2026-11-08",
-  "total": 96,
-  "located": 56,
+  "generated": "2026-11-09",
+  "total": 97,
+  "located": 57,
   "places": [
     {
       "label": "Shanghai, China",
@@ -71,6 +71,30 @@
         {
           "login": "rohilvagarwal",
           "avatar": "https://avatars.githubusercontent.com/u/88454899?v=4&s=64"
+        }
+      ],
+      "more": 0
+    },
+    {
+      "label": "Sao Paulo, Brazil",
+      "country": "Brazil",
+      "lat": -23.55,
+      "lng": -46.63,
+      "short": "Sao Paulo",
+      "offset": {
+        "dx": 11,
+        "dy": 4,
+        "anchor": "start"
+      },
+      "count": 2,
+      "people": [
+        {
+          "login": "alegauss",
+          "avatar": "https://avatars.githubusercontent.com/u/331174?v=4&s=64"
+        },
+        {
+          "login": "giozadi",
+          "avatar": "https://avatars.githubusercontent.com/u/43352271?v=4&s=64"
         }
       ],
       "more": 0
@@ -331,26 +355,6 @@
         {
           "login": "agairola",
           "avatar": "https://avatars.githubusercontent.com/u/16770959?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Sao Paulo, Brazil",
-      "country": "Brazil",
-      "lat": -23.55,
-      "lng": -46.63,
-      "short": "Sao Paulo",
-      "offset": {
-        "dx": 11,
-        "dy": 4,
-        "anchor": "start"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "alegauss",
-          "avatar": "https://avatars.githubusercontent.com/u/331174?v=4&s=64"
         }
       ],
       "more": 0
@@ -886,8 +890,8 @@
     },
     {
       "name": "South America",
-      "count": 2,
-      "percent": 2
+      "count": 3,
+      "percent": 3
     },
     {
       "name": "Africa",
@@ -898,7 +902,7 @@
       "name": "Unlisted",
       "count": 40,
       "note": "Contributors whose GitHub profile does not say where they are.",
-      "percent": 42
+      "percent": 41
     }
   ]
 }
