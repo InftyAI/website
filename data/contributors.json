@@ -1,7 +1,7 @@
 {
-  "generated": "2026-11-09",
-  "total": 97,
-  "located": 57,
+  "generated": "2026-11-13",
+  "total": 98,
+  "located": 58,
   "places": [
     {
       "label": "Shanghai, China",
@@ -71,6 +71,35 @@
         {
           "login": "rohilvagarwal",
           "avatar": "https://avatars.githubusercontent.com/u/88454899?v=4&s=64"
+        }
+      ],
+      "more": 0
+    },
+    {
+      "label": "India",
+      "country": "India",
+      "lat": 22,
+      "lng": 79,
+      "countryOnly": true,
+      "short": "India",
+      "offset": {
+        "dx": -11,
+        "dy": 4,
+        "anchor": "end"
+      },
+      "count": 3,
+      "people": [
+        {
+          "login": "SanjanShiv",
+          "avatar": "https://avatars.githubusercontent.com/u/90202905?v=4&s=64"
+        },
+        {
+          "login": "VedantMadane",
+          "avatar": "https://avatars.githubusercontent.com/u/6527493?v=4&s=64"
+        },
+        {
+          "login": "zlareb1",
+          "avatar": "https://avatars.githubusercontent.com/u/14848428?v=4&s=64"
         }
       ],
       "more": 0
@@ -289,31 +318,6 @@
         {
           "login": "liangyuanpeng",
           "avatar": "https://avatars.githubusercontent.com/u/28711504?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "India",
-      "country": "India",
-      "lat": 22,
-      "lng": 79,
-      "countryOnly": true,
-      "short": "India",
-      "offset": {
-        "dx": -11,
-        "dy": 4,
-        "anchor": "end"
-      },
-      "count": 2,
-      "people": [
-        {
-          "login": "SanjanShiv",
-          "avatar": "https://avatars.githubusercontent.com/u/90202905?v=4&s=64"
-        },
-        {
-          "login": "VedantMadane",
-          "avatar": "https://avatars.githubusercontent.com/u/6527493?v=4&s=64"
         }
       ],
       "more": 0
@@ -870,13 +874,13 @@
   "regions": [
     {
       "name": "Asia",
-      "count": 20,
-      "percent": 21
+      "count": 21,
+      "percent": 22
     },
     {
       "name": "Europe",
       "count": 17,
-      "percent": 18
+      "percent": 17
     },
     {
       "name": "North America",
