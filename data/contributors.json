@@ -1,6 +1,6 @@
 {
   "generated": "2026-11-15",
-  "total": 99,
+  "total": 100,
   "located": 59,
   "places": [
     {
@@ -908,7 +908,7 @@
     },
     {
       "name": "Unlisted",
-      "count": 40,
+      "count": 41,
       "note": "Contributors whose GitHub profile does not say where they are.",
       "percent": 41
     }
