@@ -1,17 +1,54 @@
 // Put your custom SCSS code here
 
+// The palette, named for what each colour does rather than which grey it is:
+//   $ink          headings and anything that must be read first
+//   $ink-muted    secondary text — taglines, descriptions, the map's names
+//   $ink-subtle   the quietest text — labels, the copyright line
+//   $line         hairlines: card borders, the navbar rule
+//   $line-strong  outlines that have to be seen at rest — the secondary buttons
+//   $surface      a card
+//   $accent       the brand orange as text: links on hover, the headline's phrase
+$ink: $body-color;
+$ink-muted: $gray-600;
+$ink-subtle: $gray-500;
+$line: $gray-200;
+$line-strong: $gray-300;
+$surface: $white;
+$accent: $primary;
+
+// The platform's own UI face — SF Pro, Segoe UI, Roboto — for the map's city names,
+// where Jost's small x-height blurs at 12px.
+$font-family-system: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
 // The navbar's icons, all one size. Search was the theme's 24px beside four 20px
-// links, so the row read as two sets of icons.
+// links, so the row read as two sets of icons. 18px now, the wordmark's size: at 20
+// in the 52px bar they were the heaviest thing in it.
 #socialMenu .social-link svg,
 #buttonColorMode svg,
 #searchToggleDesktop svg,
-#searchToggleMobile svg {
+#searchToggleMobile svg,
+.navbar [data-bs-target="#offcanvasNavMain"] svg {
   // Block, not the default inline: an inline svg sits on a text line and keeps
   // room under it for descenders, which made each 20px icon a 43px link and the
   // navbar 68px tall around them.
   display: block;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
+}
+
+// Each icon's link a 36px square whatever the glyph inside it. The links were sized
+// by their padding around the svg, so taking the icons to 18px shrank the targets
+// with them — the phone's search button to 18px wide. The menu button is in this
+// list too: it was the theme's 24px beside an 18px search.
+#socialMenu .social-link,
+#searchToggleDesktop,
+#searchToggleMobile,
+.navbar [data-bs-target="#offcanvasNavMain"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  min-height: 36px;
 }
 
 // Muted at rest and the accent on hover, like a link. The theme drew them in the
@@ -20,12 +57,12 @@
 #searchToggleDesktop,
 #searchToggleMobile,
 .navbar [data-bs-target="#offcanvasNavMain"] {
-  color: $gray-600;
+  color: $ink-muted;
   transition: color 0.15s ease;
 
   &:hover,
   &:focus-visible {
-    color: $primary;
+    color: $accent;
   }
 }
 
@@ -49,13 +86,15 @@
   margin-block: 0;
 }
 
-// The navbar at a fixed 60px, its logo and icons centred in it. Height rather than
-// the theme's padding, so it is the same 60 on a phone, where the row holds the
+// The navbar at a fixed 52px, its logo and icons centred in it — 60 before, which
+// with the rule under it gone at rest read as a band of white over the page for a
+// logo and five icons. Height rather than the theme's padding, so it is the same 52
+// on a phone, where the row holds the
 // search and menu buttons, as on a desktop, where it holds the links. Its width is
 // the theme's own container: narrowed to the cards' width, and then the map's, the
 // logo and the icons sat too far into the middle of the page.
 .navbar {
-  min-height: 60px;
+  min-height: 52px;
   padding-block: 0;
 }
 
@@ -107,6 +146,10 @@ body > * {
 
 .footer {
   margin-top: auto;
+  // No rule above it. Doks draws a $line border here; with nothing in the
+  // footer but the copyright line, the white space above already separates it,
+  // and a line across the full width only framed one short sentence.
+  border-top: 0;
 
   // Doks sizes footer items at $font-size-base (16px) from `md` up, which is
   // heavy for a copyright line under an 18px body. No media query needed to
@@ -251,13 +294,63 @@ $home-gap: clamp(2rem, 4.5vw, 3.5rem);
   }
 }
 
-// The navbar's hairline on the homepage too. doks-core gives the navbar a 1px
-// $gray-200 rule everywhere and then removes it on `.home` (_header.scss), so the
-// hero runs into the header. Here the navbar is sticky, and without the rule the
-// map and cards scrolled up under a header with no edge, while every other page's
-// header had one.
+// The first screen: hero and map, at least the viewport's height less the 52px
+// navbar, so "Featured Projects" is never visible before the reader scrolls. Where
+// the two are shorter than the window — a tall monitor, a phone — they are centred
+// in it, and the extra height falls evenly above and below rather than as a white
+// band under the map. Where they are taller, this does nothing and the grid is below
+// the fold anyway.
+//
+// `svh`, the small viewport: on a phone `vh` is the height with the browser's bars
+// retracted, which would leave the box taller than the screen it first opens on.
+// Not itself a `.section`, so the 0.9 zoom on those does not scale this height.
+.home-fold {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(100vh - 52px);
+  min-height: calc(100svh - 52px);
+}
+
+// The navbar's hairline only once the page has scrolled. At the top nothing is
+// under the header, so the line separated it from white; once the map and cards
+// scroll beneath the frosted bar, it is what keeps the bar's edge from blurring
+// into them. Driven by the scroll position itself, no script: the border fades in
+// over the first 48px. Browsers without scroll-driven animations (Firefox, today)
+// keep the line all the time, which is how it was before.
+//
+// On every page, not only the homepage: doks-core removes the rule on `.home` and
+// keeps it elsewhere, and the header should behave the same on all of them.
+.navbar,
 .home .navbar {
-  border-bottom: 1px solid $gray-200;
+  border-bottom: 1px solid $line;
+}
+
+@supports (animation-timeline: scroll()) {
+  .navbar,
+  .home .navbar {
+    border-bottom-color: transparent;
+    animation: navbar-edge linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 48px;
+  }
+
+  @keyframes navbar-edge {
+    to {
+      border-bottom-color: $line;
+    }
+  }
+}
+
+// Frosted rather than the theme's 95% white, so the map and cards scrolling under
+// the sticky header show through as a blur instead of a faint ghost of themselves.
+// The solid colour stays underneath for browsers without `backdrop-filter`.
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .navbar {
+    background-color: rgba(var(--bs-body-bg-rgb), 0.78);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    backdrop-filter: saturate(180%) blur(12px);
+  }
 }
 
 // Brand mark in the navbar (top left), next to the site title
@@ -270,21 +363,22 @@ $home-gap: clamp(2rem, 4.5vw, 3.5rem);
   // and with the mark and the wordmark a step smaller, it no longer sets the bar's
   // height; with the icon fixes above, the bar is 52px, the height of what is in it.
   padding-block: 0;
-  font-size: 1.25rem;
+  // 18px, a step down with the bar, so the wordmark keeps its proportion to it.
+  font-size: 1.125rem;
   // The headings' ink rather than the theme's pure black, which was the one black
-  // thing on a page drawn in $body-color.
-  color: $body-color;
+  // thing on a page drawn in $ink.
+  color: $ink;
 
   &:hover {
-    color: $body-color;
+    color: $ink;
   }
 
   &::before {
     content: "";
     display: inline-block;
     flex: 0 0 auto;
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     background: url("images/logo.png") no-repeat center / contain;
     border-radius: 50%;
   }
@@ -377,11 +471,14 @@ $feature-card-height: calc(3rem + 1.125rem * #{$line-height-base} + 0.5rem + 3re
   // tallest card made the grid two heights, and a phone's stack seven.
   height: $feature-card-height;
   padding: 1.5rem;
-  // A warm tint rather than neutral grey: at these low alphas it barely reads
-  // as colour, but it stops the cards from looking like grey wireframes.
-  background: rgba($primary, 0.02);
-  border: 1px solid rgba($primary, 0.18);
-  border-radius: 0.75rem;
+  // Neutral at rest, the accent kept for hover. Seven cards in a warm tint and a
+  // pink border made the whole band read as one orange block, and left hover —
+  // where the colour means "this is a link" — with little to change.
+  // Flat, the way modal.com sets its panels: a surface and a hairline, and only the
+  // faintest shadow to set it on the page.
+  background: $surface;
+  border: 1px solid $line;
+  border-radius: 0.625rem;
   // A resting shadow, so a card sits on the page rather than being an outline drawn
   // on it. Two layers because one cannot do both jobs: the 1px pins the bottom edge
   // down, and the 28px one is the soft lift. Neutral ink rather than $primary —
@@ -389,9 +486,7 @@ $feature-card-height: calc(3rem + 1.125rem * #{$line-height-base} + 0.5rem + 3re
   //
   // The hover shadow is 4x this. That ratio is the point: a resting shadow strong
   // enough to be seen on its own would leave hover with nowhere to go.
-  box-shadow:
-    0 1px 2px rgba($black, 0.04),
-    0 10px 28px rgba($black, 0.05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease,
@@ -407,11 +502,21 @@ $feature-card-height: calc(3rem + 1.125rem * #{$line-height-base} + 0.5rem + 3re
     display: flex;
     align-items: baseline;
     gap: 0.5rem;
-    font-size: 1.125rem;
+    // The names are repository names, so they are set as code: monospace, a step
+    // smaller to keep "Awesome-Kernel-Agents" on one line beside its stars.
+    font-family: $font-family-monospace;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
 
     a {
       color: inherit;
-      text-decoration: none;
+      // Bootstrap's `a:hover` underline outranks a bare class, so it is cleared on
+      // hover as well — the card's colour change already says this is a link.
+      &,
+      &:hover {
+        text-decoration: none;
+      }
     }
   }
 
@@ -435,13 +540,22 @@ $feature-card-height: calc(3rem + 1.125rem * #{$line-height-base} + 0.5rem + 3re
   }
 
   &:hover {
-    border-color: rgba($primary, 0.6);
-    box-shadow: 0 6px 20px rgba($primary, 0.12);
+    border-color: rgba($primary, 0.45);
+    box-shadow: 0 8px 24px rgba($primary, 0.1);
     transform: translateY(-2px);
 
     h3 a {
-      color: $primary;
+      color: $accent;
     }
+  }
+}
+
+// In one column there is no row to keep level, so the fixed height only left a
+// card with a one-line description standing on a band of empty space. Each card
+// is as tall as its text there; the clamp above still caps the description.
+@include media-breakpoint-down(sm) {
+  .feature-card {
+    height: auto;
   }
 }
 
@@ -534,23 +648,34 @@ $map-land: #e9edf2;
 // Flat and opaque rather than a tint: the shades are one per country and never
 // overlap, so there is nothing for an alpha to buy — and an alpha over the land is
 // this colour anyway, computed at render time instead of being chosen.
+// Lightened from #b0bac6, which made the shaded countries the heaviest thing on the
+// page; the dots now carry the map and the shade only says where.
 $map-region: #b0bac6;
 $map-mark: mix($primary, #fff, 52%);
 // City labels and the legend's figures. Lighter than the body ink, which made both
 // heavier than the map they annotate. Safe at this lightness only because each is
 // read against white and not against the land: the labels paint the page
 // background behind their own glyphs (see `paint-order` below), and the legend sits
-// off the map entirely. 4.7:1 on white, so AA at their size.
-$map-text: $gray-600;
+// off the map entirely. 4.7:1 on white, so AA at their size. ($ink-muted was tried
+// and made the forty names read heavier than the map under them.)
+$map-text: $ink-muted;
+// The face for the city names, shared by the svg labels and their transparent html
+// copies in `.worldmap-hit-label`, which have to match them glyph for glyph.
+$map-label-font: $font-family-system;
 // The ring around a hovered dot, which is html rather than svg now — it belongs to the
 // hover target in `.worldmap-hits`, so this is what its pseudo-element fades up to.
 // The alpha is here and not in the colour because the ring is the mark's own hue: one
-// variable holds how strong the ring gets, `$map-mark` holds what colour it is.
-$map-halo-alpha-hover: 0.22;
+// variable holds how strong the ring gets, `$map-mark` holds what colour it is. Light:
+// the orange name and the card already say which city is open, so the ring only has
+// to mark the dot, not shout it.
+$map-halo-alpha-hover: 0.5;
 // The pulse ring at its brightest, which is the moment it leaves the dot. Under the
-// hover alpha on purpose: hovering has to stay the strongest ring on the map, or
-// pointing at a city says less than the city was already saying on its own.
-$map-pulse-alpha: 0.18;
+// hover ring's alpha, and a thinner line, on purpose: hovering has to stay the
+// strongest ring on the map, or pointing at a city says less than the city was
+// already saying on its own.
+// Kept faint: stronger, the map read as busy; the pulse is a sign of life, not
+// something to watch.
+$map-pulse-alpha: 0.3;
 
 // The map with its legend centred underneath at every width. The legend used to
 // stand beside the map from `lg` up, and that pushed the map off the axis the section
@@ -658,15 +783,24 @@ $map-pulse-alpha: 0.18;
   // The floor is legibility on the narrowest screen that shows names at all, which
   // is 11.4px at `xl` — the size the map already shipped at 1200px wide, so this is
   // a size that has been read rather than a new gamble.
+  //
+  // Still 13.5 with the system UI face below: its taller x-height is what makes the
+  // names clearer, not a bigger size. 14.5 was tried and ran Italy into Montenegro —
+  // the face is wider than Jost, so it already spends some of the room above.
   font-size: 13.5px;
-  // Body weight. At 500 the names read as ten small headings competing with the
-  // dots they belong to; they are captions.
+  // The system UI face rather than the page's Jost. Jost is geometric with a small
+  // x-height, lovely for the headline and soft at 12px, where its round letters
+  // blur into each other; SF Pro, Segoe UI and Roboto are drawn for exactly this size.
+  font-family: $map-label-font;
+  // Body weight. At 500 the names read as small headings competing with the dots
+  // they belong to; they are captions.
   font-weight: 400;
   // The names sit over the landmass, whose coastlines cut through the glyphs even
   // at $map-land's lightness. This paints the body background behind each one
   // first, so the label reads as being on the page rather than in the terrain.
   stroke: var(--bs-body-bg, #fff);
-  stroke-width: 3px;
+  stroke-width: 3.5px;
+  stroke-linejoin: round;
   paint-order: stroke;
   // The pointer goes to `.worldmap-hit-label`, the transparent copy of this name in
   // the html layer above, which is what makes the name open the card.
@@ -679,11 +813,14 @@ $map-pulse-alpha: 0.18;
 // is 13 units tall and the gap between the Berlin and Italy dots it sits in is 11.5.
 // The dots and the legend still say everything; the names are what has to wait for
 // the room to be legible in.
-@include media-breakpoint-up(xl) {
-  .worldmap-label {
-    display: block;
-  }
-}
+//
+// Not shown at any width now, though: the names on the page are the html copies in
+// `.worldmap-hit-label`, which appear from the same `xl`. Two copies of one name laid
+// over each other could never agree to the pixel — svg and html text are rasterised
+// differently — so the orange name on hover sat a pixel off the grey one under it,
+// and the grey showed round it like a shadow. One copy, recoloured, cannot ghost. The
+// svg text stays in the markup, `display: none` from the rule above, as the record
+// of where each name goes: the html copies are placed from the same offsets.
 
 .worldmap-svg {
   display: block;
@@ -751,11 +888,20 @@ $map-pulse-alpha: 0.18;
 // is the only place the pulse's size is decided; nothing below distinguishes one city
 // from another except its rhythm.
 .worldmap-pulse {
-  fill: $map-mark;
+  // A ring, not a filled disc. A translucent orange disc read as a glow over the sea
+  // and as a shadow over the land — orange mixed into the grey is a muddy mauve — so
+  // every coastal city (Brisbane, Sydney, Melbourne) pulsed with a smudge half on,
+  // half off the coast. A hairline ripple reads the same over either.
+  fill: none;
+  stroke: $map-mark;
+  stroke-width: 1;
+  // The ring grows by `transform`, which would thicken the line with it; this holds
+  // it at its own width the whole way out.
+  vector-effect: non-scaling-stroke;
   // Invisible at rest — the keyframes are the only thing that ever paints it. So on
   // any browser that does not run the animation, and under reduced motion below,
   // this is exactly the map it was before, rather than ten static rings.
-  fill-opacity: 0;
+  stroke-opacity: 0;
   // The cursor belongs to the hover target in the html layer above.
   pointer-events: none;
   // Without `fill-box` the origin is the svg's, and every ring grows out of the
@@ -772,21 +918,26 @@ $map-pulse-alpha: 0.18;
   // rather than appearing on top of it.
   0% {
     transform: scale(0.9);
-    fill-opacity: 0;
+    stroke-opacity: 0;
   }
 
-  20% {
-    fill-opacity: $map-pulse-alpha;
+  // A brief ripple: brightest a moment after it leaves the dot, gone by 30% of the
+  // cycle. Each mark is quiet for most of its rhythm, so only a few rings are out
+  // across the map at once.
+  8% {
+    stroke-opacity: $map-pulse-alpha;
   }
 
   // Gone well before the cycle ends, and it holds there for the rest of it. A ring
   // still visible at full size is a second halo, and a halo painted at rest is what
   // merged Guangzhou and Shenzhen into one lozenge — see `.worldmap-hit::before`.
   // The pause is also what keeps this from reading as a strobe.
-  60%,
+  // No further than 1.7 times the dot: a ripple close to its mark, not a ring
+  // reaching for the neighbours.
+  30%,
   100% {
-    transform: scale(2);
-    fill-opacity: 0;
+    transform: scale(1.7);
+    stroke-opacity: 0;
   }
 }
 
@@ -814,10 +965,12 @@ $map-pulse-alpha: 0.18;
 // 5.2 in the tenth slot rather than 5.1, which is exactly 3.4 × 1.5: a pair in a
 // ratio that small returns to step every ten seconds, well inside the time someone
 // spends looking at the map.
+// About twice the 2.9–5.9s these were: with forty marks, that rhythm put ten rings on
+// the map every second. Slower, a few are out at any moment, and each one is noticed.
 $map-pulse-cycles:
-  2.9s, 3.4s, 4.7s, 3.1s, 5.3s, 3.8s, 4.3s, 5.9s, 3.6s, 5.2s, 4.1s;
+  6.1s, 7.3s, 9.7s, 6.7s, 11.3s, 8.1s, 9.1s, 12.1s, 7.7s, 10.9s, 8.9s;
 $map-pulse-offsets:
-  0s, 1.9s, 0.6s, 3.2s, 1.2s, 4.4s, 2.4s, 0.3s, 3.9s, 1.6s, 2.9s;
+  0s, 3.8s, 1.2s, 6.4s, 2.4s, 8.8s, 4.8s, 0.6s, 7.8s, 3.2s, 5.8s;
 
 @for $i from 1 through length($map-pulse-cycles) {
   .worldmap-place:nth-of-type(11n + #{$i}) .worldmap-pulse {
@@ -886,7 +1039,12 @@ $map-pulse-offsets:
     position: absolute;
     inset: 0;
     border-radius: 50%;
-    background: $map-mark;
+    // A ring, like the pulse, not a filled disc: this layer is on top of the dot, so
+    // the halo has to be see-through, and a see-through orange disc over the grey land
+    // turned the same muddy mauve the pulse did — hovering a coastal city such as
+    // Brisbane put a shadow half on the coast. An outline is see-through by being thin,
+    // not by being faint, so it reads as orange over land and sea alike.
+    border: 1.5px solid $map-mark;
     opacity: 0;
     transition: opacity 0.2s ease;
   }
@@ -930,12 +1088,20 @@ $map-pulse-offsets:
   top: calc(50% + var(--label-dy, 0) * 0.1cqw * var(--mark-scale, 1));
   padding: 0.2em;
   font-size: calc(1.35cqw * var(--mark-scale, 1));
+  font-family: $map-label-font;
   font-weight: 400;
   line-height: 1;
   white-space: nowrap;
-  color: transparent;
+  // The name itself now, not a transparent copy over the svg's: grey at rest, the
+  // brand colour while its card is open. The page-colour stroke drawn behind the
+  // glyphs (`paint-order`) is the svg label's halo, so coastlines still do not cut
+  // the names.
+  color: $map-text;
+  -webkit-text-stroke: 3px var(--bs-body-bg, #fff);
+  paint-order: stroke fill;
   user-select: none;
   transform: translate(-0.2em, -1em);
+  transition: color 0.15s ease;
 }
 
 // While its card is open — from the name or from the dot — the name takes the brand
@@ -945,7 +1111,7 @@ $map-pulse-offsets:
 // because this is text and has to keep its contrast.
 .worldmap-hit:hover .worldmap-hit-label,
 .worldmap-hit:focus-within .worldmap-hit-label {
-  color: $primary;
+  color: $accent;
   cursor: pointer;
 }
 
@@ -955,6 +1121,123 @@ $map-pulse-offsets:
 
 .worldmap-hit-label-middle {
   transform: translate(-50%, -1em);
+}
+
+// At `xl`, where the names are drawn, a card opens away from its city's name rather
+// than by hemisphere: Kuala Lumpur's name is left of its dot and, east of the middle,
+// its card opened left too — over the name, so the name lit up under the card where
+// nobody could see it. The template marks the cities this flips (`-xl-left`,
+// `-xl-right`); below `xl` there are no names to cover and the hemisphere rule stands,
+// which is also what keeps a card on a phone's narrow map from running off its edge.
+// Doubled class: `.worldmap-hit-left .worldmap-city` comes later in this file at the
+// same specificity, and without the extra class it won, so the flip never happened.
+@include media-breakpoint-up(xl) {
+  .worldmap-hit.worldmap-hit-xl-left .worldmap-city {
+    left: auto;
+    right: 100%;
+
+    &::before {
+      left: auto;
+      right: -0.3125rem;
+      border-left: 0;
+      border-bottom: 0;
+      border-top: 1px solid $map-land;
+      border-right: 1px solid $map-land;
+      border-bottom-left-radius: 0;
+      border-top-right-radius: 0.0625rem;
+    }
+  }
+
+  .worldmap-hit.worldmap-hit-xl-right .worldmap-city {
+    left: 100%;
+    right: auto;
+
+    &::before {
+      left: -0.3125rem;
+      right: auto;
+      border-top: 0;
+      border-right: 0;
+      border-left: 1px solid $map-land;
+      border-bottom: 1px solid $map-land;
+      border-top-right-radius: 0;
+      border-bottom-left-radius: 0.0625rem;
+    }
+  }
+
+  // Vertical cards, for the cities no side is clear for (see the template). The card
+  // sits a gap clear of the dot, above or below it, and its caret turns to point back
+  // at the dot from the near edge.
+  .worldmap-hit.worldmap-hit-xl-above .worldmap-city,
+  .worldmap-hit.worldmap-hit-xl-below .worldmap-city {
+    transform: none;
+  }
+
+  .worldmap-hit.worldmap-hit-xl-above .worldmap-city {
+    top: auto;
+    bottom: calc(50% + 0.875rem);
+  }
+
+  .worldmap-hit.worldmap-hit-xl-below .worldmap-city {
+    top: calc(50% + 0.875rem);
+    bottom: auto;
+  }
+
+  // Horizontally: centred on the dot, or starting just behind it and extending right,
+  // or ending just past it and extending left.
+  .worldmap-hit.worldmap-hit-xl-align-center .worldmap-city {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+
+  .worldmap-hit.worldmap-hit-xl-align-right .worldmap-city {
+    left: calc(50% - 1.25rem);
+    right: auto;
+  }
+
+  .worldmap-hit.worldmap-hit-xl-align-left .worldmap-city {
+    left: auto;
+    right: calc(50% - 1.25rem);
+  }
+
+  // The caret, on the edge facing the dot and under (or over) the dot's centre.
+  .worldmap-hit.worldmap-hit-xl-above .worldmap-city::before,
+  .worldmap-hit.worldmap-hit-xl-below .worldmap-city::before {
+    border: 0;
+    border-radius: 0;
+  }
+
+  .worldmap-hit.worldmap-hit-xl-above .worldmap-city::before {
+    top: auto;
+    bottom: -0.3125rem;
+    border-right: 1px solid $map-land;
+    border-bottom: 1px solid $map-land;
+  }
+
+  .worldmap-hit.worldmap-hit-xl-below .worldmap-city::before {
+    top: -0.3125rem;
+    bottom: auto;
+    border-left: 1px solid $map-land;
+    border-top: 1px solid $map-land;
+  }
+
+  .worldmap-hit.worldmap-hit-xl-align-center .worldmap-city::before {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%) rotate(45deg);
+  }
+
+  .worldmap-hit.worldmap-hit-xl-align-right .worldmap-city::before {
+    left: calc(1.25rem - 0.28125rem);
+    right: auto;
+    transform: rotate(45deg);
+  }
+
+  .worldmap-hit.worldmap-hit-xl-align-left .worldmap-city::before {
+    left: auto;
+    right: calc(1.25rem - 0.28125rem);
+    transform: rotate(45deg);
+  }
 }
 
 // Only where the svg draws the names — a target over a name that is not there would be
@@ -1282,15 +1565,19 @@ $map-pulse-offsets:
 
 // "By region", a caption over the row.
 .worldmap-key-title {
-  margin: 0 0 0.625rem;
+  margin: 0 0 0.875rem;
   text-align: center;
-  // 12px rendered, the smallest step of the page's scale.
-  font-size: 0.8125rem;
-  font-weight: 400;
+  // A legend label rather than a heading to read: small monospace capitals, the
+  // way a chart labels its key. Tracked out so the capitals do not crowd.
+  font-family: $font-family-monospace;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   line-height: 1.4;
-  // $gray-600, 4.7:1 on white: $gray-500 is only 2:1, under the 4.5:1 text this
+  // $ink-muted, 4.7:1 on white: $ink-subtle is only 2:1, under the 4.5:1 text this
   // size needs.
-  color: $gray-600;
+  color: $ink-muted;
 }
 
 // The row: seven columns of one width from `md`; on a phone, four to a row with the
@@ -1323,11 +1610,12 @@ $map-pulse-offsets:
 // The figure is what the row is for: the larger of the two, and the darker.
 .worldmap-region-share {
   // Digits of equal width, so the figures do not jitter in size against each other.
+  font-family: $font-family-monospace;
   font-variant-numeric: tabular-nums;
-  font-size: 1.0625rem;
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: 600;
   line-height: 1.3;
-  color: $gray-900;
+  color: $ink;
 }
 
 .worldmap-region-name {
@@ -1335,13 +1623,13 @@ $map-pulse-offsets:
   font-size: 0.8125rem;
   line-height: 1.4;
   white-space: nowrap;
-  color: $gray-600;
+  color: $ink-muted;
 }
 
 // "Others": its figure in the names' lighter ink, so the largest share is not the
 // loudest number in the row.
 .worldmap-regions .worldmap-region-rest .worldmap-region-share {
-  color: $gray-600;
+  color: $ink-muted;
 }
 
 // "More on GitHub" under the grid: an outlined pill in the cards' own border and
@@ -1357,14 +1645,14 @@ $map-pulse-offsets:
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1.125rem;
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  // The CSS variable, not `$body-color`, so it follows dark mode like the cards.
+  // The CSS variable, not `$ink`, so it follows dark mode like the cards.
   color: var(--bs-body-color);
   text-decoration: none;
-  background: rgba($primary, 0.02);
-  border: 1px solid rgba($primary, 0.18);
-  border-radius: 999px;
+  background: var(--bs-body-bg);
+  border: 1px solid $line-strong;
+  border-radius: 0.5rem;
   transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
 
   .feature-more-arrow {
@@ -1373,7 +1661,10 @@ $map-pulse-offsets:
 
   &:hover,
   &:focus-visible {
-    color: $primary;
+    color: $accent;
+    // Bootstrap's `a:hover` (0,1,1) outranks `.feature-more-link` (0,1,0), which
+    // underlined the label and the arrow beside it on hover.
+    text-decoration: none;
     background: rgba($primary, 0.06);
     border-color: rgba($primary, 0.45);
 
@@ -1404,7 +1695,6 @@ $map-pulse-offsets:
   margin: 0 auto;
   padding: 2.5rem 1.5rem;
   text-align: center;
-  background: radial-gradient(ellipse at center, rgba($primary, 0.07) 0%, rgba($primary, 0) 70%);
 
   // The gap to the buttons. `.feature-cta-text`, when set, brings its own.
   // A slogan, three words, so set as display type rather than as a section label:
@@ -1443,19 +1733,24 @@ $map-pulse-offsets:
   padding: 0.625rem 1.375rem;
   font-size: 0.9375rem;
   font-weight: 600;
-  color: $primary;
+  // The secondary button drawn like a card — body ink, grey outline — so the filled
+  // primary beside it is the only orange at rest and the page ends on one action.
+  color: var(--bs-body-color);
   text-decoration: none;
   background: var(--bs-body-bg);
-  border: 1px solid rgba($primary, 0.35);
-  border-radius: 999px;
+  border: 1px solid $line-strong;
+  border-radius: 0.5rem;
   transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease,
     transform 0.15s ease;
 
   &:hover,
   &:focus-visible {
-    border-color: $primary;
-    background: rgba($primary, 0.06);
-    box-shadow: 0 4px 14px rgba($primary, 0.15);
+    // The same `a:hover` underline as `.feature-more-link` above.
+    text-decoration: none;
+    color: $accent;
+    border-color: rgba($primary, 0.45);
+    background: rgba($primary, 0.04);
+    box-shadow: 0 4px 12px rgba($primary, 0.08);
     transform: translateY(-1px);
   }
 
@@ -1472,14 +1767,14 @@ $map-pulse-offsets:
 .feature-cta-btn-primary {
   color: #fff;
   background: $primary;
-  border-color: $primary;
+  border-color: $accent;
 
   &:hover,
   &:focus-visible {
     color: #fff;
     background: darken($primary, 6%);
     border-color: darken($primary, 6%);
-    box-shadow: 0 6px 18px rgba($primary, 0.3);
+    box-shadow: 0 4px 12px rgba($primary, 0.2);
   }
 }
 
@@ -1490,7 +1785,8 @@ $map-pulse-offsets:
   gap: 0.25rem;
   margin-left: auto;
   flex: 0 0 auto;
-  font-size: 0.8125rem;
+  font-family: $font-family-monospace;
+  font-size: 0.75rem;
   font-weight: 500;
 
   svg {

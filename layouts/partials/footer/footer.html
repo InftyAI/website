@@ -6,7 +6,10 @@
   <div class="container-{{ site.Params.doks.containerBreakpoint | default "lg" }} text-center">
     <ul class="list-inline">
       {{ range .Site.Menus.footer -}}
-        <li class="list-inline-item"><a class="text-muted" href="{{ .URL | relURL }}">{{ .Name }}</a></li>
+        {{/* A link only when the entry has somewhere to go. The copyright line has no
+             `url`, and `relURL` of nothing is "/", so it rendered as a link to the
+             homepage. */}}
+        <li class="list-inline-item">{{ if .URL }}<a class="text-muted" href="{{ .URL | relURL }}">{{ .Name }}</a>{{ else }}{{ .Name }}{{ end }}</li>
       {{- end }}
       {{- with site.Params.footer }}
         <li class="list-inline-item">{{ . | safeHTML }}</li>

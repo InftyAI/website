@@ -1,4 +1,21 @@
 {{ define "main" }}
+{{/* Empty: the hero is rendered in sidebar-prefooter below, so that it and the map
+     can share one box — `.home-fold`, which is what keeps the first screen to the
+     two of them. `main` renders inside the theme's `.wrap` container and the map
+     outside it, and no box can hold both from here. */}}
+{{ end }}
+
+{{ define "sidebar-prefooter" }}
+{{ if site.Params.doks.backgroundDots -}}
+<div class="d-flex justify-content-start">
+    <div class="bg-dots"></div>
+</div>
+{{ end -}}
+{{/* The first screen: the hero and the map, and nothing after them. At least the
+     viewport's height less the navbar, so the project grid starts below the fold
+     on any screen tall enough to show both — the page opens on one statement and
+     one picture, and the cards are what scrolling finds. See `.home-fold`. */}}
+<div class="home-fold">
 {{/* No `py-*` utility: Bootstrap marks those `!important`, so the hero spacing
      could not then be set from _custom.scss. */}}
 <section class="section container-fluid text-center">
@@ -13,14 +30,6 @@
     </div>
     {{ .Content }}
 </section>
-{{ end }}
-
-{{ define "sidebar-prefooter" }}
-{{ if site.Params.doks.backgroundDots -}}
-<div class="d-flex justify-content-start">
-    <div class="bg-dots"></div>
-</div>
-{{ end -}}
 {{ if eq $.Site.Language.LanguageName "English" }}
 
 {{/* Where the community is, straight under the lead: it is the only graphic on
@@ -219,8 +228,42 @@
                 {{/* Which side the card opens on, decided here because no script
                      measures it at runtime: everything east of the middle opens to
                      the left, everything west of it to the right, so a card never
-                     runs off the near edge of the map. */}}
-                <div class="worldmap-hit{{ if gt $pos.x (mul 0.5 $map.width) }} worldmap-hit-left{{ end }}"
+                     runs off the near edge of the map.
+
+                     Where the names are drawn (`xl`), a card should not open over its
+                     own city's name, so a name to the right of its dot sends the card
+                     left and a name to the left sends it right — `-xl-left` and
+                     `-xl-right` mark where that differs from the hemisphere. Not within
+                     18% of the map's edge: a card has no room there at 1200px, the
+                     narrowest the names are drawn at, and covering the name beats
+                     running off the map. */}}
+                {{ $east := gt $pos.x (mul 0.5 $map.width) -}}
+                {{ $side := cond $east "left" "right" -}}
+                {{ with .offset -}}
+                {{ if and (eq .anchor "start") (gt $pos.x (mul 0.18 $map.width)) }}{{ $side = "left" }}{{ end -}}
+                {{ if and (eq .anchor "end") (lt $pos.x (mul 0.82 $map.width)) }}{{ $side = "right" }}{{ end -}}
+                {{ end -}}
+                {{ $flip := "" -}}
+                {{ if ne $side (cond $east "left" "right") }}{{ $flip = printf " worldmap-hit-xl-%s" $side }}{{ end -}}
+                {{/* Where no side is clear of the name, the card opens vertically
+                     instead — under the dot or over it, away from the name:
+                     - a name centred above or below its dot (London, Chicago) is half
+                       covered by a card beside the dot whichever side it takes, so the
+                       card goes below a name above, above a name below, centred;
+                     - a city too near the map's edge to open away from its name
+                       (Melbourne, Sacramento) opens over or under its dot instead,
+                       towards the middle of the map, extending away from the edge. */}}
+                {{ $south := gt $pos.y (mul 0.5 $map.height) -}}
+                {{ with .offset -}}
+                {{ if eq .anchor "middle" -}}
+                {{ $flip = printf "%s worldmap-hit-xl-%s worldmap-hit-xl-align-center" $flip (cond (lt (float .dy) 0) "below" "above") -}}
+                {{ else if and (eq .anchor "start") (le $pos.x (mul 0.18 $map.width)) -}}
+                {{ $flip = printf "%s worldmap-hit-xl-%s worldmap-hit-xl-align-right" $flip (cond $south "above" "below") -}}
+                {{ else if and (eq .anchor "end") (ge $pos.x (mul 0.82 $map.width)) -}}
+                {{ $flip = printf "%s worldmap-hit-xl-%s worldmap-hit-xl-align-left" $flip (cond $south "above" "below") -}}
+                {{ end -}}
+                {{ end -}}
+                <div class="worldmap-hit{{ if $east }} worldmap-hit-left{{ end }}{{ $flip }}"
                     tabindex="0">
                     <div class="worldmap-city">
                         {{/* The place, and only the place. The count was here — "Shanghai,
@@ -356,6 +399,9 @@
     </div>
 </section>
 {{ end -}}
+{{ end -}}
+</div>
+{{ if eq $.Site.Language.LanguageName "English" }}
 
 {{/* Look up the star count for each project, then rank by it. A failed
      lookup (offline, rate limited) leaves that card without a star badge
