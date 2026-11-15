@@ -2501,6 +2501,16 @@
       "dx": -11,
       "dy": -8,
       "anchor": "end"
+    },
+    "Kuala Lumpur, Malaysia": {
+      "dx": -11,
+      "dy": 4,
+      "anchor": "end"
+    },
+    "Montenegro": {
+      "dx": 16,
+      "dy": 12,
+      "anchor": "start"
     }
   }
 }

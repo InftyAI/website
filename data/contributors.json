@@ -395,8 +395,8 @@
       "countryOnly": true,
       "short": "Montenegro",
       "offset": {
-        "dx": 11,
-        "dy": 4,
+        "dx": 16,
+        "dy": 12,
         "anchor": "start"
       },
       "count": 1,
@@ -497,9 +497,9 @@
       "lng": 101.69,
       "short": "Kuala Lumpur",
       "offset": {
-        "dx": 11,
+        "dx": -11,
         "dy": 4,
-        "anchor": "start"
+        "anchor": "end"
       },
       "count": 1,
       "people": [
