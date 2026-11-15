@@ -423,6 +423,12 @@
       "lat": 33.75,
       "lng": -84.39
     },
+    "sacramento": {
+      "label": "Sacramento, USA",
+      "country": "United States",
+      "lat": 38.58,
+      "lng": -121.49
+    },
     "tampa": {
       "label": "Tampa, USA",
       "country": "United States",
@@ -2044,6 +2050,8 @@
     "mountain view, ca": "mountain view",
     "san jose, ca": "san jose",
     "los angeles, ca": "los angeles",
+    "sacramento, ca": "sacramento",
+    "sacramento, california": "sacramento",
     "seattle, wa": "seattle",
     "denver, co": "denver",
     "austin, tx": "austin",
@@ -2065,6 +2073,7 @@
     "tampa, florida": "tampa",
     "toronto, canada": "toronto",
     "toronto, on": "toronto",
+    "toronto, ontario": "toronto",
     "montreal, canada": "montreal",
     "vancouver, canada": "vancouver",
     "vancouver, bc": "vancouver",
