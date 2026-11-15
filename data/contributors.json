@@ -1,7 +1,7 @@
 {
-  "generated": "2026-11-13",
-  "total": 98,
-  "located": 58,
+  "generated": "2026-11-15",
+  "total": 99,
+  "located": 59,
   "places": [
     {
       "label": "Shanghai, China",
@@ -76,6 +76,35 @@
       "more": 0
     },
     {
+      "label": "Germany",
+      "country": "Germany",
+      "lat": 51,
+      "lng": 10,
+      "countryOnly": true,
+      "short": "Germany",
+      "offset": {
+        "dx": 11,
+        "dy": 4,
+        "anchor": "start"
+      },
+      "count": 3,
+      "people": [
+        {
+          "login": "alexsergivan",
+          "avatar": "https://avatars.githubusercontent.com/u/7488348?v=4&s=64"
+        },
+        {
+          "login": "dvnold",
+          "avatar": "https://avatars.githubusercontent.com/u/158351052?v=4&s=64"
+        },
+        {
+          "login": "mertkayacs",
+          "avatar": "https://avatars.githubusercontent.com/u/47145541?v=4&s=64"
+        }
+      ],
+      "more": 0
+    },
+    {
       "label": "India",
       "country": "India",
       "lat": 22,
@@ -124,31 +153,6 @@
         {
           "login": "giozadi",
           "avatar": "https://avatars.githubusercontent.com/u/43352271?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Germany",
-      "country": "Germany",
-      "lat": 51,
-      "lng": 10,
-      "countryOnly": true,
-      "short": "Germany",
-      "offset": {
-        "dx": 11,
-        "dy": 4,
-        "anchor": "start"
-      },
-      "count": 2,
-      "people": [
-        {
-          "login": "alexsergivan",
-          "avatar": "https://avatars.githubusercontent.com/u/7488348?v=4&s=64"
-        },
-        {
-          "login": "mertkayacs",
-          "avatar": "https://avatars.githubusercontent.com/u/47145541?v=4&s=64"
         }
       ],
       "more": 0
@@ -875,12 +879,12 @@
     {
       "name": "Asia",
       "count": 21,
-      "percent": 22
+      "percent": 21
     },
     {
       "name": "Europe",
-      "count": 17,
-      "percent": 17
+      "count": 18,
+      "percent": 18
     },
     {
       "name": "North America",
