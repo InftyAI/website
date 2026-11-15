@@ -1,7 +1,7 @@
 {
   "generated": "2026-11-15",
   "total": 100,
-  "located": 59,
+  "located": 61,
   "places": [
     {
       "label": "Shanghai, China",
@@ -633,6 +633,26 @@
       "more": 0
     },
     {
+      "label": "Sacramento, USA",
+      "country": "United States",
+      "lat": 38.58,
+      "lng": -121.49,
+      "short": "Sacramento",
+      "offset": {
+        "dx": 11,
+        "dy": 4,
+        "anchor": "start"
+      },
+      "count": 1,
+      "people": [
+        {
+          "login": "OscarDoh",
+          "avatar": "https://avatars.githubusercontent.com/u/125147287?v=4&s=64"
+        }
+      ],
+      "more": 0
+    },
+    {
       "label": "Bengaluru, India",
       "country": "India",
       "lat": 12.97,
@@ -668,6 +688,26 @@
         {
           "login": "robert-cronin",
           "avatar": "https://avatars.githubusercontent.com/u/8540764?v=4&s=64"
+        }
+      ],
+      "more": 0
+    },
+    {
+      "label": "Toronto, Canada",
+      "country": "Canada",
+      "lat": 43.65,
+      "lng": -79.38,
+      "short": "Toronto",
+      "offset": {
+        "dx": 11,
+        "dy": 4,
+        "anchor": "start"
+      },
+      "count": 1,
+      "people": [
+        {
+          "login": "SammyTourani",
+          "avatar": "https://avatars.githubusercontent.com/u/179739256?v=4&s=64"
         }
       ],
       "more": 0
@@ -873,8 +913,8 @@
       "more": 0
     }
   ],
-  "cities": 30,
-  "countryCount": 24,
+  "cities": 32,
+  "countryCount": 25,
   "regions": [
     {
       "name": "Asia",
@@ -888,8 +928,8 @@
     },
     {
       "name": "North America",
-      "count": 12,
-      "percent": 12
+      "count": 14,
+      "percent": 14
     },
     {
       "name": "Oceania",
@@ -908,9 +948,9 @@
     },
     {
       "name": "Unlisted",
-      "count": 41,
+      "count": 39,
       "note": "Contributors whose GitHub profile does not say where they are.",
-      "percent": 41
+      "percent": 39
     }
   ]
 }

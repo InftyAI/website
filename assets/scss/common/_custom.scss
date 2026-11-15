@@ -938,6 +938,17 @@ $map-pulse-offsets:
   transform: translate(-0.2em, -1em);
 }
 
+// While its card is open — from the name or from the dot — the name takes the brand
+// colour, so it reads as the thing being pointed at rather than a caption beside it.
+// This copy is laid glyph-for-glyph over the svg label, so colouring it recolours the
+// name without touching the svg; `$primary` rather than the lighter `$map-mark`
+// because this is text and has to keep its contrast.
+.worldmap-hit:hover .worldmap-hit-label,
+.worldmap-hit:focus-within .worldmap-hit-label {
+  color: $primary;
+  cursor: pointer;
+}
+
 .worldmap-hit-label-end {
   transform: translate(calc(-100% + 0.2em), -1em);
 }
