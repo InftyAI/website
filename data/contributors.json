@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-15",
+  "generated": "2026-11-17",
   "total": 100,
   "located": 61,
   "places": [
@@ -220,12 +220,12 @@
       "count": 2,
       "people": [
         {
-          "login": "itomatik",
-          "avatar": "https://avatars.githubusercontent.com/u/972084?v=4&s=64"
-        },
-        {
           "login": "tonydzi",
           "avatar": "https://avatars.githubusercontent.com/u/194927794?v=4&s=64"
+        },
+        {
+          "login": "itomatik",
+          "avatar": "https://avatars.githubusercontent.com/u/972084?v=4&s=64"
         }
       ],
       "more": 0
