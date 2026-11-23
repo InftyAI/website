@@ -1,7 +1,7 @@
 {
-  "generated": "2026-11-21",
-  "total": 103,
-  "located": 61,
+  "generated": "2026-11-23",
+  "total": 104,
+  "located": 62,
   "places": [
     {
       "label": "Shanghai, China",
@@ -673,6 +673,26 @@
       "more": 0
     },
     {
+      "label": "Pune, India",
+      "country": "India",
+      "lat": 18.52,
+      "lng": 73.86,
+      "short": "Pune",
+      "offset": {
+        "dx": 11,
+        "dy": 4,
+        "anchor": "start"
+      },
+      "count": 1,
+      "people": [
+        {
+          "login": "prasanna-gyde",
+          "avatar": "https://avatars.githubusercontent.com/u/47359330?v=4&s=64"
+        }
+      ],
+      "more": 0
+    },
+    {
       "label": "Melbourne, Australia",
       "country": "Australia",
       "lat": -37.81,
@@ -913,13 +933,13 @@
       "more": 0
     }
   ],
-  "cities": 32,
+  "cities": 33,
   "countryCount": 25,
   "regions": [
     {
       "name": "Asia",
-      "count": 21,
-      "percent": 20
+      "count": 22,
+      "percent": 21
     },
     {
       "name": "Europe",
@@ -950,7 +970,7 @@
       "name": "Unlisted",
       "count": 42,
       "note": "Contributors whose GitHub profile does not say where they are.",
-      "percent": 41
+      "percent": 40
     }
   ]
 }
