@@ -1,7 +1,7 @@
 {
   "generated": "2026-11-23",
-  "total": 104,
-  "located": 62,
+  "total": 106,
+  "located": 63,
   "places": [
     {
       "label": "Shanghai, China",
@@ -322,6 +322,30 @@
         {
           "login": "liangyuanpeng",
           "avatar": "https://avatars.githubusercontent.com/u/28711504?v=4&s=64"
+        }
+      ],
+      "more": 0
+    },
+    {
+      "label": "Paris, France",
+      "country": "France",
+      "lat": 48.86,
+      "lng": 2.35,
+      "short": "Paris",
+      "offset": {
+        "dx": 11,
+        "dy": 8,
+        "anchor": "start"
+      },
+      "count": 2,
+      "people": [
+        {
+          "login": "ThibautMelen",
+          "avatar": "https://avatars.githubusercontent.com/u/20891897?v=4&s=64"
+        },
+        {
+          "login": "Zizka-ai",
+          "avatar": "https://avatars.githubusercontent.com/u/253775128?v=4&s=64"
         }
       ],
       "more": 0
@@ -813,26 +837,6 @@
       "more": 0
     },
     {
-      "label": "Paris, France",
-      "country": "France",
-      "lat": 48.86,
-      "lng": 2.35,
-      "short": "Paris",
-      "offset": {
-        "dx": 11,
-        "dy": 8,
-        "anchor": "start"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "ThibautMelen",
-          "avatar": "https://avatars.githubusercontent.com/u/20891897?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
       "label": "Amsterdam, Netherlands",
       "country": "Netherlands",
       "lat": 52.37,
@@ -943,13 +947,13 @@
     },
     {
       "name": "Europe",
-      "count": 18,
-      "percent": 17
+      "count": 19,
+      "percent": 18
     },
     {
       "name": "North America",
       "count": 14,
-      "percent": 14
+      "percent": 13
     },
     {
       "name": "Oceania",
@@ -968,7 +972,7 @@
     },
     {
       "name": "Unlisted",
-      "count": 42,
+      "count": 43,
       "note": "Contributors whose GitHub profile does not say where they are.",
       "percent": 40
     }
