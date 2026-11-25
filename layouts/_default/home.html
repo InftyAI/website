@@ -23,7 +23,13 @@
          tagline is never the wider of the two: it wraps under the headline instead
          of running past both its ends. See `.home-hero` in _custom.scss. */}}
     <div class="home-hero">
-    <h1 class="home-title">{{ .Title }}</h1>
+    {{/* The title's ∞ in the logo's orange — the one coloured character in it.
+         The title is escaped first, so the span is the only markup that reaches the
+         page. The logo mark and a drawn two-tone ribbon were both tried in its place;
+         the font's own ∞ matches the letters around it. */}}
+    {{ $title := .Title | htmlEscape -}}
+    {{ $title = replace $title "∞" `<span class="home-title-accent">∞</span>` -}}
+    <h1 class="home-title">{{ $title | safeHTML }}</h1>
     {{ with .Params.lead -}}
     <p class="lead">{{ . | safeHTML }}</p>
     {{ end -}}
@@ -403,9 +409,9 @@
 </div>
 {{ if eq $.Site.Language.LanguageName "English" }}
 
-{{/* Look up the star count for each project, then rank by it. A failed
-     lookup (offline, rate limited) leaves that card without a star badge
-     rather than failing the build. */}}
+{{/* Look up the star count and the language for each project, then rank by the
+     stars. One request gives both. A failed lookup (offline, rate limited) leaves
+     that card without either rather than failing the build. */}}
 {{ $headers := dict "Accept" "application/vnd.github+json" }}
 {{ with getenv "GITHUB_TOKEN" -}}
   {{ $headers = merge $headers (dict "Authorization" (printf "Bearer %s" .)) }}
@@ -413,17 +419,23 @@
 {{ $ranked := slice }}
 {{ range site.Data.projects.projects -}}
   {{ $stars := -1 }}
+  {{ $language := "" }}
   {{ $url := printf "https://api.github.com/repos/%s" .repo }}
   {{ with try (resources.GetRemote $url (dict "headers" $headers)) -}}
     {{ with .Err -}}
       {{ warnf "projects: no star count for %s (%s)" $url . }}
     {{ else with .Value -}}
-      {{ $stars = (unmarshal .Content).stargazers_count | default 0 }}
+      {{ $repo := unmarshal .Content -}}
+      {{ $stars = $repo.stargazers_count | default 0 }}
+      {{/* GitHub's own reading of the code, so nothing here has to be kept up to
+           date by hand. Null for a repository that is mostly Markdown, like the
+           awesome-lists, and then the card simply shows no language. */}}
+      {{ $language = $repo.language | default "" }}
     {{ else -}}
       {{ warnf "projects: no response for %s" $url }}
     {{ end -}}
   {{ end -}}
-  {{ $ranked = $ranked | append (merge . (dict "stars" $stars)) }}
+  {{ $ranked = $ranked | append (merge . (dict "stars" $stars "language" $language)) }}
 {{ end -}}
 {{ $cards := sort $ranked "stars" "desc" }}
 
@@ -443,14 +455,22 @@
             {{ range $cards -}}
             <li class="feature-card">
                 <h3>
-                    <a href="{{ .url }}">{{ .name }}</a>
+                    {{/* The name alone, no "InftyAI /" in front: every card is an
+                         InftyAI repository, so the owner said the same thing six
+                         times. The link is stretched over the whole card by the
+                         stylesheet, so anywhere on it opens the project. */}}
+                    <a class="feature-link" href="{{ .url }}"><span class="feature-name">{{ .name }}</span></a>
                     {{/* Omitted rather than emptied when the build-time lookup
                          failed — `stars` is -1 then. Nothing fills it in later,
                          so a bare star with no number beside it would be all a
-                         reader ever saw. */}}
-                    {{ $stars := .stars -}}
-                    {{ if and .repo (ge $stars 0) -}}
-                    <span class="feature-stars" title="{{ $stars }} stars on GitHub">
+                         reader ever saw.
+
+                         Omitted under ten as well. Beside ★313, a ★0 or ★3 said
+                         "abandoned" about a project that is only new; without the
+                         badge the card is its description, which is the fairer
+                         thing to judge it by. The grid is still ordered by stars. */}}
+                    {{ if and .repo (ge .stars 10) -}}
+                    <span class="feature-stars" title="{{ .stars }} stars on GitHub">
                         {{/* Filled rather than outlined: at 14px a solid star
                              carries the colour, an outline barely shows it. */}}
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -458,11 +478,24 @@
                             <path
                                 d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z">
                             </path>
-                        </svg><span class="feature-stars-count">{{ if ge $stars 1000 }}{{ printf "%.1fk" (div (float $stars) 1000) }}{{ else }}{{ $stars }}{{ end }}</span>
+                        </svg><span class="feature-stars-count">{{ if ge .stars 1000 }}{{ printf "%.1fk" (div (float .stars) 1000) }}{{ else }}{{ .stars }}{{ end }}</span>
                     </span>
                     {{ end -}}
                 </h3>
                 <p>{{ .description }}</p>
+                {{/* The foot of the card: the language, as GitHub's repository cards
+                     end. Pinned to the bottom by the stylesheet, so every card in a
+                     row ends on the same line whatever the length of its
+                     description. Left out when GitHub reports no language. */}}
+                {{ if .language -}}
+                <div class="feature-meta">
+                    {{ with .language -}}
+                    {{/* The dot's colour is GitHub's for the language, by class: the
+                         site's CSP refuses inline `style`, so it cannot be set here. */}}
+                    <span class="feature-lang"><span class="feature-lang-dot feature-lang-{{ . | urlize | lower }}" aria-hidden="true"></span>{{ . }}</span>
+                    {{ end -}}
+                </div>
+                {{ end -}}
             </li>
             {{ end -}}
         </ul>
@@ -486,6 +519,38 @@
     </div>
 </section>
 
+{{/* Everyone who has a commit in, as faces. The map up top can only draw the people
+     whose profile says where they are, so this is the one place the rest are on the
+     page as people rather than as the "Unlisted" share. It sits between the projects
+     and the invitation on purpose: what was built, who built it, then the offer to
+     build with them.
+
+     Alphabetical (tools/contributors.mjs says why) and every face the same size —
+     this is a thank-you, not a leaderboard. */}}
+{{ with site.Data.contributors -}}
+{{ with .people -}}
+<section class="section section-people">
+    <div class="container">
+        <h2 class="feature-grid-title">{{ len . }} contributors</h2>
+        <p class="people-text">From every corner of the world, thank you.</p>
+        <ul class="people-wall">
+            {{ range . -}}
+            <li>
+                {{/* No visible name, so the link carries it: `aria-label` for a
+                     screen reader, `title` for a pointer. The image is then
+                     decoration and its `alt` is empty, or the handle would be read
+                     twice. */}}
+                <a class="people-face" href="https://github.com/{{ .login }}" aria-label="{{ .login }}" title="{{ .login }}">
+                    <img src="{{ .avatar }}" alt="" width="40" height="40" loading="lazy" decoding="async">
+                </a>
+            </li>
+            {{ end -}}
+        </ul>
+    </div>
+</section>
+{{ end -}}
+{{ end -}}
+
 {{/* An invitation, not a project — kept out of the grid so it does not read as
      one more repository, and last on the page so it closes it: the projects,
      then the people, then the offer to join them. */}}
@@ -494,12 +559,8 @@
         {{ with site.Data.projects.cta -}}
         {{/* A heading, a line, and two buttons. As one line of muted text with
              two inline links, it read as a footnote under the "More on GitHub"
-             pill — the page ended on its quietest element. Icons are the
-             header's (menus.en.toml). */}}
-        {{ $icons := dict
-            "discord" `<path d="M8 12a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"></path><path d="M14 12a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"></path><path d="M8.5 17c0 1 -1.356 3 -1.832 3c-1.429 0 -2.698 -1.667 -3.333 -3c-.635 -1.667 -.476 -5.833 1.428 -11.5c1.388 -1.015 2.782 -1.34 4.237 -1.5l.975 1.923a11.913 11.913 0 0 1 4.053 0l.972 -1.923c1.5 .16 3.043 .485 4.5 1.5c2 5.667 2.167 9.833 1.5 11.5c-.667 1.333 -2 3 -3.5 3c-.5 0 -2 -2 -2 -3"></path><path d="M7 16.5c3.5 1 6.5 1 10 0"></path>`
-            "heart" `<path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"></path>`
-        -}}
+             pill — the page ended on its quietest element. Icons from
+             partials/home-icon.html. */}}
         <div class="feature-cta">
             <h2 class="feature-cta-title">{{ .title }}</h2>
             {{ with .text }}<p class="feature-cta-text">{{ . }}</p>{{ end }}
@@ -508,11 +569,7 @@
                 {{ range $i, $l := . -}}
                 {{/* The first is the main action and filled; the rest outlined. */}}
                 <a class="feature-cta-btn{{ if eq $i 0 }} feature-cta-btn-primary{{ end }}" href="{{ $l.url }}">
-                    {{ with index $icons ($l.icon | default "") -}}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                        stroke-linejoin="round" aria-hidden="true">{{ . | safeHTML }}</svg>
-                    {{- end }}
+                    {{- partial "home-icon.html" $l.icon }}
                     <span>{{ $l.name }}</span>
                 </a>
                 {{ end -}}
