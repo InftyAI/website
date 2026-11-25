@@ -17,7 +17,7 @@ const TARGET = "data/contributors.json";
 
 // Machine accounts. They commit, but they are not contributors and should not be
 // counted as people.
-const EXCLUDE = new Set(["inftyai-agent"]);
+const EXCLUDE = new Set(["inftyai-agent", "5dive-bot"]);
 
 const {
   places: known,
@@ -532,6 +532,18 @@ const output = {
     ...region,
     percent: shares[index],
   })),
+  // Everyone, placed or not, for the wall of faces under the projects. The map can
+  // only draw the people whose profile names somewhere it knows — 61 of 103 when this
+  // was added — so without this the other 42 were a percentage and nothing else.
+  //
+  // Alphabetical, case-folded, and nothing else: the commit order the cards use is a
+  // fair way to pick ten faces for a city, and a poor way to rank a whole community
+  // in public. A handle and an avatar each, as on the cards.
+  people: [...people]
+    .sort((a, b) =>
+      a.login.localeCompare(b.login, "en", { sensitivity: "base" }),
+    )
+    .map(({ login, avatar }) => ({ login, avatar })),
 };
 
 // Same data as last time, only a newer date: the file is left exactly as it is.

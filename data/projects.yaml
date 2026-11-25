@@ -47,6 +47,11 @@ projects:
     url: https://github.com/InftyAI/mlx
     description: "Rust bindings for Apple's MLX framework."
 
+  - name: PUMA
+    repo: InftyAI/PUMA
+    url: https://github.com/InftyAI/PUMA
+    description: "A lightweight, high-performance model engine for local AI."
+
 # The link under the grid: the cards are a selection, the rest are on GitHub.
 more:
   name: "More on GitHub"
@@ -55,8 +60,8 @@ more:
 # The page's closing block, below the grid: `title`, an optional `text` under it,
 # then a button for each of `links`. No `text` for now — every line tried here
 # restated the lead at the top of the page. The first link is the main action
-# and is drawn filled. `icon` is optional — `discord` or `heart` (see the cta
-# section in home.html).
+# and is drawn filled. `icon` is optional — `discord` or `heart` (see
+# layouts/partials/home-icon.html).
 cta:
   title: "Build. Grow. Together."
   links:

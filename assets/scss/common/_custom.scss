@@ -175,10 +175,25 @@ body > * {
   // and the tagline keeps fitting under the headline until both reach their floors.
   // The 1.9rem floor is the narrowest headline the 13.5px tagline still fits under,
   // so tablets keep one line too; only a phone, too narrow for either, wraps them.
-  font-size: clamp(1.9rem, 3.2vw, 2.5rem);
+  //
+  // Raised from 36px, where centred in a screen of white the headline read as a
+  // caption to the map, to 45px rendered at the top of the range. 54px was tried
+  // and was a banner — the headline took the first screen from the map.
+  font-size: clamp(1.9rem, 4.3vw, 3.125rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
   // Doks pulls the home headline up by 1rem, which eats into the hero padding.
   margin-top: 0;
   margin-bottom: 1rem;
+}
+
+// The ∞ in the title, in the logo's solid orange, sampled from
+// assets/images/logo.png rather than $accent: on a 45px glyph the 3:1 large-text
+// contrast is what applies, and #ee4c1e clears it, so the mark can be the logo's own
+// colour rather than the darker one body-size links need.
+.home-title-accent {
+  color: #ee4c1e;
 }
 
 // One line, but only where one line fits. Below `sm` the headline would have to
@@ -219,9 +234,13 @@ body > * {
   // 18px here, which put the tagline level with "Projects". Scaled with the window
   // in step with the headline (see `.home-title`), so it stays on one line under it
   // wherever the headline is wide enough to hold it.
+  //
+  // Darker than the 0.75 opacity it had: it was the faintest text on the first
+  // screen, when it is the one sentence that says what InftyAI does. 16px rendered
+  // at most, a third of the headline.
   font-size: clamp(0.9375rem, 1.42vw, 1.125rem);
   line-height: 1.5;
-  opacity: 0.75;
+  color: rgba(var(--bs-body-color-rgb), 0.78);
   // Doks gives `.lead` a bottom margin. It is the last thing in the hero, so that
   // margin only stacked on top of the hero's own bottom padding — which is what
   // made the hero-to-map gap 88px where every other gap on the page was 72.
@@ -304,12 +323,23 @@ $home-gap: clamp(2rem, 4.5vw, 3.5rem);
 // `svh`, the small viewport: on a phone `vh` is the height with the browser's bars
 // retracted, which would leave the box taller than the screen it first opens on.
 // Not itself a `.section`, so the 0.9 zoom on those does not scale this height.
+//
+// From `md` up only. On a phone the hero and map are under 500px tall, so centring
+// them in an 844px screen left 160px blank over the headline and as much again under
+// the region shares — a third of the first screen empty, around a map 347px wide.
+// There the page just runs on, and the cards following the map is the right thing
+// to see: a phone is scrolled, not read a screen at a time.
 .home-fold {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: calc(100vh - 52px);
-  min-height: calc(100svh - 52px);
+}
+
+@include media-breakpoint-up(md) {
+  .home-fold {
+    min-height: calc(100vh - 52px);
+    min-height: calc(100svh - 52px);
+  }
 }
 
 // The navbar's hairline only once the page has scrolled. At the top nothing is
@@ -391,11 +421,6 @@ $home-gap: clamp(2rem, 4.5vw, 3.5rem);
 // The explicit basis keeps every card the same width, which `flex-grow` would not
 // — the last row would stretch wider than the rows above.
 $feature-gap: 1.25rem;
-// 1.5rem of padding each side, the 1.125rem title at the body line height and its
-// 0.5rem margin, then three 1rem lines of description. Measured, not guessed — see
-// the clamp on `.feature-card p`, which is what holds a longer description to it.
-$feature-card-height: calc(3rem + 1.125rem * #{$line-height-base} + 0.5rem + 3rem * #{$line-height-base});
-
 // Names the grid without shouting: a label for the section rather than a second
 // title competing with the hero.
 //
@@ -416,61 +441,67 @@ $feature-card-height: calc(3rem + 1.125rem * #{$line-height-base} + 0.5rem + 3re
   color: $body-color;
 }
 
+// A grid with rows of one height, `1fr` each from `md` (below): every card is the
+// size of every other, as tall as the tallest card's own content and no taller. Rows
+// sized each to their own tallest card were tried, and made the grid two sizes of
+// card. A fixed height before that reserved three lines for every description.
+//
+// A short last row starts at the left, under the first column, like the rows above
+// it, so the grid reads as one list in rows rather than as rows each laid out on
+// their own. Any count works: more projects only add cards to the end.
 .feature-grid {
-  display: flex;
-  flex-wrap: wrap;
-  // Centred. Left-aligned, seven cards in rows of four left a hole at the end of
-  // the second row, which read as a card missing. Centring it was tried once
-  // before and cut because the offset row drew the eye; with every card one fixed
-  // size (`.feature-card` below) the 4 + 3 reads as a deliberate shape instead.
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: $feature-gap;
   // It is a `ul` now, for the item count screen readers announce. Strip the
   // list affordances the browser adds; the cards are the visual affordance.
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
+  // No wider than the map above it while three across: at the full container three
+  // cards came out 370px wide and a line or two tall, long flat strips. From `xl`,
+  // four across, the cap comes off (below).
+  max-width: 66rem;
+  margin-inline: auto;
 }
 
-.feature-card {
-  flex: 0 0 100%;
-}
-
-@include media-breakpoint-up(sm) {
-  .feature-card {
-    // Two per row: subtract the one gap between them.
-    flex-basis: calc(50% - #{$feature-gap * 0.5});
+// Two across from `md`, three from `lg`, four from `xl` (below). Not two from `sm`:
+// at 576–767 that made cards 210px wide, where "Awesome-LLMOps" broke over two lines
+// beside its stars and Nebula's description hit the clamp.
+@include media-breakpoint-up(md) {
+  .feature-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 1fr;
   }
 }
 
-// Three across at `lg`, four from `xl`. Seven cards fill no grid evenly, so the last
-// row is centred (see `justify-content` on `.feature-grid`) rather than left with a
-// hole at its end.
-//
-// Four only from `xl` because the height is fixed: at `lg` four across made each
-// card 192px wide, where four of the seven descriptions ran to a fourth line and the
-// clamp cut them off. Three across there is 290px, the same as the two-column `sm`
-// layout, and nothing passes three lines.
 @include media-breakpoint-up(lg) {
-  .feature-card {
-    // Three per row: two gaps spread across three cards.
-    flex-basis: calc(33.333% - #{$feature-gap * 0.667});
+  .feature-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
+// Four across from `xl`, at the container's full width: seven cards as 4 + 3 rather
+// than 3 + 3 + 1, and eight as two full rows. Full width because four inside the
+// 66rem cap made each card 220px and the descriptions ran long; at the container's
+// 1145px each is 270px and none passes three lines.
 @include media-breakpoint-up(xl) {
-  .feature-card {
-    // Four per row: three gaps spread across four cards.
-    flex-basis: calc(25% - #{$feature-gap * 0.75});
+  .feature-grid {
+    max-width: none;
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
 .feature-card {
-  // One size for every card, not as tall as its own text: the title line plus three
-  // lines of description, the longest any project has. Rows that stretched to their
-  // tallest card made the grid two heights, and a phone's stack seven.
-  height: $feature-card-height;
-  padding: 1.5rem;
+  // A step under the 1.5rem it was: with the height following the content, the
+  // padding is most of what makes a card look roomy or empty.
+  padding: 1.25rem 1.375rem;
+  // For the title link, stretched over the whole card.
+  position: relative;
+  // A column, so the footer can sit at the bottom (`margin-top: auto` on it) and
+  // every card in a row ends on the same line.
+  display: flex;
+  flex-direction: column;
   // Neutral at rest, the accent kept for hover. Seven cards in a warm tint and a
   // pink border made the whole band read as one orange block, and left hover —
   // where the colour means "this is a link" — with little to change.
@@ -499,18 +530,29 @@ $feature-card-height: calc(3rem + 1.125rem * #{$line-height-base} + 0.5rem + 3re
     // between the card's top edge and its title.
     margin-top: 0;
     margin-bottom: 0.5rem;
+    // The name, and the star badge at the far end of the line. Centred, not on the
+    // baseline: the badge is a pill, and a pill on the text baseline rode above the
+    // name.
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 0.5rem;
-    // The names are repository names, so they are set as code: monospace, a step
-    // smaller to keep "Awesome-Kernel-Agents" on one line beside its stars.
-    font-family: $font-family-monospace;
-    font-size: 0.9375rem;
+    // In the body face and a step larger, rather than 15px monospace: set as code the
+    // names read as file names, small beside the descriptions under them.
+    font-size: 1.0625rem;
     font-weight: 600;
     letter-spacing: -0.01em;
 
     a {
       color: inherit;
+      // Over the whole card, so anywhere on it opens the project rather than only
+      // the name. The card is `position: relative`, so this fills exactly it.
+      &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+      }
+
       // Bootstrap's `a:hover` underline outranks a bare class, so it is cleared on
       // hover as well — the card's colour change already says this is a link.
       &,
@@ -522,9 +564,11 @@ $feature-card-height: calc(3rem + 1.125rem * #{$line-height-base} + 0.5rem + 3re
 
   p {
     margin-bottom: 0;
-    font-size: 1rem;
-    // Three lines and an ellipsis, so a longer description cannot grow its card out
-    // of the fixed height. None is that long today.
+    // 15px rendered: a step under the title, and small enough that all but one
+    // description fits in two lines at three across.
+    font-size: 0.9375rem;
+    // Three lines and an ellipsis, so one long description cannot make every card
+    // in the grid taller (the rows are all the height of the tallest card).
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
@@ -539,25 +583,31 @@ $feature-card-height: calc(3rem + 1.125rem * #{$line-height-base} + 0.5rem + 3re
     color: rgba(var(--bs-body-color-rgb), 0.78);
   }
 
-  &:hover {
+  // `:has(:focus-visible)` rather than `:focus-within`, which also matches after a
+  // mouse click — coming back to the page with Back left the clicked card lifted
+  // and outlined. Keyboard focus only, as everywhere else.
+  &:hover,
+  &:has(a:focus-visible) {
     border-color: rgba($primary, 0.45);
     box-shadow: 0 8px 24px rgba($primary, 0.1);
     transform: translateY(-2px);
 
-    h3 a {
+    .feature-name {
       color: $accent;
     }
   }
-}
 
-// In one column there is no row to keep level, so the fixed height only left a
-// card with a one-line description standing on a band of empty space. Each card
-// is as tall as its text there; the clamp above still caps the description.
-@include media-breakpoint-down(sm) {
-  .feature-card {
-    height: auto;
+  // The stretched link carries the focus ring, so draw it as the card's own.
+  h3 a:focus-visible {
+    outline: none;
+  }
+
+  &:has(a:focus-visible) {
+    outline: 2px solid rgba($primary, 0.6);
+    outline-offset: 2px;
   }
 }
+
 
 // The contributor map and the call to action are their own sections now, so both
 // override `.section`'s 5rem, which between three stacked sections would have
@@ -570,6 +620,12 @@ $feature-card-height: calc(3rem + 1.125rem * #{$line-height-base} + 0.5rem + 3re
 .section-contributors {
   padding-top: 0;
   padding-bottom: $home-gap;
+}
+
+.section-people {
+  padding-top: 0;
+  padding-bottom: $home-gap;
+  text-align: center;
 }
 
 .section-cta {
@@ -1779,29 +1835,148 @@ $map-pulse-offsets:
 }
 
 // GitHub star count, right-aligned on the card's title line
+// The card's footer: the language, as GitHub's repository cards end.
+// At the bottom of the card whatever the description's length, and quieter than it:
+// facts about the project, read after what the project is.
+.feature-meta {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  font-size: 0.8125rem;
+  line-height: $line-height-base;
+  color: rgba(var(--bs-body-color-rgb), 0.7);
+}
+
+.feature-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+// GitHub's colours for the languages, from linguist, by class because the CSP
+// refuses inline `style`. A language not listed gets the neutral grey; add it here
+// when a project in a new one is featured.
+$feature-lang-colors: (
+  "go": #00add8,
+  "python": #3572a5,
+  "rust": #dea584,
+  "typescript": #3178c6,
+  "javascript": #f1e05a,
+  "shell": #89e051,
+  "jupyter-notebook": #da5b0b,
+);
+
+.feature-lang-dot {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  background: $gray-400;
+  // A hairline, so a pale colour like Rust's still reads as a dot on white.
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+@each $name, $color in $feature-lang-colors {
+  .feature-lang-#{$name} {
+    background: $color;
+  }
+}
+
+// GitHub star count, a pill at the right-hand end of the card's title line.
 .feature-stars {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
   margin-left: auto;
   flex: 0 0 auto;
-  font-family: $font-family-monospace;
+  // Outlined, as GitHub draws its star button, so the count reads as a badge on the
+  // repository and not as more of the title.
+  padding: 0.125rem 0.5rem;
+  border: 1px solid $line;
+  border-radius: 999px;
   font-size: 0.75rem;
   font-weight: 500;
+  line-height: 1.4;
+  color: rgba(var(--bs-body-color-rgb), 0.7);
 
+  // A gold star, as GitHub draws it, beside a muted count: yellow text this small
+  // would be hard to read on white, so the star alone carries the colour.
   svg {
-    // A gold star, as GitHub draws it. The muting sits on the number instead of
-    // the whole badge, so the colour is not washed out by an opacity of its own.
     color: #e3a008;
-    // Nudge the star onto the text baseline
-    margin-bottom: -0.125rem;
+  }
+}
+
+// The wall of contributors' faces, between the projects and the call to action. See
+// the section in layouts/_default/home.html for why it is there and in that order.
+.people-text {
+  // Pulled up under the heading the way `.feature-cta-text` is under its title, so
+  // the two read as one heading with a caption rather than two blocks.
+  margin: -0.75rem 0 1.5rem;
+  font-size: 1rem;
+  color: rgba(var(--bs-body-color-rgb), 0.78);
+  text-wrap: balance;
+}
+
+$people-face: 40px;
+// On a phone: ten across rather than eight, which takes a hundred faces from
+// fourteen rows to eleven.
+$people-face-sm: 30px;
+
+.people-wall {
+  // Wrapping rows, centred: every row in the middle of the page under the heading,
+  // and a short last row in the middle of it too. A grid with its last row from the
+  // left was tried, and the wall stopped reading as one centred block.
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  // Between the two widths tried: at 44rem a hundred faces stacked into eight rows,
+  // a tall square under a wide grid; at the project grid's full width, rows of
+  // twenty-six ran the width of the page. 60rem is about twenty a row at 1440, in
+  // six rows, narrower than the grid above it so it reads as its own block.
+  max-width: 60rem;
+  margin: 0 auto;
+  padding-left: 0;
+  list-style: none;
+}
+
+.people-face {
+  display: block;
+  border-radius: 50%;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  img {
+    display: block;
+    width: $people-face-sm;
+    height: $people-face-sm;
+    border-radius: 50%;
+
+    @include media-breakpoint-up(sm) {
+      width: $people-face;
+      height: $people-face;
+    }
+    // A grey circle until the avatar arrives, so a slow one leaves no hole in a row.
+    background: $map-land;
+    // The same hairline the map's cards give their avatars, for pale faces on white.
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06);
   }
 
-  // The count stays in the body colour: yellow text this small would be hard to
-  // read on white, and the star alone carries the colour. It needs an element of
-  // its own for that — the opacity cannot go on `.feature-stars`, which would
-  // wash the star out along with the number.
-  .feature-stars-count {
-    opacity: 0.65;
+  // The accent ring the project cards use on hover, here as a ring around the face.
+  // Focus gets the same, so a keyboard sees where it is in a hundred identical links.
+  &:hover,
+  &:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 0 0 2px var(--bs-body-bg), 0 0 0 4px rgba($primary, 0.7);
+    outline: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+
+    &:hover,
+    &:focus-visible {
+      transform: none;
+    }
   }
 }
