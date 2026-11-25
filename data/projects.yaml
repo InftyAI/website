@@ -6,17 +6,9 @@
 # the seven names began at seven different x positions. Put one in `name` or
 # `description` if a card wants it — then it is part of the text, and it lines up
 # with everything else on the line.
+# The awesome-lists are left out: they are curated links to other people's work,
+# and the grid is for what InftyAI builds. "More on GitHub" still reaches them.
 projects:
-  - name: Awesome-LLMOps
-    repo: InftyAI/Awesome-LLMOps
-    url: https://github.com/InftyAI/Awesome-LLMOps
-    description: "A curated list of the best LLMOps tools."
-
-  - name: Awesome-Kernel-Agents
-    repo: InftyAI/Awesome-Kernel-Agents
-    url: https://github.com/InftyAI/Awesome-Kernel-Agents
-    description: "A curated list of AI agents for GPU kernel generation, optimization, and verification."
-
   - name: llmaz
     repo: InftyAI/llmaz
     url: https://github.com/InftyAI/llmaz
@@ -57,13 +49,15 @@ more:
   name: "More on GitHub"
   url: https://github.com/InftyAI
 
-# The page's closing block, below the grid: `title`, an optional `text` under it,
-# then a button for each of `links`. No `text` for now — every line tried here
-# restated the lead at the top of the page. The first link is the main action
-# and is drawn filled. `icon` is optional — `discord` or `heart` (see
-# layouts/partials/home-icon.html).
+# The page's closing section: `title` heads the contributor wall, and under the
+# wall a panel holds `panel.title`, `panel.text` and a button for each of `links`.
+# The first link is the main action and is drawn filled. `icon` is optional —
+# `discord` or `heart` (see layouts/partials/home-icon.html).
 cta:
   title: "Build. Grow. Together."
+  panel:
+    title: "Join the community"
+    text: "Chat with the maintainers on Discord, or back the work as a sponsor."
   links:
     - name: "Join our Discord"
       icon: discord

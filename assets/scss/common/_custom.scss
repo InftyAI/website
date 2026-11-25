@@ -609,31 +609,90 @@ $feature-gap: 1.25rem;
 }
 
 
-// The contributor map and the call to action are their own sections now, so both
-// override `.section`'s 5rem, which between three stacked sections would have
-// left two empty bands taller than the cards themselves.
+// The sections after the first override `.section`'s 5rem, which between stacked
+// blocks would have left empty bands taller than the cards themselves. See
+// $home-gap above for why they are all the same value, and why the top paddings are
+// zero: the block before each of these already owns the space.
 //
-// Both override `.section`'s 5rem, which between four stacked blocks would have
-// left three empty bands taller than the cards themselves. See $home-gap above for
-// why they are all the same value, and why the top paddings are zero: the block
-// before each of these already owns the space.
+// The map, straight under the hero, whose bottom padding already owns the gap.
 .section-contributors {
   padding-top: 0;
   padding-bottom: $home-gap;
 }
 
+// The contributor section is the last on the page, so its bottom is the gap to the
+// footer.
 .section-people {
   padding-top: 0;
   padding-bottom: $home-gap;
   text-align: center;
 }
 
-.section-cta {
-  padding-top: 0;
-  // The last block on the page, so this is the gap to the footer. It was 2rem,
-  // against 5rem of air above the call to action — which read as the footer
-  // pushing up into it rather than as a page ending.
-  padding-bottom: $home-gap;
+// The panel under the wall: what the buttons are for on the left, the buttons on
+// the right, in a soft surface as wide as the wall so the page ends on one shape
+// rather than on two loose buttons. Stacked and centred on a phone, where the two
+// halves do not fit side by side.
+.people-join {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  max-width: 60rem;
+  margin: 2.5rem auto 0;
+  padding: 1.5rem;
+  text-align: center;
+  background: rgba(var(--bs-body-color-rgb), 0.025);
+  border: 1px solid $line;
+  border-radius: 0.75rem;
+
+  @include media-breakpoint-up(md) {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1.5rem 1.75rem;
+    text-align: left;
+  }
+
+  .feature-cta-actions {
+    flex: 0 0 auto;
+    gap: 0.5rem;
+  }
+
+  // Quieter than the call to action's own buttons: the panel already frames them,
+  // and a filled orange button under a wall of faces was the loudest thing on the
+  // page. Both outlined and a step smaller here, with the orange kept for hover;
+  // the order still says which is the main action.
+  .feature-cta-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .feature-cta-btn-primary {
+    color: var(--bs-body-color);
+    background: var(--bs-body-bg);
+    border-color: $line-strong;
+
+    &:hover,
+    &:focus-visible {
+      color: $accent;
+      background: rgba($primary, 0.04);
+      border-color: rgba($primary, 0.45);
+      box-shadow: 0 4px 12px rgba($primary, 0.08);
+    }
+  }
+}
+
+.people-join-title {
+  margin: 0 0 0.25rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.people-join-text {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: rgba(var(--bs-body-color-rgb), 0.7);
 }
 
 // Where contributors are, drawn from data/worldmap.json (the land) and
@@ -1746,31 +1805,18 @@ $map-pulse-offsets:
 // of the accent that fades out at its edges. Not a bordered panel — a box here once
 // competed with the project cards — but no longer a lone muted line either, which
 // ended the page on its quietest element.
-.feature-cta {
-  max-width: 40rem;
-  margin: 0 auto;
-  padding: 2.5rem 1.5rem;
-  text-align: center;
-
-  // The gap to the buttons. `.feature-cta-text`, when set, brings its own.
-  // A slogan, three words, so set as display type rather than as a section label:
-  // between the 36px hero headline and the 18px "Featured Projects" (rendered,
-  // through the homepage's `zoom: 0.9`), heavy, and tracked in a touch the way
-  // large type wants. Scales down with the window like the headline does.
-  .feature-cta-title {
-    margin: 0 0 1.5rem;
-    font-size: clamp(1.5rem, 2.4vw, 1.875rem);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-  }
-
-  // Muted with colour rather than `opacity`, as on the card descriptions.
-  .feature-cta-text {
-    margin: -0.75rem 0 1.5rem;
-    font-size: 1rem;
-    color: rgba(var(--bs-body-color-rgb), 0.78);
-  }
+// "Build. Grow. Together.", heading the contributor wall. A slogan, three words, so
+// set as display type rather than as a section label: between the hero headline
+// and the 18px "Featured Projects" (rendered, through the homepage's `zoom: 0.9`),
+// heavy, and tracked in a touch the way large type wants. Scales down with the
+// window like the headline does.
+.feature-cta-title {
+  // The gap to the faces under it: the wall's own heading, so closer than a block.
+  margin: 0 0 1.75rem;
+  font-size: clamp(1.5rem, 2.4vw, 1.875rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .feature-cta-actions {
@@ -1907,16 +1953,8 @@ $feature-lang-colors: (
   }
 }
 
-// The wall of contributors' faces, between the projects and the call to action. See
-// the section in layouts/_default/home.html for why it is there and in that order.
-.people-text {
-  // Pulled up under the heading the way `.feature-cta-text` is under its title, so
-  // the two read as one heading with a caption rather than two blocks.
-  margin: -0.75rem 0 1.5rem;
-  font-size: 1rem;
-  color: rgba(var(--bs-body-color-rgb), 0.78);
-  text-wrap: balance;
-}
+// The wall of contributors' faces, under "Build. Grow. Together." at the foot of the
+// page. See the section in layouts/_default/home.html for why it is there.
 
 $people-face: 40px;
 // On a phone: ten across rather than eight, which takes a hundred faces from

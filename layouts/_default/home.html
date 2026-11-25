@@ -465,11 +465,10 @@
                          so a bare star with no number beside it would be all a
                          reader ever saw.
 
-                         Omitted under ten as well. Beside ★313, a ★0 or ★3 said
-                         "abandoned" about a project that is only new; without the
-                         badge the card is its description, which is the fairer
-                         thing to judge it by. The grid is still ordered by stars. */}}
-                    {{ if and .repo (ge .stars 10) -}}
+                         Every count otherwise, however small: hiding those under ten
+                         was tried, and left new projects looking unlike the rest
+                         rather than new. */}}
+                    {{ if and .repo (ge .stars 0) -}}
                     <span class="feature-stars" title="{{ .stars }} stars on GitHub">
                         {{/* Filled rather than outlined: at 14px a solid star
                              carries the colour, an outline barely shows it. */}}
@@ -519,20 +518,21 @@
     </div>
 </section>
 
-{{/* Everyone who has a commit in, as faces. The map up top can only draw the people
-     whose profile says where they are, so this is the one place the rest are on the
-     page as people rather than as the "Unlisted" share. It sits between the projects
-     and the invitation on purpose: what was built, who built it, then the offer to
-     build with them.
+{{/* The close of the page, in one section: the invitation's heading, the people
+     who have already taken it up, then the way in. "Build. Grow. Together." heads
+     the wall because the faces are what it is about; the buttons come last because
+     they are what a reader does once they have seen them.
 
-     Alphabetical (tools/contributors.mjs says why) and every face the same size —
-     this is a thank-you, not a leaderboard. */}}
-{{ with site.Data.contributors -}}
-{{ with .people -}}
+     The wall is everyone with a commit in. The map up top can only draw the people
+     whose profile says where they are, so this is the one place the rest are on the
+     page as people rather than as the "Unlisted" share. Alphabetical
+     (tools/contributors.mjs says why) and every face the same size — a thank-you,
+     not a leaderboard. */}}
+{{ $cta := site.Data.projects.cta -}}
 <section class="section section-people">
     <div class="container">
-        <h2 class="feature-grid-title">{{ len . }} contributors</h2>
-        <p class="people-text">From every corner of the world, thank you.</p>
+        {{ with $cta.title }}<h2 class="feature-cta-title">{{ . }}</h2>{{ end }}
+        {{ with site.Data.contributors.people -}}
         <ul class="people-wall">
             {{ range . -}}
             <li>
@@ -546,35 +546,28 @@
             </li>
             {{ end -}}
         </ul>
-    </div>
-</section>
-{{ end -}}
-{{ end -}}
-
-{{/* An invitation, not a project — kept out of the grid so it does not read as
-     one more repository, and last on the page so it closes it: the projects,
-     then the people, then the offer to join them. */}}
-<section class="section section-cta">
-    <div class="container">
-        {{ with site.Data.projects.cta -}}
-        {{/* A heading, a line, and two buttons. As one line of muted text with
-             two inline links, it read as a footnote under the "More on GitHub"
-             pill — the page ended on its quietest element. Icons from
-             partials/home-icon.html. */}}
-        <div class="feature-cta">
-            <h2 class="feature-cta-title">{{ .title }}</h2>
-            {{ with .text }}<p class="feature-cta-text">{{ . }}</p>{{ end }}
-            {{ with .links -}}
+        {{ end -}}
+        {{/* The way in, under the faces: a panel with a line saying what the two
+             buttons are for, and the buttons beside it. Two bare buttons under a
+             tall wall read as an afterthought, and left the page without an end.
+             The first link is the main action and filled, the rest outlined.
+             Icons from partials/home-icon.html. */}}
+        {{ with $cta.links -}}
+        <div class="people-join">
+            {{ with $cta.panel -}}
+            <div class="people-join-copy">
+                {{ with .title }}<p class="people-join-title">{{ . }}</p>{{ end }}
+                {{ with .text }}<p class="people-join-text">{{ . }}</p>{{ end }}
+            </div>
+            {{ end -}}
             <div class="feature-cta-actions">
                 {{ range $i, $l := . -}}
-                {{/* The first is the main action and filled; the rest outlined. */}}
                 <a class="feature-cta-btn{{ if eq $i 0 }} feature-cta-btn-primary{{ end }}" href="{{ $l.url }}">
                     {{- partial "home-icon.html" $l.icon }}
                     <span>{{ $l.name }}</span>
                 </a>
                 {{ end -}}
             </div>
-            {{ end -}}
         </div>
         {{ end -}}
     </div>
