@@ -24,7 +24,7 @@ data:
 	@# contributor list goes stale on GitHub's clock, but adding a city to
 	@# tools/locations.json invalidates it immediately, however recently it ran.
 	@if [ -n "$$(find data/contributors.json -mtime -1 2>/dev/null)" ] && \
-	   [ -z "$$(find tools/contributors.mjs tools/locations.json data/projects.yaml \
+	   [ -z "$$(find tools/contributors.mjs tools/locations.json \
 	            -newer data/contributors.json 2>/dev/null)" ]; then \
 	  echo "data/contributors.json is current (\`make contributors\` to force a refresh)"; \
 	else \
