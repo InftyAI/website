@@ -1,7 +1,7 @@
 {
-  "generated": "2026-11-25",
-  "total": 105,
-  "located": 63,
+  "generated": "2026-11-26",
+  "total": 25,
+  "located": 14,
   "places": [
     {
       "label": "Shanghai, China",
@@ -14,7 +14,7 @@
         "dy": 5,
         "anchor": "start"
       },
-      "count": 6,
+      "count": 4,
       "people": [
         {
           "login": "cr7258",
@@ -29,227 +29,8 @@
           "avatar": "https://avatars.githubusercontent.com/u/18243819?v=4&s=64"
         },
         {
-          "login": "windsonsea",
-          "avatar": "https://avatars.githubusercontent.com/u/79828097?v=4&s=64"
-        },
-        {
           "login": "X1aoZEOuO",
           "avatar": "https://avatars.githubusercontent.com/u/97826429?v=4&s=64"
-        },
-        {
-          "login": "caozhuozi",
-          "avatar": "https://avatars.githubusercontent.com/u/68834160?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "San Francisco, USA",
-      "country": "United States",
-      "lat": 37.77,
-      "lng": -122.42,
-      "short": "San Francisco",
-      "offset": {
-        "dx": -11,
-        "dy": 4,
-        "anchor": "end"
-      },
-      "count": 4,
-      "people": [
-        {
-          "login": "paralleliq",
-          "avatar": "https://avatars.githubusercontent.com/u/241533185?v=4&s=64"
-        },
-        {
-          "login": "neerazz",
-          "avatar": "https://avatars.githubusercontent.com/u/43318996?v=4&s=64"
-        },
-        {
-          "login": "nk-ag",
-          "avatar": "https://avatars.githubusercontent.com/u/46679818?v=4&s=64"
-        },
-        {
-          "login": "rohilvagarwal",
-          "avatar": "https://avatars.githubusercontent.com/u/88454899?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Germany",
-      "country": "Germany",
-      "lat": 51,
-      "lng": 10,
-      "countryOnly": true,
-      "short": "Germany",
-      "offset": {
-        "dx": 11,
-        "dy": 4,
-        "anchor": "start"
-      },
-      "count": 3,
-      "people": [
-        {
-          "login": "alexsergivan",
-          "avatar": "https://avatars.githubusercontent.com/u/7488348?v=4&s=64"
-        },
-        {
-          "login": "dvnold",
-          "avatar": "https://avatars.githubusercontent.com/u/158351052?v=4&s=64"
-        },
-        {
-          "login": "mertkayacs",
-          "avatar": "https://avatars.githubusercontent.com/u/47145541?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "India",
-      "country": "India",
-      "lat": 22,
-      "lng": 79,
-      "countryOnly": true,
-      "short": "India",
-      "offset": {
-        "dx": -11,
-        "dy": 4,
-        "anchor": "end"
-      },
-      "count": 3,
-      "people": [
-        {
-          "login": "SanjanShiv",
-          "avatar": "https://avatars.githubusercontent.com/u/90202905?v=4&s=64"
-        },
-        {
-          "login": "VedantMadane",
-          "avatar": "https://avatars.githubusercontent.com/u/6527493?v=4&s=64"
-        },
-        {
-          "login": "zlareb1",
-          "avatar": "https://avatars.githubusercontent.com/u/14848428?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Sao Paulo, Brazil",
-      "country": "Brazil",
-      "lat": -23.55,
-      "lng": -46.63,
-      "short": "Sao Paulo",
-      "offset": {
-        "dx": 11,
-        "dy": 4,
-        "anchor": "start"
-      },
-      "count": 2,
-      "people": [
-        {
-          "login": "alegauss",
-          "avatar": "https://avatars.githubusercontent.com/u/331174?v=4&s=64"
-        },
-        {
-          "login": "giozadi",
-          "avatar": "https://avatars.githubusercontent.com/u/43352271?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "United States",
-      "country": "United States",
-      "lat": 39.5,
-      "lng": -98.35,
-      "countryOnly": true,
-      "short": "United States",
-      "offset": {
-        "dx": -11,
-        "dy": -8,
-        "anchor": "end"
-      },
-      "count": 2,
-      "people": [
-        {
-          "login": "awdemos",
-          "avatar": "https://avatars.githubusercontent.com/u/159745380?v=4&s=64"
-        },
-        {
-          "login": "twinsgeeks",
-          "avatar": "https://avatars.githubusercontent.com/u/261838102?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Barcelona, Spain",
-      "country": "Spain",
-      "lat": 41.39,
-      "lng": 2.17,
-      "short": "Barcelona",
-      "offset": {
-        "dx": 0,
-        "dy": 22,
-        "anchor": "start"
-      },
-      "count": 2,
-      "people": [
-        {
-          "login": "guillemwilly",
-          "avatar": "https://avatars.githubusercontent.com/u/161842218?v=4&s=64"
-        },
-        {
-          "login": "vgmartinez",
-          "avatar": "https://avatars.githubusercontent.com/u/10614247?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Palo Alto, USA",
-      "country": "United States",
-      "lat": 37.44,
-      "lng": -122.14,
-      "short": "Palo Alto",
-      "offset": {
-        "dx": -12,
-        "dy": 23,
-        "anchor": "end"
-      },
-      "count": 2,
-      "people": [
-        {
-          "login": "tonydzi",
-          "avatar": "https://avatars.githubusercontent.com/u/194927794?v=4&s=64"
-        },
-        {
-          "login": "itomatik",
-          "avatar": "https://avatars.githubusercontent.com/u/972084?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "London, UK",
-      "country": "United Kingdom",
-      "lat": 51.51,
-      "lng": -0.13,
-      "short": "London",
-      "offset": {
-        "dx": 0,
-        "dy": -27,
-        "anchor": "middle"
-      },
-      "count": 2,
-      "people": [
-        {
-          "login": "jaedmunt",
-          "avatar": "https://avatars.githubusercontent.com/u/76647805?v=4&s=64"
-        },
-        {
-          "login": "metrofun",
-          "avatar": "https://avatars.githubusercontent.com/u/946519?v=4&s=64"
         }
       ],
       "more": 0
@@ -327,169 +108,26 @@
       "more": 0
     },
     {
-      "label": "Paris, France",
-      "country": "France",
-      "lat": 48.86,
-      "lng": 2.35,
-      "short": "Paris",
-      "offset": {
-        "dx": 11,
-        "dy": 8,
-        "anchor": "start"
-      },
-      "count": 2,
-      "people": [
-        {
-          "login": "ThibautMelen",
-          "avatar": "https://avatars.githubusercontent.com/u/20891897?v=4&s=64"
-        },
-        {
-          "login": "Zizka-ai",
-          "avatar": "https://avatars.githubusercontent.com/u/253775128?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "South Africa",
-      "country": "South Africa",
-      "lat": -29,
-      "lng": 24.7,
+      "label": "India",
+      "country": "India",
+      "lat": 22,
+      "lng": 79,
       "countryOnly": true,
-      "short": "South Africa",
-      "offset": {
-        "dx": 11,
-        "dy": 4,
-        "anchor": "start"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "AbdulDavids",
-          "avatar": "https://avatars.githubusercontent.com/u/125186956?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Sydney, Australia",
-      "country": "Australia",
-      "lat": -33.87,
-      "lng": 151.21,
-      "short": "Sydney",
-      "offset": {
-        "dx": 11,
-        "dy": 4,
-        "anchor": "start"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "agairola",
-          "avatar": "https://avatars.githubusercontent.com/u/16770959?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Bogota, Colombia",
-      "country": "Colombia",
-      "lat": 4.71,
-      "lng": -74.07,
-      "short": "Bogota",
-      "offset": {
-        "dx": 11,
-        "dy": 4,
-        "anchor": "start"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "amedinat",
-          "avatar": "https://avatars.githubusercontent.com/u/25287764?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Montenegro",
-      "country": "Montenegro",
-      "lat": 42.8,
-      "lng": 19.3,
-      "countryOnly": true,
-      "short": "Montenegro",
-      "offset": {
-        "dx": 16,
-        "dy": 12,
-        "anchor": "start"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "artempartos",
-          "avatar": "https://avatars.githubusercontent.com/u/1943859?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Romania",
-      "country": "Romania",
-      "lat": 45.9,
-      "lng": 25,
-      "countryOnly": true,
-      "short": "Romania",
-      "offset": {
-        "dx": 11,
-        "dy": 4,
-        "anchor": "start"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "damienen",
-          "avatar": "https://avatars.githubusercontent.com/u/44813558?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Poland",
-      "country": "Poland",
-      "lat": 52.1,
-      "lng": 19.4,
-      "countryOnly": true,
-      "short": "Poland",
-      "offset": {
-        "dx": 2,
-        "dy": -13,
-        "anchor": "middle"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "DEENUU1",
-          "avatar": "https://avatars.githubusercontent.com/u/111304236?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Dublin, Ireland",
-      "country": "Ireland",
-      "lat": 53.35,
-      "lng": -6.26,
-      "short": "Dublin",
+      "short": "India",
       "offset": {
         "dx": -11,
         "dy": 4,
         "anchor": "end"
       },
-      "count": 1,
+      "count": 2,
       "people": [
         {
-          "login": "evandempsey",
-          "avatar": "https://avatars.githubusercontent.com/u/5140530?v=4&s=64"
+          "login": "SanjanShiv",
+          "avatar": "https://avatars.githubusercontent.com/u/90202905?v=4&s=64"
+        },
+        {
+          "login": "VedantMadane",
+          "avatar": "https://avatars.githubusercontent.com/u/6527493?v=4&s=64"
         }
       ],
       "more": 0
@@ -515,26 +153,6 @@
       "more": 0
     },
     {
-      "label": "Kuala Lumpur, Malaysia",
-      "country": "Malaysia",
-      "lat": 3.14,
-      "lng": 101.69,
-      "short": "Kuala Lumpur",
-      "offset": {
-        "dx": -11,
-        "dy": 4,
-        "anchor": "end"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "heiwen",
-          "avatar": "https://avatars.githubusercontent.com/u/3409733?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
       "label": "Cambridge, UK",
       "country": "United Kingdom",
       "lat": 52.2,
@@ -553,566 +171,52 @@
         }
       ],
       "more": 0
-    },
-    {
-      "label": "New Zealand",
-      "country": "New Zealand",
-      "lat": -41.5,
-      "lng": 172.5,
-      "countryOnly": true,
-      "short": "New Zealand",
-      "offset": {
-        "dx": -8,
-        "dy": 19,
-        "anchor": "end"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "lee101",
-          "avatar": "https://avatars.githubusercontent.com/u/2122616?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Brisbane, Australia",
-      "country": "Australia",
-      "lat": -27.47,
-      "lng": 153.03,
-      "short": "Brisbane",
-      "offset": {
-        "dx": 11,
-        "dy": 4,
-        "anchor": "start"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "matthewdcage",
-          "avatar": "https://avatars.githubusercontent.com/u/132959513?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Berlin, Germany",
-      "country": "Germany",
-      "lat": 52.52,
-      "lng": 13.4,
-      "short": "Berlin",
-      "offset": {
-        "dx": 0,
-        "dy": -26,
-        "anchor": "middle"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "mbakgun",
-          "avatar": "https://avatars.githubusercontent.com/u/8726393?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Limassol, Cyprus",
-      "country": "Cyprus",
-      "lat": 34.71,
-      "lng": 33.02,
-      "short": "Limassol",
-      "offset": {
-        "dx": 11,
-        "dy": 4,
-        "anchor": "start"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "nadyyym",
-          "avatar": "https://avatars.githubusercontent.com/u/96404149?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Italy",
-      "country": "Italy",
-      "lat": 42.8,
-      "lng": 12.6,
-      "countryOnly": true,
-      "short": "Italy",
-      "offset": {
-        "dx": 11,
-        "dy": 9,
-        "anchor": "start"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "nicoloboschi",
-          "avatar": "https://avatars.githubusercontent.com/u/23314389?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Sacramento, USA",
-      "country": "United States",
-      "lat": 38.58,
-      "lng": -121.49,
-      "short": "Sacramento",
-      "offset": {
-        "dx": 11,
-        "dy": 4,
-        "anchor": "start"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "OscarDoh",
-          "avatar": "https://avatars.githubusercontent.com/u/125147287?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Bengaluru, India",
-      "country": "India",
-      "lat": 12.97,
-      "lng": 77.59,
-      "short": "Bengaluru",
-      "offset": {
-        "dx": 0,
-        "dy": 19,
-        "anchor": "middle"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "pranshuchittora",
-          "avatar": "https://avatars.githubusercontent.com/u/32242596?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Pune, India",
-      "country": "India",
-      "lat": 18.52,
-      "lng": 73.86,
-      "short": "Pune",
-      "offset": {
-        "dx": 11,
-        "dy": 4,
-        "anchor": "start"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "prasanna-gyde",
-          "avatar": "https://avatars.githubusercontent.com/u/47359330?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Melbourne, Australia",
-      "country": "Australia",
-      "lat": -37.81,
-      "lng": 144.96,
-      "short": "Melbourne",
-      "offset": {
-        "dx": -11,
-        "dy": 4,
-        "anchor": "end"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "robert-cronin",
-          "avatar": "https://avatars.githubusercontent.com/u/8540764?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Toronto, Canada",
-      "country": "Canada",
-      "lat": 43.65,
-      "lng": -79.38,
-      "short": "Toronto",
-      "offset": {
-        "dx": 11,
-        "dy": 4,
-        "anchor": "start"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "SammyTourani",
-          "avatar": "https://avatars.githubusercontent.com/u/179739256?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Chicago, USA",
-      "country": "United States",
-      "lat": 41.88,
-      "lng": -87.63,
-      "short": "Chicago",
-      "offset": {
-        "dx": 0,
-        "dy": -17,
-        "anchor": "middle"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "samvallad33",
-          "avatar": "https://avatars.githubusercontent.com/u/143034159?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Los Angeles, USA",
-      "country": "United States",
-      "lat": 34.05,
-      "lng": -118.24,
-      "short": "Los Angeles",
-      "offset": {
-        "dx": 11,
-        "dy": 4,
-        "anchor": "start"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "samzong",
-          "avatar": "https://avatars.githubusercontent.com/u/13782141?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Cleveland, USA",
-      "country": "United States",
-      "lat": 41.5,
-      "lng": -81.69,
-      "short": "Cleveland",
-      "offset": {
-        "dx": 11,
-        "dy": 12,
-        "anchor": "start"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "santoshkumarradha",
-          "avatar": "https://avatars.githubusercontent.com/u/29346072?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Minsk, Belarus",
-      "country": "Belarus",
-      "lat": 53.9,
-      "lng": 27.57,
-      "short": "Minsk",
-      "offset": {
-        "dx": 8,
-        "dy": 17,
-        "anchor": "start"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "svalench",
-          "avatar": "https://avatars.githubusercontent.com/u/20963370?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Amsterdam, Netherlands",
-      "country": "Netherlands",
-      "lat": 52.37,
-      "lng": 4.9,
-      "short": "Amsterdam",
-      "offset": {
-        "dx": 0,
-        "dy": -41,
-        "anchor": "middle"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "vivekchand",
-          "avatar": "https://avatars.githubusercontent.com/u/987905?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Moscow, Russia",
-      "country": "Russia",
-      "lat": 55.76,
-      "lng": 37.62,
-      "short": "Moscow",
-      "offset": {
-        "dx": 11,
-        "dy": 4,
-        "anchor": "start"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "vshulcz",
-          "avatar": "https://avatars.githubusercontent.com/u/99616188?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Singapore",
-      "country": "Singapore",
-      "lat": 1.35,
-      "lng": 103.82,
-      "short": "Singapore",
-      "offset": {
-        "dx": 11,
-        "dy": 4,
-        "anchor": "start"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "xqliu",
-          "avatar": "https://avatars.githubusercontent.com/u/22554?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Dubai, UAE",
-      "country": "United Arab Emirates",
-      "lat": 25.2,
-      "lng": 55.27,
-      "short": "Dubai",
-      "offset": {
-        "dx": 11,
-        "dy": 4,
-        "anchor": "start"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "yura-build",
-          "avatar": "https://avatars.githubusercontent.com/u/24231496?v=4&s=64"
-        }
-      ],
-      "more": 0
-    },
-    {
-      "label": "Tampa, USA",
-      "country": "United States",
-      "lat": 27.95,
-      "lng": -82.46,
-      "short": "Tampa",
-      "offset": {
-        "dx": 11,
-        "dy": 4,
-        "anchor": "start"
-      },
-      "count": 1,
-      "people": [
-        {
-          "login": "zwright8",
-          "avatar": "https://avatars.githubusercontent.com/u/24713584?v=4&s=64"
-        }
-      ],
-      "more": 0
     }
   ],
-  "cities": 33,
-  "countryCount": 25,
+  "cities": 6,
+  "countryCount": 3,
   "regions": [
     {
       "name": "Asia",
-      "count": 22,
-      "percent": 21
+      "count": 13,
+      "percent": 52
     },
     {
       "name": "Europe",
-      "count": 19,
-      "percent": 18
-    },
-    {
-      "name": "North America",
-      "count": 14,
-      "percent": 13
-    },
-    {
-      "name": "Oceania",
-      "count": 4,
+      "count": 1,
       "percent": 4
     },
     {
-      "name": "South America",
-      "count": 3,
-      "percent": 3
-    },
-    {
-      "name": "Africa",
-      "count": 1,
-      "percent": 1
-    },
-    {
       "name": "Unlisted",
-      "count": 42,
+      "count": 11,
       "note": "Contributors whose GitHub profile does not say where they are.",
-      "percent": 40
+      "percent": 44
     }
   ],
   "people": [
     {
-      "login": "AbdulDavids",
-      "avatar": "https://avatars.githubusercontent.com/u/125186956?v=4&s=64"
-    },
-    {
-      "login": "Adityayxt",
-      "avatar": "https://avatars.githubusercontent.com/u/14069408?v=4&s=64"
-    },
-    {
-      "login": "agairola",
-      "avatar": "https://avatars.githubusercontent.com/u/16770959?v=4&s=64"
-    },
-    {
-      "login": "alegauss",
-      "avatar": "https://avatars.githubusercontent.com/u/331174?v=4&s=64"
-    },
-    {
-      "login": "alexsergivan",
-      "avatar": "https://avatars.githubusercontent.com/u/7488348?v=4&s=64"
-    },
-    {
-      "login": "alirezamshi",
-      "avatar": "https://avatars.githubusercontent.com/u/121011194?v=4&s=64"
-    },
-    {
-      "login": "amedinat",
-      "avatar": "https://avatars.githubusercontent.com/u/25287764?v=4&s=64"
-    },
-    {
-      "login": "angpt",
-      "avatar": "https://avatars.githubusercontent.com/u/19672864?v=4&s=64"
-    },
-    {
-      "login": "anilguleroglu",
-      "avatar": "https://avatars.githubusercontent.com/u/6439796?v=4&s=64"
-    },
-    {
-      "login": "artempartos",
-      "avatar": "https://avatars.githubusercontent.com/u/1943859?v=4&s=64"
-    },
-    {
-      "login": "awdemos",
-      "avatar": "https://avatars.githubusercontent.com/u/159745380?v=4&s=64"
-    },
-    {
-      "login": "caozhuozi",
-      "avatar": "https://avatars.githubusercontent.com/u/68834160?v=4&s=64"
-    },
-    {
       "login": "carlory",
       "avatar": "https://avatars.githubusercontent.com/u/28390961?v=4&s=64"
-    },
-    {
-      "login": "cloudgpuapp",
-      "avatar": "https://avatars.githubusercontent.com/u/129925370?v=4&s=64"
     },
     {
       "login": "cr7258",
       "avatar": "https://avatars.githubusercontent.com/u/40051120?v=4&s=64"
     },
     {
-      "login": "damienen",
-      "avatar": "https://avatars.githubusercontent.com/u/44813558?v=4&s=64"
-    },
-    {
-      "login": "DEENUU1",
-      "avatar": "https://avatars.githubusercontent.com/u/111304236?v=4&s=64"
-    },
-    {
-      "login": "dmoka",
-      "avatar": "https://avatars.githubusercontent.com/u/9437108?v=4&s=64"
-    },
-    {
-      "login": "dvnold",
-      "avatar": "https://avatars.githubusercontent.com/u/158351052?v=4&s=64"
-    },
-    {
-      "login": "evandempsey",
-      "avatar": "https://avatars.githubusercontent.com/u/5140530?v=4&s=64"
-    },
-    {
       "login": "floze-the-genius",
       "avatar": "https://avatars.githubusercontent.com/u/88098863?v=4&s=64"
-    },
-    {
-      "login": "fran3cc",
-      "avatar": "https://avatars.githubusercontent.com/u/130430423?v=4&s=64"
-    },
-    {
-      "login": "giozadi",
-      "avatar": "https://avatars.githubusercontent.com/u/43352271?v=4&s=64"
     },
     {
       "login": "googs1025",
       "avatar": "https://avatars.githubusercontent.com/u/86391540?v=4&s=64"
     },
     {
-      "login": "guillemwilly",
-      "avatar": "https://avatars.githubusercontent.com/u/161842218?v=4&s=64"
-    },
-    {
-      "login": "heiwen",
-      "avatar": "https://avatars.githubusercontent.com/u/3409733?v=4&s=64"
-    },
-    {
-      "login": "hojkol",
-      "avatar": "https://avatars.githubusercontent.com/u/148625156?v=4&s=64"
-    },
-    {
       "login": "IRONICBo",
       "avatar": "https://avatars.githubusercontent.com/u/47499836?v=4&s=64"
     },
     {
-      "login": "itomatik",
-      "avatar": "https://avatars.githubusercontent.com/u/972084?v=4&s=64"
-    },
-    {
-      "login": "jaedmunt",
-      "avatar": "https://avatars.githubusercontent.com/u/76647805?v=4&s=64"
-    },
-    {
-      "login": "Jerry-Kon",
-      "avatar": "https://avatars.githubusercontent.com/u/92307128?v=4&s=64"
-    },
-    {
       "login": "jiahuipaung",
       "avatar": "https://avatars.githubusercontent.com/u/70688286?v=4&s=64"
-    },
-    {
-      "login": "justedennnnn",
-      "avatar": "https://avatars.githubusercontent.com/u/72536838?v=4&s=64"
-    },
-    {
-      "login": "kbespalov",
-      "avatar": "https://avatars.githubusercontent.com/u/15847176?v=4&s=64"
     },
     {
       "login": "kenwoodjw",
@@ -1127,112 +231,20 @@
       "avatar": "https://avatars.githubusercontent.com/u/18364341?v=4&s=64"
     },
     {
-      "login": "kocobee",
-      "avatar": "https://avatars.githubusercontent.com/u/152729119?v=4&s=64"
-    },
-    {
-      "login": "ky-hiverge",
-      "avatar": "https://avatars.githubusercontent.com/u/218585409?v=4&s=64"
-    },
-    {
-      "login": "lee101",
-      "avatar": "https://avatars.githubusercontent.com/u/2122616?v=4&s=64"
-    },
-    {
       "login": "liangyuanpeng",
       "avatar": "https://avatars.githubusercontent.com/u/28711504?v=4&s=64"
-    },
-    {
-      "login": "LinaLam",
-      "avatar": "https://avatars.githubusercontent.com/u/65078897?v=4&s=64"
-    },
-    {
-      "login": "LoopGlitch26",
-      "avatar": "https://avatars.githubusercontent.com/u/53336715?v=4&s=64"
-    },
-    {
-      "login": "mangopep",
-      "avatar": "https://avatars.githubusercontent.com/u/226402269?v=4&s=64"
-    },
-    {
-      "login": "matthewdcage",
-      "avatar": "https://avatars.githubusercontent.com/u/132959513?v=4&s=64"
-    },
-    {
-      "login": "mbakgun",
-      "avatar": "https://avatars.githubusercontent.com/u/8726393?v=4&s=64"
-    },
-    {
-      "login": "mertkayacs",
-      "avatar": "https://avatars.githubusercontent.com/u/47145541?v=4&s=64"
-    },
-    {
-      "login": "metrofun",
-      "avatar": "https://avatars.githubusercontent.com/u/946519?v=4&s=64"
-    },
-    {
-      "login": "MitulShah1",
-      "avatar": "https://avatars.githubusercontent.com/u/4829864?v=4&s=64"
-    },
-    {
-      "login": "murdore",
-      "avatar": "https://avatars.githubusercontent.com/u/5094230?v=4&s=64"
-    },
-    {
-      "login": "nadyyym",
-      "avatar": "https://avatars.githubusercontent.com/u/96404149?v=4&s=64"
     },
     {
       "login": "nayihz",
       "avatar": "https://avatars.githubusercontent.com/u/65757763?v=4&s=64"
     },
     {
-      "login": "neerazz",
-      "avatar": "https://avatars.githubusercontent.com/u/43318996?v=4&s=64"
-    },
-    {
-      "login": "nicoloboschi",
-      "avatar": "https://avatars.githubusercontent.com/u/23314389?v=4&s=64"
-    },
-    {
-      "login": "nk-ag",
-      "avatar": "https://avatars.githubusercontent.com/u/46679818?v=4&s=64"
-    },
-    {
-      "login": "noureldin-azzab",
-      "avatar": "https://avatars.githubusercontent.com/u/213996701?v=4&s=64"
-    },
-    {
       "login": "OKevinoo",
       "avatar": "https://avatars.githubusercontent.com/u/104364584?v=4&s=64"
     },
     {
-      "login": "OscarDoh",
-      "avatar": "https://avatars.githubusercontent.com/u/125147287?v=4&s=64"
-    },
-    {
-      "login": "PabloPardoGarcia",
-      "avatar": "https://avatars.githubusercontent.com/u/39369995?v=4&s=64"
-    },
-    {
       "login": "pacoxu",
       "avatar": "https://avatars.githubusercontent.com/u/2010320?v=4&s=64"
-    },
-    {
-      "login": "paralleliq",
-      "avatar": "https://avatars.githubusercontent.com/u/241533185?v=4&s=64"
-    },
-    {
-      "login": "prakhar1605",
-      "avatar": "https://avatars.githubusercontent.com/u/182423721?v=4&s=64"
-    },
-    {
-      "login": "pranshuchittora",
-      "avatar": "https://avatars.githubusercontent.com/u/32242596?v=4&s=64"
-    },
-    {
-      "login": "prasanna-gyde",
-      "avatar": "https://avatars.githubusercontent.com/u/47359330?v=4&s=64"
     },
     {
       "login": "qinguoyi",
@@ -1247,104 +259,24 @@
       "avatar": "https://avatars.githubusercontent.com/u/211561236?v=4&s=64"
     },
     {
-      "login": "robert-cronin",
-      "avatar": "https://avatars.githubusercontent.com/u/8540764?v=4&s=64"
-    },
-    {
-      "login": "rohilvagarwal",
-      "avatar": "https://avatars.githubusercontent.com/u/88454899?v=4&s=64"
-    },
-    {
       "login": "rudeigerc",
       "avatar": "https://avatars.githubusercontent.com/u/18243819?v=4&s=64"
-    },
-    {
-      "login": "RusDyn",
-      "avatar": "https://avatars.githubusercontent.com/u/4135310?v=4&s=64"
-    },
-    {
-      "login": "SammyTourani",
-      "avatar": "https://avatars.githubusercontent.com/u/179739256?v=4&s=64"
-    },
-    {
-      "login": "samovermind",
-      "avatar": "https://avatars.githubusercontent.com/u/318184120?v=4&s=64"
-    },
-    {
-      "login": "samvallad33",
-      "avatar": "https://avatars.githubusercontent.com/u/143034159?v=4&s=64"
-    },
-    {
-      "login": "samzong",
-      "avatar": "https://avatars.githubusercontent.com/u/13782141?v=4&s=64"
     },
     {
       "login": "SanjanShiv",
       "avatar": "https://avatars.githubusercontent.com/u/90202905?v=4&s=64"
     },
     {
-      "login": "santoshkumarradha",
-      "avatar": "https://avatars.githubusercontent.com/u/29346072?v=4&s=64"
-    },
-    {
       "login": "Sarthak-Shreshtha01",
       "avatar": "https://avatars.githubusercontent.com/u/78229815?v=4&s=64"
-    },
-    {
-      "login": "segevshlomovIBM",
-      "avatar": "https://avatars.githubusercontent.com/u/105229001?v=4&s=64"
-    },
-    {
-      "login": "skylar722",
-      "avatar": "https://avatars.githubusercontent.com/u/206517264?v=4&s=64"
-    },
-    {
-      "login": "sosidudku1",
-      "avatar": "https://avatars.githubusercontent.com/u/273119990?v=4&s=64"
-    },
-    {
-      "login": "SuhaniNagpal7",
-      "avatar": "https://avatars.githubusercontent.com/u/200998993?v=4&s=64"
-    },
-    {
-      "login": "svalench",
-      "avatar": "https://avatars.githubusercontent.com/u/20963370?v=4&s=64"
-    },
-    {
-      "login": "ThibautMelen",
-      "avatar": "https://avatars.githubusercontent.com/u/20891897?v=4&s=64"
-    },
-    {
-      "login": "tonydzi",
-      "avatar": "https://avatars.githubusercontent.com/u/194927794?v=4&s=64"
-    },
-    {
-      "login": "twinsgeeks",
-      "avatar": "https://avatars.githubusercontent.com/u/261838102?v=4&s=64"
     },
     {
       "login": "VedantMadane",
       "avatar": "https://avatars.githubusercontent.com/u/6527493?v=4&s=64"
     },
     {
-      "login": "vgmartinez",
-      "avatar": "https://avatars.githubusercontent.com/u/10614247?v=4&s=64"
-    },
-    {
       "login": "vicoooo26",
       "avatar": "https://avatars.githubusercontent.com/u/30412827?v=4&s=64"
-    },
-    {
-      "login": "vivekchand",
-      "avatar": "https://avatars.githubusercontent.com/u/987905?v=4&s=64"
-    },
-    {
-      "login": "VladUZH",
-      "avatar": "https://avatars.githubusercontent.com/u/25680204?v=4&s=64"
-    },
-    {
-      "login": "vshulcz",
-      "avatar": "https://avatars.githubusercontent.com/u/99616188?v=4&s=64"
     },
     {
       "login": "wanyingz-dis",
@@ -1355,48 +287,12 @@
       "avatar": "https://avatars.githubusercontent.com/u/145814986?v=4&s=64"
     },
     {
-      "login": "windsonsea",
-      "avatar": "https://avatars.githubusercontent.com/u/79828097?v=4&s=64"
-    },
-    {
       "login": "X1aoZEOuO",
       "avatar": "https://avatars.githubusercontent.com/u/97826429?v=4&s=64"
     },
     {
-      "login": "xizhuomengcontin",
-      "avatar": "https://avatars.githubusercontent.com/u/319346922?v=4&s=64"
-    },
-    {
-      "login": "xqliu",
-      "avatar": "https://avatars.githubusercontent.com/u/22554?v=4&s=64"
-    },
-    {
       "login": "yafengio",
       "avatar": "https://avatars.githubusercontent.com/u/45666616?v=4&s=64"
-    },
-    {
-      "login": "yannickmonney",
-      "avatar": "https://avatars.githubusercontent.com/u/102406702?v=4&s=64"
-    },
-    {
-      "login": "yaront1111",
-      "avatar": "https://avatars.githubusercontent.com/u/76696443?v=4&s=64"
-    },
-    {
-      "login": "yura-build",
-      "avatar": "https://avatars.githubusercontent.com/u/24231496?v=4&s=64"
-    },
-    {
-      "login": "Zizka-ai",
-      "avatar": "https://avatars.githubusercontent.com/u/253775128?v=4&s=64"
-    },
-    {
-      "login": "zlareb1",
-      "avatar": "https://avatars.githubusercontent.com/u/14848428?v=4&s=64"
-    },
-    {
-      "login": "zwright8",
-      "avatar": "https://avatars.githubusercontent.com/u/24713584?v=4&s=64"
     }
   ]
 }
