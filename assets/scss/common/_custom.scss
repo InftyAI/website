@@ -20,9 +20,15 @@ $accent: $primary;
 // where Jost's small x-height blurs at 12px.
 $font-family-system: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
+// The navbar's height, in one place: the bar itself, and the first screen's height,
+// which is the window's less this. 64px, up from 52: at 52 the bar was a thin strip
+// for the logo and the icons, and the brand did not register as the site's header.
+$navbar-height: 64px;
+
 // The navbar's icons, all one size. Search was the theme's 24px beside four 20px
 // links, so the row read as two sets of icons. 18px now, the wordmark's size: at 20
-// in the 52px bar they were the heaviest thing in it.
+// in the old 52px bar they were the heaviest thing in it, and they stay 18 in the
+// taller one, where the logo and wordmark carry the added height.
 #socialMenu .social-link svg,
 #buttonColorMode svg,
 #searchToggleDesktop svg,
@@ -86,15 +92,13 @@ $font-family-system: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Ne
   margin-block: 0;
 }
 
-// The navbar at a fixed 52px, its logo and icons centred in it — 60 before, which
-// with the rule under it gone at rest read as a band of white over the page for a
-// logo and five icons. Height rather than the theme's padding, so it is the same 52
-// on a phone, where the row holds the
+// The navbar at a fixed height ($navbar-height), its logo and icons centred in it.
+// Height rather than the theme's padding, so it is the same on a phone, where the row holds the
 // search and menu buttons, as on a desktop, where it holds the links. Its width is
 // the theme's own container: narrowed to the cards' width, and then the map's, the
 // logo and the icons sat too far into the middle of the page.
 .navbar {
-  min-height: 52px;
+  min-height: $navbar-height;
   padding-block: 0;
 }
 
@@ -313,8 +317,7 @@ $home-gap: clamp(2rem, 4.5vw, 3.5rem);
   }
 }
 
-// The first screen: hero and map, at least the viewport's height less the 52px
-// navbar, so "Featured Projects" is never visible before the reader scrolls. Where
+// The first screen: hero and map, at least the viewport's height less the navbar, so "Featured Projects" is never visible before the reader scrolls. Where
 // the two are shorter than the window — a tall monitor, a phone — they are centred
 // in it, and the extra height falls evenly above and below rather than as a white
 // band under the map. Where they are taller, this does nothing and the grid is below
@@ -337,8 +340,8 @@ $home-gap: clamp(2rem, 4.5vw, 3.5rem);
 
 @include media-breakpoint-up(md) {
   .home-fold {
-    min-height: calc(100vh - 52px);
-    min-height: calc(100svh - 52px);
+    min-height: calc(100vh - #{$navbar-height});
+    min-height: calc(100svh - #{$navbar-height});
   }
 }
 
@@ -391,10 +394,10 @@ $home-gap: clamp(2rem, 4.5vw, 3.5rem);
   // The bar's height came from here: the theme's 5px of brand padding around a 32px
   // logo made a 43px block in a 68px navbar whose icons are 20px. Without the padding,
   // and with the mark and the wordmark a step smaller, it no longer sets the bar's
-  // height; with the icon fixes above, the bar is 52px, the height of what is in it.
+  // height; the bar's own `min-height` does.
   padding-block: 0;
-  // 18px, a step down with the bar, so the wordmark keeps its proportion to it.
-  font-size: 1.125rem;
+  // 20px, a step up with the taller bar, so the wordmark keeps its proportion to it.
+  font-size: 1.25rem;
   // The headings' ink rather than the theme's pure black, which was the one black
   // thing on a page drawn in $ink.
   color: $ink;
@@ -407,8 +410,9 @@ $home-gap: clamp(2rem, 4.5vw, 3.5rem);
     content: "";
     display: inline-block;
     flex: 0 0 auto;
-    width: 24px;
-    height: 24px;
+    // 28px with the 64px bar, up from 24 in the 52px one.
+    width: 28px;
+    height: 28px;
     background: url("images/logo.png") no-repeat center / contain;
     border-radius: 50%;
   }
