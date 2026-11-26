@@ -1,5 +1,5 @@
-// Regenerates data/contributors.json — where the people who contribute to the
-// projects in data/projects.yaml say they are. Run by `make contributors`; the
+// Regenerates data/contributors.json — where the people who contribute to
+// InftyAI's public repositories say they are. Run by `make contributors`; the
 // output is committed, so a normal build needs neither this script nor a GitHub
 // token, and the map cannot be emptied by a rate limit mid-deploy.
 //
@@ -53,16 +53,7 @@ for (const [key, value] of Object.entries(known)) {
   }
 }
 
-// The project list is data/projects.yaml's to own — the map should cover exactly
-// the projects the page shows. Read with a regex rather than a YAML parser to
-// keep tools/ dependency-free, which the one shape being matched allows.
-const projects = await readFile("data/projects.yaml", "utf8");
-const repos = [...projects.matchAll(/^\s*repo:\s*(\S+)\s*$/gm)].map(
-  (m) => m[1],
-);
-if (!repos.length) {
-  exit("found no `repo:` entries in data/projects.yaml");
-}
+const ORG = "InftyAI";
 
 const token = process.env.GITHUB_TOKEN;
 if (!token) {
@@ -81,11 +72,24 @@ async function request(path, { missing } = {}) {
   };
   if (token) headers.Authorization = `Bearer ${token}`;
 
-  const response = await fetch(
-    path.startsWith("https://") ? path : `https://api.github.com/${path}`,
-    { headers },
-  );
-  if (response.status === 404 && missing !== undefined) return null;
+  // Retried, a few times with a pause, when the connection itself fails: a run is a
+  // few hundred requests, and one dropped socket among them stopped the whole
+  // refresh. An HTTP error is an answer, and is not retried.
+  const url = path.startsWith("https://") ? path : `https://api.github.com/${path}`;
+  let response;
+  for (let attempt = 1; ; attempt++) {
+    try {
+      response = await fetch(url, { headers });
+      break;
+    } catch (error) {
+      if (attempt === 3) throw error;
+      await new Promise((resolve) => setTimeout(resolve, 1000 * attempt));
+    }
+  }
+  // 409 is GitHub's answer for the commits of an empty repository, which a new one
+  // in the organisation can be: no commits, rather than a reason to stop.
+  if ((response.status === 404 || response.status === 409) && missing !== undefined)
+    return null;
   if (!response.ok) {
     exit(`GET ${path} responded ${response.status} ${response.statusText}`);
   }
@@ -102,17 +106,34 @@ async function github(path, options) {
 //
 // The `Link` header rather than a page counter: it is what tells us there is a next
 // page at all, and following it means never asking for a page that is not there.
-async function githubAll(path) {
+async function githubAll(path, { missing } = {}) {
   const items = [];
   let next = path;
   while (next) {
-    const response = await request(next);
+    const response = await request(next, { missing });
+    if (response === null) return items;
     items.push(...(await response.json()));
     next = /<([^>]+)>;\s*rel="next"/.exec(
       response.headers.get("link") ?? "",
     )?.[1];
   }
   return items;
+}
+
+// Every public repository in the organisation, not the projects data/projects.yaml
+// features. Which projects the homepage shows is an editorial choice, and who counts
+// as a contributor should not move with it: taking the awesome-lists out of the grid
+// once took eighty people off the map, because the map was built from the grid.
+//
+// Forks are left out — their history is mostly the upstream project's, and its
+// authors are not InftyAI's contributors. Archived repositories stay in: the people
+// who worked on them still did.
+const repos = (await githubAll(`orgs/${ORG}/repos?type=public&per_page=100`))
+  .filter((repo) => !repo.fork)
+  .map((repo) => repo.full_name)
+  .sort();
+if (!repos.length) {
+  exit(`found no public repositories for ${ORG}`);
 }
 
 // Contributors are collected across every project, then deduplicated: someone who
@@ -193,7 +214,9 @@ function credit(login, repo) {
 }
 
 for (const repo of repos) {
-  const commits = await githubAll(`repos/${repo}/commits?per_page=100`);
+  const commits = await githubAll(`repos/${repo}/commits?per_page=100`, {
+    missing: [],
+  });
   const seen = new Set();
   let unattributed = 0;
   for (const commit of commits) {
