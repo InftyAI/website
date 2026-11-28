@@ -1,7 +1,7 @@
 {
-  "generated": "2026-11-26",
-  "total": 105,
-  "located": 63,
+  "generated": "2026-11-28",
+  "total": 106,
+  "located": 64,
   "places": [
     {
       "label": "Shanghai, China",
@@ -54,11 +54,15 @@
         "dy": 4,
         "anchor": "end"
       },
-      "count": 4,
+      "count": 5,
       "people": [
         {
           "login": "paralleliq",
           "avatar": "https://avatars.githubusercontent.com/u/241533185?v=4&s=64"
+        },
+        {
+          "login": "Max17190",
+          "avatar": "https://avatars.githubusercontent.com/u/79293757?v=4&s=64"
         },
         {
           "login": "neerazz",
@@ -952,8 +956,8 @@
     },
     {
       "name": "North America",
-      "count": 14,
-      "percent": 13
+      "count": 15,
+      "percent": 14
     },
     {
       "name": "Oceania",
@@ -974,7 +978,7 @@
       "name": "Unlisted",
       "count": 42,
       "note": "Contributors whose GitHub profile does not say where they are.",
-      "percent": 40
+      "percent": 39
     }
   ],
   "people": [
@@ -1157,6 +1161,10 @@
     {
       "login": "matthewdcage",
       "avatar": "https://avatars.githubusercontent.com/u/132959513?v=4&s=64"
+    },
+    {
+      "login": "Max17190",
+      "avatar": "https://avatars.githubusercontent.com/u/79293757?v=4&s=64"
     },
     {
       "login": "mbakgun",
